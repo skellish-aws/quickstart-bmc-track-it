@@ -1,0 +1,708 @@
+# © Copyright 2020 BMC Software, Inc. or one of its affiliates
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  "This template deploys a BMC Track-It! BYOL/90 Day Trial stack into an existing VPC.
+  **WARNING** This template creates EC2 instances and related resources. You
+  will be billed for the AWS resources used if you create a stack from this
+  template. License: Apache 2.0 (Please do not remove) Sept,29,2020. BMC Track-It! 
+  is licensed separately, please review the terms and conditions here 
+  (https://www.bmc.com/about/legal/) for further details.
+  (qs-1r6abo918)"
+Metadata:
+  "AWS::CloudFormation::Interface":
+    ParameterGroups:
+      - Label:
+          default: Network Configuration
+        Parameters:
+          - VPCID
+          - PublicSubnet1ID
+          - PublicSubnet2ID
+          - PrivateSubnet1AID
+          - PrivateSubnet2AID
+      - Label:
+          default: Track-It! Server Configuration
+        Parameters:
+          - TrackItInstanceType
+          - KeyPairName
+          - TrackItEndUserWebAccessCIDR
+          - OperatorEmail
+      - Label:
+          default: "[Optional] Track-It! site domain configuration"
+        Parameters:
+          - Route53HostedZoneId
+          - TrackItSiteDomain
+          - TrackItSSLCertificateARN
+    ParameterLabels:
+      KeyPairName:
+        default: Key pair name
+      OperatorEmail:
+        default: Operator email address
+      PrivateSubnet1AID:
+        default: Private Subnet 1 ID
+      PrivateSubnet2AID:
+        default: Private Subnet 2 ID
+      PublicSubnet1ID:
+        default: Public Subnet 1 ID
+      PublicSubnet2ID:
+        default: Public Subnet 2 ID
+      Route53HostedZoneId:
+        default: Route 53 hosted zone ID
+      TrackItEndUserWebAccessCIDR:
+        default: Track-It End-user Web Access Permitted IP Range
+      TrackItInstanceType:
+        default: Track-It! Instance Type
+      TrackItSiteDomain:
+        default: Track-It! site domain
+      TrackItSSLCertificateARN:
+        default: Track-It! SSL certificate ARN
+      VPCID:
+        default: VPC ID
+Parameters:
+  TrackItInstanceType:
+    Description: Track-It! all-in-one server instance type
+    Type: String
+    Default: m5.large
+    AllowedValues:
+      # - t2.small
+      # - t2.medium
+      # - t2.large
+      # - t2.xlarge
+      - m5.large
+      - t3a.large
+    ConstraintDescription: Please choose from one of the given options
+  KeyPairName:
+    Description: >-
+      Name of an existing EC2 key pair. All instances will launch with this key pair.
+    Type: "AWS::EC2::KeyPair::KeyName"
+    ConstraintDescription: Must be one of the existing EC2 keypair
+    Default: id_rsa
+  OperatorEmail:
+    AllowedPattern: >-
+      (?i)^None$|([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)
+    ConstraintDescription: Must be a valid email address.
+    Description: >-
+      (optional) Email address that notifications are sent to (e.g.,
+      database, VM failures, etc.).
+    Type: String
+    Default: None
+  PrivateSubnet1AID:
+    Description: >-
+      ID of private subnet 1A in Availability Zone 1 (e.g.,
+      subnet-a0246dcd).
+    Type: 'AWS::EC2::Subnet::Id'
+  PrivateSubnet2AID:
+    Description: >-
+      ID of private subnet 2A in Availability Zone 2 (e.g.,
+      subnet-01a43dc1ca1fa7f9b).
+    Type: 'AWS::EC2::Subnet::Id'
+  PublicSubnet1ID:
+    Description: >-
+      ID of public subnet 1 in Availability Zone 1 for the Elastic Load
+      Balancing (ELB) load balancer (e.g., subnet-9bc642ac).
+    Type: "AWS::EC2::Subnet::Id"
+    Default: subnet-b794e59a
+  PublicSubnet2ID:
+    Description: >-
+      ID of public subnet 2 in Availability Zone 1 for the Elastic Load
+      Balancing (ELB) load balancer (e.g., subnet-9bc642ac).
+    Type: "AWS::EC2::Subnet::Id"
+    Default: subnet-4d6f4904
+  Route53HostedZoneId:
+    Description: >-
+      [Optional] Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.
+    Type: String
+  TrackItEndUserWebAccessCIDR:
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
+    ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
+    Description: >-
+      CIDR IP range that is permitted to access the Track-It web portal.
+      Note: a value of 0.0.0.0/0 will allow access from ANY ip address
+    Type: String
+    Default: 0.0.0.0/0
+  TrackItSiteDomain:
+    Type: String
+    Description: >-
+      [Optional] Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.
+    AllowedPattern: (?!-)[a-zA-Z0-9-.]*(?<!-)
+    ConstraintDescription: Must be a valid fully-qualified domain name.
+  TrackItSSLCertificateARN:
+    Type: String
+    Description: >-
+      [Optional] ARN of the SSL certificate to be used for the Application Load Balancer.
+  VPCID:
+    Description: ID of your existing VPC for deployment.
+    Type: "AWS::EC2::VPC::Id"
+    Default: vpc-e54bf683
+Mappings:
+  AWSAMIRegionMap:
+    ap-south-1:
+      x64: ami-0f07f1229c688d429
+    us-east-1:
+      x64: ami-09fafea3524b992d7
+    us-east-2:
+      x64: ami-0c25a9042f9e97d57
+    us-west-1:
+      x64: ami-01fcce1b1797b595c
+    us-west-2:
+      x64: ami-02052da34a2cfa51c
+Conditions:
+  HaveOperatorEmail: !Not
+    - !Equals
+      - !Ref OperatorEmail
+      - None
+  UseTrackItSSL:
+    Fn::Not:
+      - Fn::Equals:
+          - Ref: TrackItSSLCertificateARN
+          - ""
+  TrackItSiteDomainRoute53Condition:
+    Fn::And:
+      - Fn::Not:
+          - Fn::Equals:
+              - Ref: TrackItSiteDomain
+              - ""
+      - Fn::Not:
+          - Fn::Equals:
+              - Ref: Route53HostedZoneId
+              - ""
+Rules:
+  KeyPairsNotEmpty:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::EachMemberEquals:
+                - Fn::RefAll: AWS::EC2::KeyPair::KeyName
+                - ""
+        AssertDescription: Key pair parameter must not be empty
+  SubnetsInVPC:
+    Assertions:
+      - Assert:
+          Fn::EachMemberIn:
+            - Fn::ValueOfAll:
+                - AWS::EC2::Subnet::Id
+                - VpcId
+            - Fn::RefAll: AWS::EC2::VPC::Id
+        AssertDescription: All subnets must in the VPC
+  SslAndRoute53Rule:
+    RuleCondition: !Or
+      - Fn::Not:
+          - Fn::Equals:
+              - Ref: TrackItSSLCertificateARN
+              - ""
+      - Fn::Not:
+          - Fn::Equals:
+              - Ref: Route53HostedZoneId
+              - ""
+    Assertions:
+      - AssertDescription: >-
+          Parameter TrackItSiteDomain cannot be empty and must provide
+          FQDN e.g. example.com, when TrackItSSLCertificateARN or Route53HostedZoneId values
+          are provided.
+        Assert: !Not
+          - Fn::Equals:
+              - Ref: TrackItSiteDomain
+              - ""
+  T3InstanceSupportedRegionRule:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::And:
+                - Fn::Contains:
+                    - - ap-northeast-2
+                      - ap-northeast-3
+                      - ap-south-1
+                      - eu-west-3
+                    - Ref: AWS::Region
+                - Fn::Contains:
+                    - - t3.nano
+                      - t3.micro
+                      - t3.small
+                      - t3.medium
+                      - t3.large
+                      - t3.xlarge
+                      - t3.2xlarge
+                    - Ref: TrackItInstanceType
+        AssertDescription:
+          T3 instances are not supported in Seoul (ap-northeast-2),
+          Osaka-Local (ap-northeast-3), Mumbai (ap-south-1) and Paris (eu-west-3) regions.
+          Please launch the stack with another instance type.
+Resources:
+  EMailNotificationTopic:
+    Type: "AWS::SNS::Topic"
+    Condition: HaveOperatorEmail
+    Properties:
+      Subscription:
+        - Endpoint: !Ref OperatorEmail
+          Protocol: email
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-TrackIt-SNS"
+  TIInstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - "sts:AssumeRole"
+            Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+      Path: /
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+        - "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-TrackIt-Instance-Role"
+  TIInstanceRoleProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      Path: /
+      Roles:
+        - !Ref TIInstanceRole
+  TIEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref TrackItAppPlusDB
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-TrackIt-EIP"
+  TIALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Track-It App Load Balancer (e.g., External user Http(80)/Https(443) access)
+      SecurityGroupIngress:
+        - Description: Track-It! ALB (External User) Ingress Rule
+          CidrIp: !Ref TrackItEndUserWebAccessCIDR
+          IpProtocol: tcp
+          FromPort: !If
+            - UseTrackItSSL
+            - 443
+            - 80
+          ToPort: !If
+            - UseTrackItSSL
+            - 443
+            - 80
+      VpcId: !Ref VPCID
+  TIAppSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group used for Track-It! server access (HTTP(80) from ALB)
+      SecurityGroupIngress:
+        - Description: Track-It! HTTP(80) Web from ALB Ingress Rule
+          SourceSecurityGroupId: !Ref TIALBSecurityGroup
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+      VpcId: !Ref VPCID
+  TrackItAppPlusDB:
+    Type: AWS::EC2::Instance
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT15M
+    Metadata:
+      AWS::CloudFormation::Init:
+        configSets:
+          default:
+            - 00_setupCfnHup
+            - 01_CfnHup_service
+            - 02_config-amazon-cloudwatch-agent
+            - 03_restart_amazon-cloudwatch-agent
+          UpdateEnvironment:
+            - 02_config-amazon-cloudwatch-agent
+            - 03_restart_amazon-cloudwatch-agent
+        # Cfn-hup setting, it is to monitor the change of metadata.
+        # When there is change in the contents of json file in the metadata section, cfn-hup will call cfn-init to restart the AmazonCloudWatchAgent.
+        00_setupCfnHup:
+          files:
+            "c:\\cfn\\cfn-hup.conf":
+              content: !Sub |
+                [main]
+                stack=${AWS::StackId}
+                region=${AWS::Region}
+                interval=1
+            "c:\\cfn\\hooks.d\\amazon-cloudwatch-agent-auto-reloader.conf":
+              content: !Sub |
+                [cfn-auto-reloader-hook]
+                triggers=post.update
+                path=Resources.TrackItAppPlusDB.Metadata.AWS::CloudFormation::Init.02_config-amazon-cloudwatch-agent
+                action=cfn-init.exe -v --stack ${AWS::StackId} --resource TrackItAppPlusDB --region ${AWS::Region} --configsets UpdateEnvironment
+        01_CfnHup_service:
+          services:
+            windows:
+              cfn-hup:
+                enabled: "true"
+                ensureRunning: "true"
+                files:
+                  - "c:\\cfn\\cfn-hup.conf"
+                  - "c:\\cfn\\hooks.d\\cfn-auto-reloader.conf"
+        # Definition of json configuration of AmazonCloudWatchAgent, you can change the configuration below.
+        02_config-amazon-cloudwatch-agent:
+          files:
+            ? "C:\\ProgramData\\Amazon\\AmazonCloudWatchAgent\\amazon-cloudwatch-agent.json"
+            : content: |
+                {
+                  "agent": {
+                      "metrics_collection_interval": 60,
+                      "logfile": "c:\\ProgramData\\Amazon\\AmazonCloudWatchAgent\\Logs\\amazon-cloudwatch-agent.log"
+                  },
+                  "metrics": {
+                      "namespace": "BMC-Track-It",
+                      "append_dimensions": {
+                          "ImageId": "${!aws:ImageId}",
+                          "InstanceId": "${!aws:InstanceId}",
+                          "InstanceType": "${!aws:InstanceType}"
+                      },
+                      "metrics_collected": {
+                          "LogicalDisk": {
+                              "measurement": [
+                                  {
+                                      "name": "% Free Space",
+                                      "rename": "FreeStorageSpaceInPercent",
+                                      "unit": "Percent"
+                                  },
+                                  {
+                                      "name": "Free Megabytes",
+                                      "rename": "FreeStorageSpaceInMB",
+                                      "unit": "Megabytes"
+                                  }
+                              ],
+                              "resources": [
+                                  "*",
+                                  "_Total"
+                              ]
+                          },
+                          "Processor": {
+                              "measurement": [
+                                  {
+                                      "name": "% Processor Time",
+                                      "rename": "CPUUtilization",
+                                      "unit": "Percent"
+                                  }
+                              ],
+                              "resources": [
+                                  "_Total"
+                              ]
+                          },
+                          "Memory": {
+                              "metrics_collection_interval": 60,
+                              "measurement": [
+                                  {
+                                      "name": "Available MBytes",
+                                      "rename": "FreeableMemory",
+                                      "unit": "Bytes"
+                                  },
+                                  {
+                                      "name": "Pages/Sec",
+                                      "rename": "PagesRetreivedPerSecFromDisk",
+                                      "unit": "Count/Second"
+                                  }
+                              ]
+                          },
+                          "SQLServer:SQL Statistics": {
+                              "measurement": [
+                                  {
+                                      "name": "SQL Compilations/sec",
+                                      "rename": "SQLCompilationsPerSec",
+                                      "unit": "Count/Second"
+                                  },
+                                  {
+                                      "name": "SQL Re-Compilations/sec",
+                                      "rename": "SQLReCompilationsPerSec",
+                                      "unit": "Count/Second"
+                                  },
+                                  {
+                                      "name": "Batch Requests/sec",
+                                      "rename": "BatchRequestsPerSec",
+                                      "unit": "Count/Second"
+                                  }
+                              ]
+                          },
+                          "SQLServer:Access Methods": {
+                              "measurement": [
+                                  "Page Splits/sec",
+                                  "Forwarded Records/sec",
+                                  "Full scans/sec"
+                              ]
+                          },
+                          "SQLServer:General Statistics": {
+                              "measurement": [
+                                  "Processes blocked",
+                                  {
+                                      "name": "User Connections",
+                                      "rename": "DatabaseConnections",
+                                      "unit": "Count"
+                                  }
+                              ]
+                          },
+                          "SQLServer:Buffer Manager": {
+                              "measurement": [
+                                  "Page life expectancy",
+                                  "Page writes/sec",
+                                  "Page reads/sec",
+                                  "Buffer cache hit ratio",
+                                  "Checkpoint pages/sec"
+                              ]
+                          },
+                          "SQLServer:Memory Manager": {
+                              "measurement": [
+                                  "Memory Grants Pending"
+                              ]
+                          }
+                      }
+                  },
+                  "logs": {
+                      "logs_collected": {
+                          "files": {
+                              "collect_list": [
+                                  {
+                                      "file_path": "C:\\ProgramData\\Amazon\\AmazonCloudWatchAgent\\Logs\\amazon-cloudwatch-agent.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/amazon-cloudwatch-agent.log"
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMMetadata_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMMetadata",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\ServiceDesk_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/ServiceDesk",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Database\\Logs\\DBInstall_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Database/DBInstall",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Windows\\System32\\LogFiles\\HTTPERR\\**.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/HTTPERR",
+                                      "timestamp_format": "%H:%M:%S %y %b %-d",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\inetpub\\logs\\LogFiles\\W3SVC1\\u_ex.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/IIS",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "c:\\Program Files\\Microsoft SQL Server\\MSSQL15.MSSQLSERVER\\MSSQL\\Log\\ERRORLOG",
+                                      "log_group_name": "BMC-Track-It",
+                                      "timezone": "UTC",
+                                      "log_stream_name": "{instance_id}/sql_error_log_stream/sql-error.log",
+                                      "timestamp_format": "%H:%M:%S %y %b %-d",
+                                      "auto_removal": true
+                                  }
+                              ]
+                          },
+                          "windows_events": {
+                              "collect_list": [
+                                  {
+                                      "event_format": "xml",
+                                      "event_levels": [
+                                          "WARNING",
+                                          "ERROR",
+                                          "CRITICAL"
+                                      ],
+                                      "event_name": "System",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Windows/System"
+                                  },
+                                  {
+                                      "event_format": "xml",
+                                      "event_levels": [
+                                          "WARNING",
+                                          "ERROR",
+                                          "CRITICAL"
+                                      ],
+                                      "event_name": "Security",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Windows/Security"
+                                  },
+                                  {
+                                      "event_format": "xml",
+                                      "event_levels": [
+                                          "WARNING",
+                                          "ERROR",
+                                          "CRITICAL"
+                                      ],
+                                      "event_name": "Application",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Windows/Application"
+                                  }
+                              ]
+                          }
+                      }
+                  }
+                }
+        # Invoke amazon-cloudwatch-agent-ctl to restart the AmazonCloudWatchAgent.
+        03_restart_amazon-cloudwatch-agent:
+          commands:
+            01_stop_service:
+              command: powershell -Command "C:\\'Program Files'\\Amazon\\AmazonCloudWatchAgent\\amazon-cloudwatch-agent-ctl.ps1 -a stop"
+              "waitAfterCompletion": "0"
+            02_start_service:
+              command: powershell -Command "C:\\'Program Files'\\Amazon\\AmazonCloudWatchAgent\\amazon-cloudwatch-agent-ctl.ps1 -a fetch-config -m ec2 -c file:C:\\ProgramData\\Amazon\\AmazonCloudWatchAgent\\amazon-cloudwatch-agent.json -s"
+              "waitAfterCompletion": "0"
+    Properties:
+      ImageId: !FindInMap
+        - AWSAMIRegionMap
+        - !Ref "AWS::Region"
+        - x64
+      InstanceType: !Ref TrackItInstanceType
+      IamInstanceProfile: !Ref TIInstanceRoleProfile
+      SecurityGroupIds:
+        - !Ref TIAppSecurityGroup
+      KeyName: !Ref KeyPairName
+      SubnetId: !Ref PrivateSubnet1AID
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            DeleteOnTermination: false
+            VolumeSize: 60
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-TrackIt-Instance"
+      UserData:
+        Fn::Base64: !Sub |
+          <script>
+          mkdir C:\Downloads\Amazon\AmazonCloudWatchAgent
+          powershell -Command "(New-Object Net.WebClient).DownloadFile('https://s3.amazonaws.com/amazoncloudwatch-agent/windows/amd64/latest/amazon-cloudwatch-agent.msi','C:\Downloads\Amazon\AmazonCloudWatchAgent\amazon-cloudwatch-agent.msi')"
+          C:\Downloads\Amazon\AmazonCloudWatchAgent\amazon-cloudwatch-agent.msi
+          cfn-init.exe -v --stack ${AWS::StackId} --resource TrackItAppPlusDB --region ${AWS::Region} --configsets default
+          cfn-signal.exe -e %errorlevel% --stack ${AWS::StackId} --resource TrackItAppPlusDB --region ${AWS::Region}
+          </script>
+  TrackItAppPlusDBRecoveryAlarm:
+    Type: "AWS::CloudWatch::Alarm"
+    Properties:
+      AlarmDescription: !Sub |
+        "${AWS::StackName} Stack instance auto-recovery alarm/trigger."
+      Namespace: AWS/EC2
+      MetricName: StatusCheckFailed_System
+      Statistic: Minimum
+      Period: 60
+      EvaluationPeriods: 5
+      ComparisonOperator: GreaterThanThreshold
+      Threshold: 0
+      AlarmActions:
+        - !Sub "arn:aws:automate:${AWS::Region}:ec2:recover"
+        - !If
+          - HaveOperatorEmail
+          - !Ref EMailNotificationTopic
+          - !Ref "AWS::NoValue"
+      Dimensions:
+        - Name: InstanceId
+          Value: !Ref TrackItAppPlusDB
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Subnets:
+        - Ref: PublicSubnet1ID
+        - Ref: PublicSubnet2ID
+      SecurityGroups:
+        - Ref: TIALBSecurityGroup
+  ALBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn:
+            Ref: ALBTargetGroup
+      LoadBalancerArn:
+        Ref: ApplicationLoadBalancer
+      Port:
+        Fn::If:
+          - UseTrackItSSL
+          - 443
+          - 80
+      Protocol:
+        Fn::If:
+          - UseTrackItSSL
+          - HTTPS
+          - HTTP
+      Certificates:
+        - Fn::If:
+            - UseTrackItSSL
+            - CertificateArn:
+                Ref: TrackItSSLCertificateARN
+            - Ref: AWS::NoValue
+  ALBTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      HealthCheckPath: /TrackIt/Account/LogIn?ReturnUrl=%2fTrackIt
+      Matcher:
+        HttpCode: "200,302"
+      Port: 80
+      Protocol: HTTP
+      UnhealthyThresholdCount: 5
+      VpcId:
+        Ref: VPCID
+      TargetType: instance
+      Targets:
+        - Id: !Ref TrackItAppPlusDB
+          Port: 80
+  TrackItSiteDomainRoute53Record:
+    Type: AWS::Route53::RecordSet
+    Condition: TrackItSiteDomainRoute53Condition
+    Properties:
+      Name:
+        Ref: TrackItSiteDomain
+      Type: A
+      HostedZoneId:
+        Ref: Route53HostedZoneId
+      AliasTarget:
+        DNSName:
+          Fn::GetAtt:
+            - ApplicationLoadBalancer
+            - DNSName
+        EvaluateTargetHealth: true
+        HostedZoneId:
+          Fn::GetAtt:
+            - ApplicationLoadBalancer
+            - CanonicalHostedZoneID
+Outputs:
+  TrackItDNSName:
+    Description: Track-It! DNS Name
+    Value:
+      Fn::GetAtt:
+        - ApplicationLoadBalancer
+        - DNSName
+  TrackItAppURL:
+    Description: Track-It! Application URL
+    Value:
+      Fn::Sub:
+        - "${AppScheme}://${AppDomain}/TrackIt"
+        - AppScheme:
+            Fn::If:
+              - UseTrackItSSL
+              - https
+              - http
+          AppDomain:
+            Fn::If:
+              - TrackItSiteDomainRoute53Condition
+              - Ref: TrackItSiteDomain
+              - Fn::GetAtt:
+                  - ApplicationLoadBalancer
+                  - DNSName
