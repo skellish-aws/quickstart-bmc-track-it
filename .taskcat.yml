@@ -1,7 +1,9 @@
 project:
   name: quickstart-bmc-track-it
   owner: manish_gadgil@BMC.com
-  package_lambda: false
+  package_lambda: true
+  lambda_source_path: functions/source
+  lambda_zip_path: functions/packages
   s3_regional_buckets: true
   shorten_stack_name: true
   regions:
@@ -9,36 +11,37 @@ project:
   s3_bucket: ''
   parameters:
     AvailabilityZones: $[taskcat_genaz_2]
+    DomainAdminPassword: $[taskcat_genpass_12A]
+    DomainAdminPasswordConfirm: $[taskcat_getval_DomainAdminPassword]
+    DomainDNSName: example.internal
+    DomainNetBIOSName: example
+    DSMicrosoftADEdition: Standard
     KeyPairName: $[taskcat_getkeypair]
     OperatorEmail: 'None'
     PrivateSubnet1ACIDR: 10.0.0.0/19
     PrivateSubnet2ACIDR: 10.0.32.0/19
     PublicSubnet1CIDR: 10.0.128.0/20
     PublicSubnet2CIDR: 10.0.144.0/20
-    QSS3BucketName: $[taskcat_autobucket]
+    QSS3BucketName:  $[taskcat_autobucket]
     QSS3BucketRegion: $[taskcat_current_region]
     QSS3KeyPrefix: quickstart-bmc-track-it/
     Route53HostedZoneId: ''
     TrackItEndUserWebAccessCIDR: 0.0.0.0/0
-    TrackItInstanceType: m5.large
+    TrackItInstanceDomainComputerName: TrackIt01
+    TrackItEnvironmentSize: Small
     TrackItSiteDomain: ''
-    TrackItSSLCertificateARN: ''
+    TrackItRealSSLCertificateARN: ''
+    TrackItSelfSignSSLCertificateOptions: CN=trackit.org;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
+    TrackItSelfSignSSLCertificateExpiresOn: '2031-12-31'
     VPCCIDR: 10.0.0.0/16
-
+    
 tests:
-  # Single Server Configuration
-  trackit-single-server:
+  # 'Small', Self-Signed Cert Configuration
+  trackit-small-selfsign:
     regions:
     - us-east-1
     s3_bucket: ''
     template: ./templates/bmc-trackit-master.template.yaml
 
-  # # Seperate Client Management Server Configuration
-  # trackit-separate-client-server:
-  #   parameters:
-  #     ClientMgmtServerEmbedded: false
-  #   regions:
-  #    - us-east-1          # US East (N. Virginia)
-  #   s3_bucket: ''
-  #   template: ./templates/bmc-trackit-master.template.yaml
 
+  
