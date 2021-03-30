@@ -1,0 +1,18 @@
+{
+  "name": "cft-selfsign-ssl-custom-resource",
+  "version": "1.0.0",
+  "description": "CloudFormation Custom Resource for generating a self-signed SSL certificate with optional import into AWS IAM. Use case: using a self-signed certificate with AWS Load Balancer",
+  "main": "index.js",
+  "dependencies": {
+    "selfsigned": "^1.10.8"
+  },
+  "devDependencies": {
+    "aws-sdk": "2.861.0",
+    "cfn-response": "^1.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Scott Kellish",
+  "license": "MIT"
+}
