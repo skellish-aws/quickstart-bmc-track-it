@@ -14,13 +14,13 @@
 #
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  "This template deploys a BMC Track-It! BYOL/90 Day Trial stack into an existing VPC.
+  This template deploys a BMC Track-It! BYOL/90 Day Trial stack into an existing VPC.
   **WARNING** This template creates EC2 instances and related resources. You
   will be billed for the AWS resources used if you create a stack from this
   template. License: Apache 2.0 (Please do not remove) Sept,29,2020. BMC Track-It! 
   is licensed separately, please review the terms and conditions here 
   (https://www.bmc.com/about/legal/) for further details.
-  (qs-1r6abo918)"
+  (qs-1r6abo918)
 Metadata:
   "AWS::CloudFormation::Interface":
     ParameterGroups:
@@ -275,13 +275,11 @@ Parameters:
       [Optional] Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.
     AllowedPattern: (?!-)[a-zA-Z0-9-.]*(?<!-)
     ConstraintDescription: Must be a valid fully-qualified domain name.
-    Default: trackit.skellish.people.aws.
 
   TrackItRealSSLCertificateARN:
     Type: String
     Description: >-
       [Optional] ARN of the SSL certificate to be used for the Application Load Balancer.
-    Default: arn:aws:acm:us-east-1:094559051528:certificate/bf2962bd-8da9-4e07-8e3e-830b21c59443
 
   TrackItSelfSignSSLCertificateOptions:
     Type: String
@@ -302,19 +300,19 @@ Parameters:
 Mappings:
   AWSAMIRegionMap:
     us-east-1:                      # US East (N. Virginia)
-      x64: ami-09174dfb4a38d785b
+      x64: ami-0ea2e9db9ee94cf9d
     us-east-2:                      # US East (Ohio)
-      x64: ami-0c25a9042f9e97d57
+      x64: ami-0cf4c4621dc3b45f0
     us-west-1:                      # US West (N. California)
-      x64: ami-01fcce1b1797b595c
+      x64: ami-046ea9bf09329f0d1
     us-west-2:                      # US West (Oregon)
-      x64: ami-02052da34a2cfa51c
+      x64: ami-0326c35fd66908ec4
     af-south-1:                     # Africa (Cape Town)
       x64: ami-
     ap-east-1:                      # Asia Pacific (Hong Kong)
       x64: ami-
     ap-south-1:                     # Asia Pacific (Mumbai)
-      x64: ami-0f07f1229c688d429
+      x64: ami-
     ap-northeast-3:                 # Asia Pacific (Osaka)
       x64: ami-
     ap-northeast-2:                 # Asia Pacific (Seoul)
@@ -951,11 +949,21 @@ Resources:
 
             c:\cfn\scripts\trackit-db-scripts.sql:
               content: !Sub |
+                USE master;
+                GO
+                DECLARE @InternalInstanceName sysname; 
+                DECLARE @MachineInstanceName sysname; 
+                SELECT @InternalInstanceName = @@SERVERNAME, @MachineInstanceName = CAST(SERVERPROPERTY('MACHINENAME') AS VARCHAR(128))  + COALESCE('\' + CAST(SERVERPROPERTY('INSTANCENAME') AS VARCHAR(128)), '');
+                IF @InternalInstanceName <> @MachineInstanceName 
+                BEGIN 
+                  EXEC sp_dropserver @InternalInstanceName; 
+                  EXEC sp_addserver @MachineInstanceName, 'LOCAL'; 
+                END
                 USE trackit;
                 GO
                 BEGIN
-                  DECLARE @oldpcname NVARCHAR(255)
-                  DECLARE @newpcname NVARCHAR(255)
+                  DECLARE @oldpcname NVARCHAR(30)
+                  DECLARE @newpcname NVARCHAR(30)
 
                   SET @newpcname = '${TrackItInstanceDomainComputerName}'
 
@@ -977,10 +985,39 @@ Resources:
 
                   Invoke-SqlCmd -ServerInstance ${TrackItInstanceDomainComputerName} -InputFile c:\cfn\scripts\trackit-db-scripts.sql -Verbose
 
+                  $sqlsvc = Get-Service -Name "MSSQLSERVER"
+                  Restart-Service -InputObject $sqlsvc -Force
+                  $sqlsvc.WaitForStatus("Running","00:10:00")
+
                 } catch {
                   Write-Verbose "$($_.exception.message)@ $(Get-Date)"
                   $_ | Write-AWSQuickStartException;
                 }
+
+            c:\cfn\scripts\FilesToReplace.zip:
+              source:
+                !Sub
+                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/FilesToReplace.zip
+                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+              authentication: S3AccessCreds
+
+            c:\cfn\scripts\license.licx:
+              source:
+                !Sub
+                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/license.licx
+                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+              authentication: S3AccessCreds
+
+            c:\cfn\scripts\UpdateLicense.ps1:
+              source:
+                !Sub
+                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/UpdateLicense.ps1
+                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+              authentication: S3AccessCreds
+
 
           commands:
             # Apply TrackIt DB Scripts
@@ -988,25 +1025,28 @@ Resources:
               command:
                 powershell.exe
                   -File c:\cfn\scripts\apply-trackit-db-scripts.ps1
-              waitAfterCompletion: '0'              
+              waitAfterCompletion: '0'
 
             # Add Windows Firewall Ingress Rules for Track-It! and BCM ingress
-            a-add-trackit-bcm-firewall-ingress-rules:
+            b-add-trackit-bcm-firewall-ingress-rules:
               command:
                 powershell.exe 
                   -File c:\cfn\scripts\Add-TrackIt-BCM-Firewall-Ingress-Rules.ps1
               waitAfterCompletion: '0'
 
             # Update Track-It! and BCM ODBC DSN's to point to 'new' instance name
-            b-update-trackit-bcm-db-host-entries:
+            c-update-trackit-bcm-db-host-entries:
               command: !Sub
-                powershell.exe 
+                - >-
+                  powershell.exe 
                   -File c:\cfn\scripts\Update-TrackIt-BCM-DB-Host-Entries.ps1
                   -TrackItInstanceDomainComputerName ${TrackItInstanceDomainComputerName} 
+                  -PublicDnsName ${TrackItLoadBalancerPublicDNS}
+                - TrackItLoadBalancerPublicDNS: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
               waitAfterCompletion: '0'
 
             # Restart BMC Client Management Service and give time to stabilize
-            c-restart-bcm-service:
+            d-restart-bcm-service:
               command:
                 powershell.exe
                   -Command "Restart-Service 'BMC Client Management' -Force"
@@ -1360,16 +1400,16 @@ Outputs:
 
   # BMC CM Client Agent Public URL (tcp/1610)
   BCMClientAgentPublicURL:
-    Description: BMC CM Client Agent Public URL (tcp/1610)
+    Description: BMC CM Rollout Public URL (tcp/1610)
     Value:
       Fn::Sub:
-        - "https://${AppDomain}:1610/"
+        - "https://${AppDomain}:1610/rollout"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
 
-  # BMC CM Web Console Public URL (tcp/1611)
+  # BMC CM Web Console Public URL (tcp/1610)
   BCMWebConsolePublicURL:
-    Description: BMC CM Web Console Public URL (tcp/1611)
+    Description: BMC CM Web Console Public URL (tcp/1610)
     Value:
       Fn::Sub:
-        - "https://${AppDomain}:1611/"
+        - "https://${AppDomain}:1610/console"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
