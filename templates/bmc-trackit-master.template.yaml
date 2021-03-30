@@ -570,18 +570,28 @@ Outputs:
     Description: Microsoft directory service ID
     Value: !Ref DSMicrosoftAD
 
-  # Track-It! Web Application Public URL (https/443) 
-  TrackItWebApplicationPublicURL:
-    Description: Track-It! Web Application Public URL (https/443) 
-    Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItWebApplicationPublicURL
+  # Track-It! Tech portal Public URL (https/443) 
+  TrackItTechnicianPortalPublicURL:
+    Description: Track-It! Technician Portal Public URL (https/443) 
+    Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItTechnicianPortalPublicURL
 
-  # BMC CM Client Agent Public URL (tcp/1610)
-  BCMClientAgentPublicURL:
-    Description: BMC CM Client Agent Public URL (tcp/1610)
-    Value: !GetAtt TrackItWorkloadStack.Outputs.BCMClientAgentPublicURL
+  # Track-It! Self-service portal Public URL (https/443) 
+  TrackItSelfServicePortalPublicURL:
+    Description: Track-It! Self-Service Portal Public URL (https/443) 
+    Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItSelfServicePortalPublicURL
 
-  # BMC CM Web Console Public URL (tcp/1611)
-  BCMWebConsolePublicURL:
-    Description: BMC CM Web Console Public URL (tcp/1611)
-    Value: !GetAtt TrackItWorkloadStack.Outputs.BCMWebConsolePublicURL
+  # Track-It! Web API Public URL (https/443) 
+  TrackItWebApiPublicURL:
+    Description: Track-It! Web API Public URL (https/443) 
+    Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItWebApiPublicURL
+
+  # BMC CM Rollout Agent Public URL (tcp/1610)
+  BCMRolloutPublicURL:
+    Description: BMC Client Management Rollout Agent Public URL (tcp/1610)
+    Value: !GetAtt TrackItWorkloadStack.Outputs.BCMRolloutPublicURL
+
+  # BMC CM Web Console Public URL (tcp/1610)
+  BCMConsolePublicURL:
+    Description: BMC Client Management Web Console Public URL (tcp/1610)
+    Value: !GetAtt TrackItWorkloadStack.Outputs.BCMConsolePublicURL
 

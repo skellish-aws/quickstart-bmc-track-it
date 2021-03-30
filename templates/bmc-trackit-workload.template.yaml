@@ -1390,25 +1390,41 @@ Resources:
 
 Outputs:
 
-  # Track-It! Web Application Public URL (https/443) 
-  TrackItWebApplicationPublicURL:
-    Description: Track-It! Web Application Public URL (https/443) 
+  # Track-It! Tech portal Public URL (https/443) 
+  TrackItTechnicianPortalPublicURL:
+    Description: Track-It! Technician Portal Public URL (https/443) 
     Value:
       Fn::Sub:
         - "https://${AppDomain}/TrackIt"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
 
-  # BMC CM Client Agent Public URL (tcp/1610)
-  BCMClientAgentPublicURL:
-    Description: BMC CM Rollout Public URL (tcp/1610)
+  # Track-It! Self-service portal Public URL (https/443) 
+  TrackItSelfServicePortalPublicURL:
+    Description: Track-It! Self-Service Portal Public URL (https/443) 
+    Value:
+      Fn::Sub:
+        - "https://${AppDomain}/TrackIt/SelfService"
+        - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
+
+  # Track-It! Web API Public URL (https/443) 
+  TrackItWebApiPublicURL:
+    Description: Track-It! Web API Public URL (https/443) 
+    Value:
+      Fn::Sub:
+        - "https://${AppDomain}/TrackIt/WebApi"
+        - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
+
+  # BMC CM Rollout Agent Public URL (tcp/1610)
+  BCMRolloutPublicURL:
+    Description: BMC Client Management Rollout Agent Public URL (tcp/1610)
     Value:
       Fn::Sub:
         - "https://${AppDomain}:1610/rollout"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
 
   # BMC CM Web Console Public URL (tcp/1610)
-  BCMWebConsolePublicURL:
-    Description: BMC CM Web Console Public URL (tcp/1610)
+  BCMConsolePublicURL:
+    Description: BMC Client Management Web Console Public URL (tcp/1610)
     Value:
       Fn::Sub:
         - "https://${AppDomain}:1610/console"
