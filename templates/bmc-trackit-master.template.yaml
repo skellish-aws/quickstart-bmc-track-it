@@ -14,13 +14,13 @@
 #
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  "This template deploys a BMC Track-It! BYOL/90 Day Trial stack into a new VPC.
+  This template deploys a BMC Track-It! BYOL/90 Day Trial stack into a new VPC.
   **WARNING** This template creates EC2 instances and related resources. You
   will be billed for the AWS resources used if you create a stack from this
   template. License: Apache 2.0 (Please do not remove) Sept,29,2020. BMC Track-It! 
   is licensed separately, please review the terms and conditions here 
   (https://www.bmc.com/about/legal/) for further details.
-  (qs-1r6abo8ti)"
+  (qs-1r6abo8ti)
 Metadata:
   'AWS::CloudFormation::Interface':
     ParameterGroups:
