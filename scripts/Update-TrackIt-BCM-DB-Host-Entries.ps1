@@ -52,12 +52,20 @@ try {
 
     foreach($key in $values.Keys)
     {
-        #Write-Host "Locating key: '$key' in XML"
         # Use XPath to find the appropriate node
         if(($addKey = $xml.SelectSingleNode("/configuration/appSettings/add[@key = '$key']")))
         {
             Write-Host "Found key: '$key' in XML, updating value to $($values[$key])"
             $addKey.SetAttribute('value',$values[$key])
+        }
+        else
+        {
+            Write-Host "Key not found. Adding new appSettings element"
+            $appSettings = $xml.SelectSingleNode("/configuration/appSettings")
+            $node = $xml.CreateElement("add")
+            $node.SetAttribute("key", $key)
+            $node.SetAttribute("value",$values[$key])
+            $appSettings.AppendChild($node)
         }
     }
 
