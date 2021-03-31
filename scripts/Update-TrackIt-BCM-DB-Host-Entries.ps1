@@ -74,6 +74,36 @@ try {
     Receive-Job  $job
 
     Remove-Item "C:\cfn\scripts\UpdateLicense.ps1" -Force
+    
+    Write-Host "Updating COM+ package password"
+
+    $objShell = New-Object -ComObject "WScript.Shell"
+    $szUser = "$TrackItInstanceDomainComputerName\TIComPlusUser"
+
+    $szPassword = ""
+    if($env:ADMIN_PASSWORD -ne "")
+    {
+        $szPassword = $env:ADMIN_PASSWORD
+    }
+
+    $catalog = New-Object -ComObject "COMAdmin.COMAdminCatalog"
+    $applications = $catalog.GetCollection("Applications")
+    $applications.Populate()
+    [int]$i = 0
+    while($i -lt [int]$applications.Count)
+    {
+        $COMApp = $applications.Item($i)
+        if($COMApp.Name -eq "Track-It! Server Components")
+        {
+            Write-Host "Updating password for Track-It! Server Components"
+            $COMApp.Value("Identity") = $szUser
+            $COMApp.Value("Password") = $szPassword
+            $applications.SaveChanges()
+            break
+        }
+        $i = $i + 1
+    }
+    [Environment]::SetEnvironmentVariable("ADMIN_PASSWORD", $null, [System.EnvironmentVariableTarget]::Machine)
 
     Write-Host "Starting services"
     Start-Service -Name $services
