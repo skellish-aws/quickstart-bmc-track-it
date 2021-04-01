@@ -1255,9 +1255,177 @@ Resources:
                                       "auto_removal": true
                                   },
                                   {
-                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Database\\Logs\\DBInstall_*.log",
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\ChangeManagement_*.log",
                                       "log_group_name": "BMC-Track-It",
-                                      "log_stream_name": "{instance_id}/Track-It/Database/DBInstall",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/ChangeManagement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMLogicNotification_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMLogicNotification",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCFeatureInfo_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCFeatureInfo",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCImap_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCImap",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCPop3_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCPop3",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCQuickViews_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCQuickViews",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCSmtp_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCSmtp",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCUserTrack_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCUserTrack",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\SDEAttach_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/SDEAttach",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCStopTheClock_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCStopTheClock",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCSuperBR_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCSuperBR",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMLogicNotification_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMLogicNotification",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMLogicWorkOrder*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMLogicWorkOrder",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMServerControl_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMServerControl",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\Announcement_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/Announcement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\AssetManagement_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/AssetManagement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMLogicAttach_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMLogicAttach",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\LogicDetails_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/LogicDetails",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\LogicHelpDesk_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/LogicHelpDesk",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\PurchaseManagement_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/PurchaseManagement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\LogicRequestor_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/LogicRequestor",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\LogicSMTP_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/LogicSMTP",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\StopTheClock_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/StopTheClock",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\WOPredecessor_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/WOPredecessor",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\TemplateLinks_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/TemplateLinks",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\EwsMailListener_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/EwsMailListener",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\ServiceManagement_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/ServiceManagement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\WebApi_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/WebApi",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\SelfService_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/SelfService",
                                       "auto_removal": true
                                   },
                                   {
