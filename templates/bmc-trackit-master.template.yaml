@@ -14,13 +14,13 @@
 #
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  "This template deploys a BMC Track-It! BYOL/90 Day Trial stack into a new VPC.
+  This template deploys a BMC Track-It! BYOL/90 Day Trial stack into a new VPC.
   **WARNING** This template creates EC2 instances and related resources. You
   will be billed for the AWS resources used if you create a stack from this
   template. License: Apache 2.0 (Please do not remove) Sept,29,2020. BMC Track-It! 
   is licensed separately, please review the terms and conditions here 
   (https://www.bmc.com/about/legal/) for further details.
-  (qs-1r6abo8ti)"
+  (qs-1r6abo8ti)
 Metadata:
   'AWS::CloudFormation::Interface':
     ParameterGroups:
@@ -570,18 +570,28 @@ Outputs:
     Description: Microsoft directory service ID
     Value: !Ref DSMicrosoftAD
 
-  # Track-It! Web Application Public URL (https/443) 
-  TrackItWebApplicationPublicURL:
-    Description: Track-It! Web Application Public URL (https/443) 
-    Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItWebApplicationPublicURL
+  # Track-It! Tech portal Public URL (https/443) 
+  TrackItTechnicianPortalPublicURL:
+    Description: Track-It! Technician Portal Public URL (https/443) 
+    Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItTechnicianPortalPublicURL
 
-  # BMC CM Client Agent Public URL (tcp/1610)
-  BCMClientAgentPublicURL:
-    Description: BMC CM Client Agent Public URL (tcp/1610)
-    Value: !GetAtt TrackItWorkloadStack.Outputs.BCMClientAgentPublicURL
+  # Track-It! Self-service portal Public URL (https/443) 
+  TrackItSelfServicePortalPublicURL:
+    Description: Track-It! Self-Service Portal Public URL (https/443) 
+    Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItSelfServicePortalPublicURL
 
-  # BMC CM Web Console Public URL (tcp/1611)
-  BCMWebConsolePublicURL:
-    Description: BMC CM Web Console Public URL (tcp/1611)
-    Value: !GetAtt TrackItWorkloadStack.Outputs.BCMWebConsolePublicURL
+  # Track-It! Web API Public URL (https/443) 
+  TrackItWebApiPublicURL:
+    Description: Track-It! Web API Public URL (https/443) 
+    Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItWebApiPublicURL
+
+  # BMC CM Rollout Agent Public URL (tcp/1610)
+  BCMRolloutPublicURL:
+    Description: BMC Client Management Rollout Agent Public URL (tcp/1610)
+    Value: !GetAtt TrackItWorkloadStack.Outputs.BCMRolloutPublicURL
+
+  # BMC CM Web Console Public URL (tcp/1610)
+  BCMConsolePublicURL:
+    Description: BMC Client Management Web Console Public URL (tcp/1610)
+    Value: !GetAtt TrackItWorkloadStack.Outputs.BCMConsolePublicURL
 
