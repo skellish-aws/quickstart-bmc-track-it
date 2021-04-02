@@ -116,6 +116,9 @@ try {
     Write-Host "Starting services"
     Start-Service -Name $services
 
+    Write-Host "Setting Track-It! services to auto-start"
+    foreach($s in $services) { Set-Service $s -StartupType Automatic }
+
     Write-Host "Registering Export compliance app"
     $expPath = "C:\Program Files (x86)\BMC\Track-It!\ExportCheckApp"
     Start-Process -Wait -FilePath "$expPath\ExportLicenseAgreement.WebHost.exe" -WorkingDirectory "$expPath" -ArgumentList register_iis_app
