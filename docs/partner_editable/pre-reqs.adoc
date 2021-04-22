@@ -6,10 +6,10 @@ Since the Quick Start deploys an EC2 instance, you need to ensure a Key Pair is 
 
 ==== Prepare your {partner-company-name} account
 
-Sign up for a BMC support profile and license https://community.bmc.com/s/news/aA33n000000Cj6tCAC/creating-a-bmc-support-profile-and-downloading-licensessoftware[here^].
+Sign up for a BMC Support profile and license https://community.bmc.com/s/news/aA33n000000Cj6tCAC/creating-a-bmc-support-profile-and-downloading-licensessoftware[here^].
 
 If you don’t have a license, the Quick Start deploys with a trial license. The trial license gives you 90 days of free usage in a non-production environment. After this time, you can upgrade to a production license by following the instructions https://docs.bmc.com/docs/trackit2020/en/applying-a-license-file-912126000.html[here^].
 
 ==== Prepare for the deployment
 
-_Describe any preparation required to complete the product build, such as obtaining licenses or placing files in S3_
+No specific preparation is necessary to deploy Track-It! on AWS Cloud.

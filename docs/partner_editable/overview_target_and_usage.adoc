@@ -4,10 +4,28 @@
 
 This Quick Start reference deployment guide provides step-by-step instructions for deploying {partner-product-short-name} on the AWS Cloud.
 
-This Quick Start is for small to medium sized companies who want to have a complete, easy to install, configure and easy to use IT help desk & powerful integrated IT asset management tool at an affordable price. 
+This Quick Start is for small and medium-sized organizations that are looking for an IT help desk product at an affordable price. {partner-product-short-name} is easy to install, configure, and use. It has powerfully integrated IT asset management capabilities as well. 
 
-At the heart of {partner-product-short-name} is the Help Desk, which provides you with a view of your incidents, problems and change requests. Track-It! helps automate and streamline your IT support processes so that you can respond and deliver resolutions to end users more quickly than ever before. 
+The Help Desk function is at the core of  {partner-product-short-name}. This function shows you your incidents, problems, and change requests. {partner-product-short-name} can automate and streamline your IT support processes enhancing your response and delivery resolutions to end users more quickly than ever before. 
 
-{partner-product-short-name} is also more than just a Help Desk software. It is a single integrated suite for IT end point management offering Help Desk, Automated Asset Discovery, Asset Auditing, Patch Management, Software Deployment, Mobile Device Management, Remote Control, Bar-code scanning for physical inventory, end-user satisfaction survey, Active Directory User Importing and Authentication, Change Management, Software License Management, Knowledge Management, End-user self-service web portal, IT Purchasing, customizable Dashboards with drill down and custom Reports for metrics analysis and reporting.
+{partner-product-short-name} is a single integrated suite for IT end point management offering: 
 
-{partner-product-short-name} is accessible via a web browser from a desktop computer or mobile client which supports iOS and Android devices. With Track-It! IT help desk software, you will feel confident in your ability to improve customer service, decrease response and resolution times and lower your IT costs.
+* Help Desk
+* Automated Asset Discovery
+* Asset Auditing
+* Patch Management
+* Software Deployment
+* Mobile Device Management
+* Remote Control
+* Bar-code scanning for physical inventory
+* End-user satisfaction survey
+* Active Directory User Import and Authentication
+* Change Management
+* Software License Management
+* Knowledge Management
+* End-user self-service web portal
+* IT Purchasing
+* Customizable Dashboards with drill down
+* Custom Reports for metrics analysis and reporting
+
+You can access {partner-product-short-name} via a web browser from a desktop computer or mobile client (iOS and Android devices). With Track-It! you can improve customer service, decrease response and resolution times, and lower your IT costs.

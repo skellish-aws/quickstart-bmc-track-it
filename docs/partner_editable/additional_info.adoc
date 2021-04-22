@@ -5,56 +5,55 @@
 // If steps are required to test the deployment, add them here. If not, remove the heading
 
 == Post deployment steps
-// If Post-deployment steps are required, add them here. If not, remove the heading
-Once the deployment is complete you can launch the Technician Portal denoted by the *TrackItTechnicianPortalPublicURL* available on the output pane of the CloudFormation stack. 
+After the deployment is successful, you can launch the Technician portal. The Technician portal is denoted by *TrackItTechnicianPortalPublicURL* and is available on the output pane of the *CloudFormation* stack. 
 
 === Export Compliance
-Upon launching the application URL for the first time the user will be presented with an Export Compliance Agreement which is required to be accepted . 
+When you launch the application URL for the first time, the *Export Compliance And Access Terms* is displayed. You must accept the terms to access {partner-product-short-name}.
 
 [#export1]
 .Export Compliance and Access Terms
 [link=images/export_compliance.png]
 image::../images/export_compliance.png[export,width=648,height=439]
 
-After agreeing to the terms and hitting the continue button this information is processed by a BMC system for auditing purposes. During this process if its determined that you cannot be provided access then a message similar to the following will be displayed.
+After you click *Continue* on the *Export Compliance And Access Terms* screen, the information is processed by a BMC system for auditing purposes. If we determine that you cannot be provided access, then a message similar to the following message is displayed:
 
 [#export2]
 .Export Compliance error
 [link=images/export_compliance_error.png]
 image::../images/export_compliance_error.png[export_err,width=648,height=439]
 
-You should reach out to BMC support with this information for more help.
+You must contact BMC Support with the information that is displayed in Figure 4 for assistance.
 
-If everything goes well then you should see the {partner-product-short-name} technician portal login screen as seen below.
+If there is no error, the {partner-product-short-name} Technician portal login screen is displayed as shown in the following figure:
 
 [#trackit1]
-.{partner-product-short-name} technician portal login screen
+.{partner-product-short-name} Technician portal login screen
 [link=images/trackit1.png]
 image::../images/trackit1.png[export_err,width=648,height=439]
 
 
 === BMC Client Management Relay server
-In order to fully leverage the BMC Client Management functionality you need to install the BMC Client Management relay software on one of your on-premises servers. This realy will be responsible for collecting information of your on-premises network infrastructure and will transmit this to the master server located on the AWS cloud.
+To fully leverage the BMC Client Management functionality, you must install the BMC Client Management relay software on one of your on-premises servers. This relay collects information of your on-premises network infrastructure and transmits it to the master server located on the AWS Cloud.
 
-The relay installation can be accessed via the *BCMRolloutPublicURL* that is available on the CloudFormation output tab. 
+The relay installation can be accessed via the *BCMRolloutPublicURL* available on the CloudFormation *output* tab. 
 
-Upon launching the *BCMRolloutPublicURL* in a browser a warning such as the following will be displayed. This happens as BMC Client Management issues its own certificates but rest assured that it is safe to continue.
+Upon launching the *BCMRolloutPublicURL* in a browser, a warning as shown in the following figure is displayed. This happens because BMC Client Management issues its own certificates. It is safe to continue.
 
 [#rollout1]
 .BMC Client Management rollout login warning
 [link=images/rollout1.png]
 image::../images/rollout1.png[export,width=648,height=439]
 
-Upon continuing to the page, the following login screen will be loaded.
+Upon continuing the following login screen is displayed:
 
 [#rollout2]
 .BMC Client Management rollout login page
 [link=images/rollout2.png]
 image::../images/rollout2.png[export,width=648,height=439]
 
-You can login with the default credentials to access the rollout download page as seen below. 
+You can login with the default credentials to access the rollout download page. 
 
-Click the _BCM_Agent_Install.exe_ link to download the rollout installation. Once done you should run the program to complete the installation.
+Click the _BCM_Agent_Install.exe_ link to download the rollout installation. Then, run the program to complete the installation.
 
 [#rollout3]
 .BMC Client Management rollout download page
@@ -81,7 +80,7 @@ _Add any best practices for using the software._
 
 == Training Videos
 
-Training videos on how to configure and use {partner-product-short-name} are available https://docs.bmc.com/docs/trackit2020/en/training-videos-912125636.html[here^].
+For information about how to use and configure {partner-product-short-name}, see https://docs.bmc.com/docs/trackit2020/en/training-videos-912125636.html[Training videos^].
 
 
 == Security

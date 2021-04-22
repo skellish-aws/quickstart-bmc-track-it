@@ -2,8 +2,9 @@
 // Briefly describe the software. Use consistent and clear branding. 
 // Include the benefits of using the software on AWS, and provide details on usage scenarios.
 
-{partner-product-short-name} is deployed on a single EC2 instance. This instance hosts the database server as well as the BMC Client Management (BCM) master.
+{partner-product-short-name} is deployed on a single EC2 instance. This instance hosts the database server and the BMC Client Management (BCM) master.
 
-In order for the BCM master to discover and audit your on-premises IT infrastructure, additional software needs to be deployed on your internal network. Refer to the deployment steps for details.
+In order for the BCM master to discover and audit your on-premises IT infrastructure, additional software needs to be deployed on your internal network. Refer to the link:#_deployment_steps[Deployment steps] for details.
 
-NOTE: Backing up the database requires scripts to be executed on the EC2 instance and are NOT part of the default image. You are responsible for coming up with an appropriate database backup strategy as may be appropriate for your scenario. If you do decide to store the backups on S3 and/or Glacier additional costs may be involved.
+NOTE: To back up the database, you must execute scripts on the EC2 instance. These scripts are not part of the default image.
+You must have a strategy to backup your database that suits your scenario. There can be further costs if you store the backups on S3 or Glacier.
