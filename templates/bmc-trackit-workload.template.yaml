@@ -308,39 +308,21 @@ Mappings:
     us-west-2:                      # US West (Oregon)
       x64: ami-0326c35fd66908ec4
     af-south-1:                     # Africa (Cape Town)
-      x64: ami-
-    ap-east-1:                      # Asia Pacific (Hong Kong)
-      x64: ami-
-    ap-south-1:                     # Asia Pacific (Mumbai)
-      x64: ami-
-    ap-northeast-3:                 # Asia Pacific (Osaka)
-      x64: ami-
-    ap-northeast-2:                 # Asia Pacific (Seoul)
-      x64: ami-
-    ap-southeast-1:                 # Asia Pacific (Singapore)
-      x64: ami-
-    ap-southeast-2:                 # Asia Pacific (Sydney)
-      x64: ami-
-    ap-northeast-1:                 # Asia Pacific (Tokyo)
-      x64: ami-
+      x64: ami-0d219921b3f4485f1
     ca-central-1:                   # Canada (Central)
-      x64: ami-
+      x64: ami-069a79833eebd56aa
     eu-central-1:                   # Europe (Frankfurt)
-      x64: ami-
+      x64: ami-0aeb76c5cbb73e4de
     eu-west-1:                      # Europe (Ireland)
-      x64: ami-
+      x64: ami-0e1449519708f269f
     eu-west-2:                      # Europe (London)
-      x64: ami-
+      x64: ami-0dac78ec3d0d400c8
     eu-south-1:                     # Europe (Milan)
-      x64: ami-
+      x64: ami-07892c43b58733281
     eu-west-3:                      # Europe (Paris)
-      x64: ami-
+      x64: ami-0f89b40814eaeeea0
     eu-north-1:                     # Europe (Stockholm)
-      x64: ami-
-    me-south-1:                     # Middle East (Bahrain)
-      x64: ami-
-    sa-east-1:                      # South America (São Paulo)
-      x64: ami-
+      x64: ami-00a8607a2c84eb473
 
   # BMC Track-It! Environment Sizes
   # See https://docs.bmc.com/docs/trackit2020/en/sizing-and-scalability-considerations-912125648.html
@@ -1579,7 +1561,7 @@ Outputs:
     Description: Track-It! Web API Public URL (https/443) 
     Value:
       Fn::Sub:
-        - "https://${AppDomain}/TrackIt/WebApi"
+        - "https://${AppDomain}/TrackIt/WebApi/"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
 
   # BMC CM Rollout Agent Public URL (tcp/1610)
