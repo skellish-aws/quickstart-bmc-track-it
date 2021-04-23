@@ -136,7 +136,6 @@ Parameters:
     MinLength: '8'
     NoEcho: true
     Type: String
-    Default: Pa$$W0rd
 
   DomainAdminPasswordConfirm:
     AllowedPattern: >-
@@ -148,7 +147,6 @@ Parameters:
     MinLength: '8'
     NoEcho: true
     Type: String
-    Default: Pa$$W0rd
 
   DomainDNSName:
     AllowedPattern: '[a-zA-Z0-9\-]+\..+'
@@ -185,7 +183,6 @@ Parameters:
       Name of an existing EC2 key pair. All instances will launch with this key pair.
     Type: "AWS::EC2::KeyPair::KeyName"
     ConstraintDescription: Must be one of the existing EC2 keypair
-    Default: id_rsa
 
   OperatorEmail:
     AllowedPattern: >-
@@ -242,8 +239,7 @@ Parameters:
     ConstraintDescription: >-
       Quick Start bucket name can include numbers, lowercase letters, uppercase
       letters, and hyphens (-). It cannot start or end with a hyphen (-).
-    # Default: aws-quickstart
-    Default: sk-quickstart
+    Default: aws-quickstart
     Description: >-
       S3 bucket that you created for your copy of Quick Start assets.
       Use this if you decide to customize the Quick Start. This bucket name can include numbers, lowercase letters,
@@ -260,7 +256,7 @@ Parameters:
     ConstraintDescription: >-
       Quick Start key prefix can include numbers, lowercase letters, uppercase
       letters, hyphens (-), and forward slash (/).
-    Default: quickstart-bmc-track-it-ad/
+    Default: quickstart-bmc-track-it/
     Description: >-
       S3 key name prefix that is used to simulate a directory for your copy of Quick Start assets.
       Use this if you decide to customize the Quick Start. This prefix can include numbers, lowercase letters,
@@ -272,7 +268,6 @@ Parameters:
     Description: >-
       [Optional] Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.
     Type: String
-    Default: Z05816983102EY5OXZUE5
 
   TrackItEndUserWebAccessCIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
@@ -281,7 +276,6 @@ Parameters:
       CIDR IP range that is permitted to access the Track-It web portal.
       Note: a value of 0.0.0.0/0 will allow access from ANY ip address
     Type: String
-    Default: 0.0.0.0/0
 
   TrackItInstanceDomainComputerName:
     Description: Track-It! instance Windows domain computer name
@@ -304,13 +298,11 @@ Parameters:
       [Optional] Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.
     AllowedPattern: (?!-)[a-zA-Z0-9-.]*(?<!-)
     ConstraintDescription: Must be a valid fully-qualified domain name.
-    Default: trackit.skellish.people.aws.
 
   TrackItRealSSLCertificateARN:
     Type: String
     Description: >-
       [Optional] ARN of the SSL certificate to be used for the Application Load Balancer.
-    Default: arn:aws:acm:us-east-1:094559051528:certificate/bf2962bd-8da9-4e07-8e3e-830b21c59443
 
   TrackItSelfSignSSLCertificateOptions:
     Type: String
@@ -339,35 +331,37 @@ Rules:
           - !Ref DomainAdminPasswordConfirm
         AssertDescription: Domain Admin account password values do not match.
 
-  DSSupportedRegionRule:
+  TISupportedRegionRule:
     Assertions:
       - Assert: !Contains
           - - us-east-2          # US East (Ohio)
             - us-east-1          # US East (N. Virginia)
             - us-west-1          # US West (N. California)
             - us-west-2          # US West (Oregon)
-            - ap-east-1          # Asia Pacific (Hong Kong)
-            - ap-south-1         # Asia Pacific (Mumbai)
-            # - ap-northeast-3     # Asia Pacific (Osaka-Local) --> Osaka-Local not supported, DirSrv not supported 2020-Feb-07
-            - ap-northeast-2     # Asia Pacific (Seoul)
-            - ap-southeast-1     # Asia Pacific (Singapore)
-            - ap-southeast-2     # Asia Pacific (Sydney)
-            - ap-northeast-1     # Asia Pacific (Tokyo)
+            - af-south-1         # Africa (Cape Town)
+            #- ap-east-1          # Asia Pacific (Hong Kong) --> MFES not available
+            #- ap-south-1         # Asia Pacific (Mumbai)
+            # - ap-northeast-3     # Asia Pacific (Osaka-Local) --> Osaka-Local not supported
+            #- ap-northeast-2     # Asia Pacific (Seoul)
+            #- ap-southeast-1     # Asia Pacific (Singapore)
+            #- ap-southeast-2     # Asia Pacific (Sydney)
+            #- ap-northeast-1     # Asia Pacific (Tokyo)
             - ca-central-1       # Canada (Central)
-            - cn-north-1         # China (Beijing)
-            - cn-northwest-1     # China (Ningxia)
+            # - cn-north-1         # China (Beijing) --> MFES not available
+            # - cn-northwest-1     # China (Ningxia) --> MFES not available
             - eu-central-1       # Europe (Frankfurt)
             - eu-west-1          # Europe (Ireland)
             - eu-west-2          # Europe (London)
+            - eu-south-1         # Europe (Milan)
             - eu-west-3          # Europe (Paris)
             - eu-north-1         # Europe (Stockholm)
-            # - me-south-1         # Middle East (Bahrain) --> DirSrv not supported 2020-Feb-07
-            - sa-east-1          # South America (Sao Paulo)
-            - us-gov-east-1      # AWS GovCloud (US-East)
-            - us-gov-west-1      # AWS GovCloud (US-West)
+            #- me-south-1         # Middle East (Bahrain) --> MFES not available
+            #- sa-east-1          # South America (Sao Paulo)
+            # - us-gov-east-1      # AWS GovCloud (US-East) --> GovCloud not supported
+            # - us-gov-west-1      # AWS GovCloud (US-West) --> GovCloud not supported 
           - !Ref AWS::Region
-        AssertDescription: This Quick Start utilizes AWS Directory Service which is not available in the chosen region.
-          Please refer to https://docs.aws.amazon.com/general/latest/gr/rande.html#ds_region for a list
+        AssertDescription: BMC Software is not currently supporting this Quick Start in the chosen region.
+          Please refer to the deployment guide located at <DEPLOYMENT_GUIDE_URL_HERE> for a list
           of currently supported regions and launch the stack in one of those regions.
 
 Conditions:

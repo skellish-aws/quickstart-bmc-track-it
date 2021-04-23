@@ -41,7 +41,7 @@ tests:
     regions:
     - us-east-1
     s3_bucket: ''
-    template: ./templates/bmc-trackit-master.template.yaml
+    template: ./templates/bmc-trackit-main.template.yaml
 
 
   
