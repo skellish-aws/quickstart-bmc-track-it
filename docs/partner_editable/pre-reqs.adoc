@@ -10,6 +10,3 @@ Sign up for a BMC Support profile and license https://community.bmc.com/s/news/a
 
 If you don’t have a license, the Quick Start deploys with a trial license. The trial license gives you 90 days of free usage in a non-production environment. After this time, you can upgrade to a production license by following the instructions https://docs.bmc.com/docs/trackit2020/en/applying-a-license-file-912126000.html[here^].
 
-==== Prepare for the deployment
-
-No specific preparation is necessary to deploy Track-It! on AWS Cloud.

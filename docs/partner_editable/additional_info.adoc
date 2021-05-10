@@ -68,8 +68,6 @@ image::../images/rollout3.png[export,width=648,height=439]
 
 // Space needed to maintain table headers
 |Track-It! Technician portal|`+ADMINISTRATOR+` |`+welcome+`
-|Track-It! Database user| `+_SMSYSADMIN_+` |`+bmcAdm1n!+`
-|BMC Client Management|`+admin+` |`+Trackituser@06+`
 
 |===
 

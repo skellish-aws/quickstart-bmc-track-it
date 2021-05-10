@@ -6,6 +6,8 @@
 :doc-year: 2021
 :partner-contributors: {partner-company-name}
 :quickstart-contributors: AWS Quick Start Team
+:parameters_as_appendix:
+:template_deterministic_ec2_instances:
 :deployment_time: 30 minutes / 1 hour
 :default_deployment_region: us-east-1
 // Uncomment these two attributes if you are leveraging
