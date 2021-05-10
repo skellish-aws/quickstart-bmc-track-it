@@ -34,6 +34,10 @@ project:
     TrackItSelfSignSSLCertificateOptions: CN=trackit.org;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
     TrackItSelfSignSSLCertificateExpiresOn: '2031-12-31'
     VPCCIDR: 10.0.0.0/16
+    TrackItAdminPassword: bmcAdm1n
+    TrackItAdminPasswordConfirm: bmcAdm1n
+    TrackItBcmAdminPassword: bmcAdm1n
+    TrackItBcmAdminPasswordConfirm: bmcAdm1n
     
 tests:
   # 'Small', Self-Signed Cert Configuration

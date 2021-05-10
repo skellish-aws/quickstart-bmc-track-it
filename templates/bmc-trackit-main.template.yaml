@@ -51,6 +51,10 @@ Metadata:
           - TrackItEndUserWebAccessCIDR
           - OperatorEmail
           - TrackItInstanceDomainComputerName
+          - TrackItAdminPassword
+          - TrackItAdminPasswordConfirm
+          - TrackItBcmAdminPassword
+          - TrackItBcmAdminPasswordConfirm
 
       - Label:
           default: "Track-It! site domain configuration"
@@ -115,6 +119,15 @@ Metadata:
         default: Track-It! Self-signed SSL certificate options
       TrackItSelfSignSSLCertificateExpiresOn:
         default: Track-It! Self-signed SSL certificate expiration date
+      TrackItAdminPassword:
+        default: Track-It! _SMSYSADMIN_ account password
+      TrackItAdminPasswordConfirm:
+        default: Re-enter Track-It! _SMSYSADMIN_ account password
+      TrackItBcmAdminPassword:
+        default: BMC Client Management admin account password
+      TrackItBcmAdminPasswordConfirm:
+        default: Re-enter BMC Client Management admin account password
+
       VPCCIDR:
         default: VPC CIDR
 
@@ -144,6 +157,50 @@ Parameters:
       Confirm the password for the domain Admin account. Must be at least 8
       characters containing letters, numbers, and symbols.
     MaxLength: '32'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItAdminPassword:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      The password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItAdminPasswordConfirm:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      Confirm the password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItBcmAdminPassword:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      The password for the BMC Client Management admin account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItBcmAdminPasswordConfirm:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      Confirm the password for the BMC Client Management admin account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
     MinLength: '8'
     NoEcho: true
     Type: String
@@ -330,6 +387,20 @@ Rules:
           - !Ref DomainAdminPassword
           - !Ref DomainAdminPasswordConfirm
         AssertDescription: Domain Admin account password values do not match.
+
+  TrackItAdminPasswordsMatchRule:
+    Assertions:
+      - Assert: !Equals
+          - !Ref TrackItAdminPassword
+          - !Ref TrackItAdminPasswordConfirm
+        AssertDescription: _SMSYSADMIN_ account password values do not match.
+
+  TrackItBcmAdminPasswordsMatchRule:
+    Assertions:
+      - Assert: !Equals
+          - !Ref TrackItBcmAdminPassword
+          - !Ref TrackItBcmAdminPasswordConfirm
+        AssertDescription: BMC Client Management admin account password values do not match.
 
   TISupportedRegionRule:
     Assertions:
@@ -536,6 +607,10 @@ Resources:
       Parameters:
         DomainAdminPassword: !Ref DomainAdminPassword
         DomainAdminPasswordConfirm: !Ref DomainAdminPasswordConfirm
+        TrackItAdminPassword: !Ref TrackItAdminPassword
+        TrackItAdminPasswordConfirm: !Ref TrackItAdminPasswordConfirm
+        TrackItBcmAdminPassword: !Ref TrackItBcmAdminPassword
+        TrackItBcmAdminPasswordConfirm: !Ref TrackItBcmAdminPasswordConfirm
         DomainDNSName: !Ref DomainDNSName
         DomainMemberSGID: !Ref DomainMemberSG
         DomainNetBIOSName: !Ref DomainNetBIOSName

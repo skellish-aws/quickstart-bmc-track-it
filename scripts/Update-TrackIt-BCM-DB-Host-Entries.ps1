@@ -2,8 +2,15 @@
 param(
     [Parameter(Mandatory=$true)]
     [string]$TrackItInstanceDomainComputerName,
+
     [Parameter(Mandatory=$true)]
-    [string]$PublicDnsName
+    [string]$PublicDnsName,
+
+    [Parameter(Mandatory=$true)]
+    [string]$TrackItAdminPassword,
+
+    [Parameter(Mandatory=$true)]
+    [string]$TrackItBcmAdminPassword
 )
 
 try {
@@ -76,7 +83,7 @@ try {
 
 
     Write-Host "Updating license"
-    $job = Start-Job -FilePath "C:\cfn\scripts\UpdateLicense.ps1" -InputObject $TrackItInstanceDomainComputerName -RunAs32
+    $job = Start-Job -FilePath "C:\cfn\scripts\UpdateLicense.ps1" -RunAs32 -ArgumentList "$TrackItInstanceDomainComputerName", "$PublicDnsName", "$TrackItAdminPassword", "$TrackItBcmAdminPassword"
 
     Wait-Job  $job > $null
     Receive-Job  $job
@@ -112,6 +119,9 @@ try {
         $i = $i + 1
     }
     [Environment]::SetEnvironmentVariable("ADMIN_PASSWORD", $null, [System.EnvironmentVariableTarget]::Machine)
+
+    $sql="UPDATE dbo.NAMSYSPROPERTIES SET VALUE = '$PublicDnsName' where NAME = 'bcmMasterSettings|Server'"
+    Invoke-SqlCmd -ServerInstance $TrackItInstanceDomainComputerName -Database "trackit" -Query $sql
 
     Write-Host "Starting services"
     Start-Service -Name $services

@@ -50,6 +50,10 @@ Metadata:
           - TrackItEndUserWebAccessCIDR
           - OperatorEmail
           - TrackItInstanceDomainComputerName
+          - TrackItAdminPassword
+          - TrackItAdminPasswordConfirm
+          - TrackItBcmAdminPassword
+          - TrackItBcmAdminPasswordConfirm
 
       - Label:
           default: "Track-It! site domain configuration"
@@ -112,6 +116,15 @@ Metadata:
         default: Track-It! Self-signed SSL certificate options
       TrackItSelfSignSSLCertificateExpiresOn:
         default: Track-It! Self-signed SSL certificate expiration date
+      TrackItAdminPassword:
+        default: Track-It! _SMSYSADMIN_ account password
+      TrackItAdminPasswordConfirm:
+        default: Re-enter Track-It! _SMSYSADMIN_ account password
+      TrackItBcmAdminPassword:
+        default: BMC Client Management admin account password
+      TrackItBcmAdminPasswordConfirm:
+        default: Re-enter BMC Client Management admin account password
+
       VPCID:
         default: VPC ID
 
@@ -134,6 +147,50 @@ Parameters:
       Confirm the password for the domain Admin account. Must be at least 8
       characters containing letters, numbers, and symbols.
     MaxLength: '32'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItAdminPassword:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      The password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItAdminPasswordConfirm:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      Confirm the password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItBcmAdminPassword:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      The password for the BMC Client Management admin account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItBcmAdminPasswordConfirm:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      Confirm the password for the BMC Client Management admin account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
     MinLength: '8'
     NoEcho: true
     Type: String
@@ -373,6 +430,20 @@ Rules:
           - !Ref DomainAdminPassword
           - !Ref DomainAdminPasswordConfirm
         AssertDescription: Domain Admin account password values do not match.
+
+  TrackItAdminPasswordsMatchRule:
+    Assertions:
+      - Assert: !Equals
+          - !Ref TrackItAdminPassword
+          - !Ref TrackItAdminPasswordConfirm
+        AssertDescription: _SMSYSADMIN_ account password values do not match.
+
+  TrackItBcmAdminPasswordsMatchRule:
+    Assertions:
+      - Assert: !Equals
+          - !Ref TrackItBcmAdminPassword
+          - !Ref TrackItBcmAdminPasswordConfirm
+        AssertDescription: BMC Client Management admin account password values do not match.
 
   KeyPairsNotEmpty:
     Assertions:
@@ -969,13 +1040,15 @@ Resources:
                 BEGIN
                   DECLARE @oldpcname NVARCHAR(30)
                   DECLARE @newpcname NVARCHAR(30)
+                  --DECLARE @publicdnsname NVARCHAR(253)
 
                   SET @newpcname = '${TrackItInstanceDomainComputerName}'
 
                   SET @oldpcname = (select value from dbo.NAMSYSPROPERTIES where name='bcmDbSettings|Server')
                   UPDATE dbo.NAMSYSPROPERTIES SET NAME = REPLACE(NAME, @oldpcname, @newpcname) where NAME like '%|'+@oldpcname+'|%'
 
-                  UPDATE dbo.NAMSYSPROPERTIES SET VALUE = @newpcname where NAME in ('bcmDbSettings|Server','bcmMasterSettings|Server')
+                  UPDATE dbo.NAMSYSPROPERTIES SET VALUE = @newpcname where NAME = 'bcmDbSettings|Server'
+                  --UPDATE dbo.NAMSYSPROPERTIES SET VALUE = @publicdnsname where NAME = 'bcmMasterSettings|Server'
 
                   DELETE FROM dbo.NAMSYSSERVERS
                 END
@@ -1047,6 +1120,8 @@ Resources:
                   -File c:\cfn\scripts\Update-TrackIt-BCM-DB-Host-Entries.ps1
                   -TrackItInstanceDomainComputerName ${TrackItInstanceDomainComputerName} 
                   -PublicDnsName ${TrackItLoadBalancerPublicDNS}
+                  -TrackItAdminPassword ${TrackItAdminPassword}
+                  -TrackItBcmAdminPassword ${TrackItBcmAdminPassword}
                 - TrackItLoadBalancerPublicDNS: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
               waitAfterCompletion: '0'
 
@@ -1095,6 +1170,7 @@ Resources:
                   -File c:\cfn\scripts\oobxml\Import-BcmXml.ps1
                   -PublicDnsName ${TrackItLoadBalancerPublicDNS}
                   -OobXmlFilePath c:\cfn\scripts\oobxml\OOBXML.xml
+                  -TrackItBcmAdminPassword ${TrackItBcmAdminPassword}
                 - TrackItLoadBalancerPublicDNS: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
               waitAfterCompletion: '0'
 
