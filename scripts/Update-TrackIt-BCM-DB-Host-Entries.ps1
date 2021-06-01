@@ -13,15 +13,16 @@ param(
     [string]$TrackItBcmAdminPassword
 )
 
-try {
-    $ErrorActionPreference = 'Stop';
-    
-    Start-Transcript -Path c:\cfn\log\$($MyInvocation.MyCommand.Name).txt -Append -IncludeInvocationHeader;
+$services = @("TrackIt Job Processor - TrackItBR", "TrackIt Mail Processor - TrackItBR", "TrackItInfrastructureService", "W3SVC")
 
+function Stop-Services{
 
     Write-Host "Stopping services"
-    $services = @("TrackIt Job Processor - TrackItBR", "TrackIt Mail Processor - TrackItBR", "TrackItInfrastructureService", "W3SVC")
-    Stop-Service -Name $services -Force
+    Stop-Service -Name ($services + @("BMC Client Management")) -Force
+
+}
+
+function Update-DSNs{
 
     Write-Host "Updating DSN's"
     # Update TrackIt! and BCM ODBC DSNs to use this instances current name (e.g., TrackIt01)
@@ -29,6 +30,10 @@ try {
     Set-OdbcDsn -Name SelfService -DsnType System -Platform 32-bit -SetPropertyValue Server=$TrackItInstanceDomainComputerName;
     Set-OdbcDsn -Name Track-It -DsnType System -Platform 32-bit -SetPropertyValue Server=$TrackItInstanceDomainComputerName;
     Set-OdbcDsn -Name TrackItBR -DsnType System -Platform 32-bit -SetPropertyValue Server=$TrackItInstanceDomainComputerName;
+
+}
+
+function Update-BcmConfiguration{
 
     # Read in Vision64Database.ini (Assumes PsIni module from PSGallery is already installed)
     $vision64DatabaseIniPath = 'C:\Program Files\BMC Software\Client Management\Master\config\Vision64Database.ini';
@@ -48,6 +53,10 @@ try {
     $ini.Security.CertDNSNames="$PublicDnsName,$TrackItInstanceDomainComputerName"
     #TODO: $ini.Security.CertIpAddresses="$PublicIpAddress,$PrivateIpAddress"
     Out-IniFile -InputObject $ini -FilePath $mtxagentIniPath -Force -Pretty -Loose;
+
+}
+
+function Update-TrackItWebConfig{
 
     Write-Host "Updating web.config"
     $webConfigPath = "C:\Program Files (x86)\BMC\Track-It!\Application Server\Web.config"
@@ -78,9 +87,16 @@ try {
 
     $xml.Save($webConfigPath)
 
-    Write-Host "Replacing files"
+}
+
+function Replace-TrackItBinaries{
+
+    Write-Host "Replacing Track-It! binaries"
     Expand-Archive -Path "C:\cfn\scripts\FilesToReplace.zip" -DestinationPath "C:\Program Files (x86)\BMC\Track-It!" -Force
 
+}
+
+function Update-ApplicationLicenses{
 
     Write-Host "Updating license"
     $job = Start-Job -FilePath "C:\cfn\scripts\UpdateLicense.ps1" -RunAs32 -ArgumentList "$TrackItInstanceDomainComputerName", "$PublicDnsName", "$TrackItAdminPassword", "$TrackItBcmAdminPassword"
@@ -90,48 +106,54 @@ try {
 
     Remove-Item "C:\cfn\scripts\UpdateLicense.ps1" -Force
     
-    Write-Host "Updating COM+ package password"
+}
 
-    $objShell = New-Object -ComObject "WScript.Shell"
-    $szUser = "$TrackItInstanceDomainComputerName\TIComPlusUser"
-
-    $szPassword = ""
-    if($env:ADMIN_PASSWORD -ne "")
-    {
-        $szPassword = $env:ADMIN_PASSWORD
-    }
-
-    $catalog = New-Object -ComObject "COMAdmin.COMAdminCatalog"
-    $applications = $catalog.GetCollection("Applications")
-    $applications.Populate()
-    [int]$i = 0
-    while($i -lt [int]$applications.Count)
-    {
-        $COMApp = $applications.Item($i)
-        if($COMApp.Name -eq "Track-It! Server Components")
-        {
-            Write-Host "Updating password for Track-It! Server Components"
-            $COMApp.Value("Identity") = $szUser
-            $COMApp.Value("Password") = $szPassword
-            $applications.SaveChanges()
-            break
-        }
-        $i = $i + 1
-    }
-    [Environment]::SetEnvironmentVariable("ADMIN_PASSWORD", $null, [System.EnvironmentVariableTarget]::Machine)
+function Update-BcmMasterName{
 
     $sql="UPDATE dbo.NAMSYSPROPERTIES SET VALUE = '$PublicDnsName' where NAME = 'bcmMasterSettings|Server'"
     Invoke-SqlCmd -ServerInstance $TrackItInstanceDomainComputerName -Database "trackit" -Query $sql
 
-    Write-Host "Starting services"
-    Start-Service -Name $services
+}
 
-    Write-Host "Setting Track-It! services to auto-start"
-    foreach($s in $services) { Set-Service $s -StartupType Automatic }
+function Start-Services{
+
+    Write-Host "Starting services"
+    Start-Service -Name ($services + @("BMC Client Management"))
+
+    Write-Host "Setting services to auto-start"
+    foreach($s in ($services + @("BMC Client Management"))) { Set-Service $s -StartupType Automatic }
+}
+
+function Register-ExportComplianceApp{
 
     Write-Host "Registering Export compliance app"
     $expPath = "C:\Program Files (x86)\BMC\Track-It!\ExportCheckApp"
     Start-Process -Wait -FilePath "$expPath\ExportLicenseAgreement.WebHost.exe" -WorkingDirectory "$expPath" -ArgumentList register_iis_app
+}
+
+try {
+
+    $ErrorActionPreference = 'Stop';
+    
+    Start-Transcript -Path c:\cfn\log\$($MyInvocation.MyCommand.Name).txt -Append -IncludeInvocationHeader;
+
+    Stop-Services
+
+    Update-DSNs
+
+    Update-BcmConfiguration
+
+    Update-TrackItWebConfig
+
+    Replace-TrackItBinaries
+
+    Update-ApplicationLicenses
+    
+    Update-BcmMasterName
+
+    Start-Services
+
+    Register-ExportComplianceApp
 
 } catch {
     Write-Verbose "$($_.exception.message)@ $(Get-Date)"
