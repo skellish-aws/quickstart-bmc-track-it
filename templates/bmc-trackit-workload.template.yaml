@@ -346,30 +346,30 @@ Parameters:
 
 Mappings:
   AWSAMIRegionMap:
-    us-east-1:                      # US East (N. Virginia)
-      x64: ami-0ea2e9db9ee94cf9d
-    us-east-2:                      # US East (Ohio)
-      x64: ami-0cf4c4621dc3b45f0
-    us-west-1:                      # US West (N. California)
-      x64: ami-046ea9bf09329f0d1
-    us-west-2:                      # US West (Oregon)
-      x64: ami-0326c35fd66908ec4
     af-south-1:                     # Africa (Cape Town)
-      x64: ami-0d219921b3f4485f1
+      x64: ami-09c7f67c731a17df6
     ca-central-1:                   # Canada (Central)
-      x64: ami-069a79833eebd56aa
+      x64: ami-0748aa200d8585eee
     eu-central-1:                   # Europe (Frankfurt)
-      x64: ami-0aeb76c5cbb73e4de
-    eu-west-1:                      # Europe (Ireland)
-      x64: ami-0e1449519708f269f
-    eu-west-2:                      # Europe (London)
-      x64: ami-0dac78ec3d0d400c8
-    eu-south-1:                     # Europe (Milan)
-      x64: ami-07892c43b58733281
-    eu-west-3:                      # Europe (Paris)
-      x64: ami-0f89b40814eaeeea0
+      x64: ami-03b766bb8c0f1190d
     eu-north-1:                     # Europe (Stockholm)
-      x64: ami-00a8607a2c84eb473
+      x64: ami-05ac498bad6e0fcc8
+    eu-south-1:                     # Europe (Milan)
+      x64: ami-0a5a5847949cd48fd
+    eu-west-1:                      # Europe (Ireland)
+      x64: ami-06219abd2e2965733
+    eu-west-2:                      # Europe (London)
+      x64: ami-05c06b78f39a92b25
+    eu-west-3:                      # Europe (Paris)
+      x64: ami-05fd903078bc9c193
+    us-east-1:                      # US East (N. Virginia)
+      x64: ami-056f6d9708237adb9
+    us-east-2:                      # US East (Ohio)
+      x64: ami-040aabb8805c81d0d
+    us-west-1:                      # US West (N. California)
+      x64: ami-0b7dc8b3663ae7c22
+    us-west-2:                      # US West (Oregon)
+      x64: ami-0974d84ed995b4182
 
   # BMC Track-It! Environment Sizes
   # See https://docs.bmc.com/docs/trackit2020/en/sizing-and-scalability-considerations-912125648.html
@@ -1002,7 +1002,7 @@ Resources:
                         }
                       }"
               waitAfterCompletion: '0'
-        
+
         # Configure Track-It and BCM 
         030-configure-trackit-bcm:
           files:
@@ -1125,12 +1125,12 @@ Resources:
                 - TrackItLoadBalancerPublicDNS: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
               waitAfterCompletion: '0'
 
-            # Restart BMC Client Management Service and give time to stabilize
-            d-restart-bcm-service:
+            # Start BMC Client Management Service and give time to stabilize
+            d-start-bcm-service:
               command:
                 powershell.exe
-                  -Command "Restart-Service 'BMC Client Management' -Force"
-              waitAfterCompletion: '60'
+                  -Command "Start-Service 'BMC Client Management'"
+              waitAfterCompletion: '300'
 
           services:
             windows:
