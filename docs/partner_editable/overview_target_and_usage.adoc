@@ -4,4 +4,28 @@
 
 This Quick Start reference deployment guide provides step-by-step instructions for deploying {partner-product-short-name} on the AWS Cloud.
 
-This Quick Start is for users who <target audience and usage scenario>
+This Quick Start is for small and medium-sized organizations that are looking for an IT help desk product at an affordable price. {partner-product-short-name} is easy to install, configure, and use. It has powerfully integrated IT asset management capabilities as well. 
+
+The Help Desk function is at the core of  {partner-product-short-name}. This function shows you your incidents, problems, and change requests. {partner-product-short-name} can automate and streamline your IT support processes enhancing your response and delivery resolutions to end users more quickly than ever before. 
+
+{partner-product-short-name} is a single integrated suite for IT end point management offering: 
+
+* Help Desk
+* Automated Asset Discovery
+* Asset Auditing
+* Patch Management
+* Software Deployment
+* Mobile Device Management
+* Remote Control
+* Bar-code scanning for physical inventory
+* End-user satisfaction survey
+* Active Directory User Import and Authentication
+* Change Management
+* Software License Management
+* Knowledge Management
+* End-user self-service web portal
+* IT Purchasing
+* Customizable Dashboards with drill down
+* Custom Reports for metrics analysis and reporting
+
+You can access {partner-product-short-name} via a web browser from a desktop computer or mobile client (iOS and Android devices). With Track-It! you can improve customer service, decrease response and resolution times, and lower your IT costs.
