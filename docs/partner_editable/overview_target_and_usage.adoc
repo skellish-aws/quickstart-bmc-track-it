@@ -4,7 +4,7 @@
 
 This Quick Start reference deployment guide provides step-by-step instructions for deploying {partner-product-short-name} on the AWS Cloud.
 
-This Quick Start is for small and medium-sized organizations that are looking for an IT help desk product at an affordable price. {partner-product-short-name} is easy to install, configure, and use. It has powerfully integrated IT asset management capabilities as well. 
+This Quick Start is for small and medium-sized organizations that are looking for an IT help desk product at an affordable price. {partner-product-short-name} is easy to install, configure, and use. It has powerful integrated IT asset management capabilities as well. 
 
 The Help Desk function is at the core of  {partner-product-short-name}. This function shows you your incidents, problems, and change requests. {partner-product-short-name} can automate and streamline your IT support processes enhancing your response and delivery resolutions to end users more quickly than ever before. 
 

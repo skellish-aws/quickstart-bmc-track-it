@@ -1,11 +1,16 @@
 The following Regions are currently supported by this Quick Start.
 
+===== Americas
+- _ca-central-1 Canada (Central)_
 - _us-east-1 US East (N. Virginia)_ 
 - _us-east-2 US East (Ohio)_ 
 - _us-west-1 US West (N. California)_
 - _us-west-2 US West (Oregon)_
+
+===== Middle East/Africa/Asia
 - _af-south-1 Africa (Cape Town)_
-- _ca-central-1 Canada (Central)_
+
+===== Europe
 - _eu-central-1 Europe (Frankfurt)_
 - _eu-west-1 Europe (Ireland)_
 - _eu-west-2 Europe (London)_
