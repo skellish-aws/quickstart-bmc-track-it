@@ -50,6 +50,10 @@ Metadata:
           - TrackItEndUserWebAccessCIDR
           - OperatorEmail
           - TrackItInstanceDomainComputerName
+          - TrackItAdminPassword
+          - TrackItAdminPasswordConfirm
+          - TrackItBcmAdminPassword
+          - TrackItBcmAdminPasswordConfirm
 
       - Label:
           default: "Track-It! site domain configuration"
@@ -112,6 +116,15 @@ Metadata:
         default: Track-It! Self-signed SSL certificate options
       TrackItSelfSignSSLCertificateExpiresOn:
         default: Track-It! Self-signed SSL certificate expiration date
+      TrackItAdminPassword:
+        default: Track-It! _SMSYSADMIN_ account password
+      TrackItAdminPasswordConfirm:
+        default: Re-enter Track-It! _SMSYSADMIN_ account password
+      TrackItBcmAdminPassword:
+        default: BMC Client Management admin account password
+      TrackItBcmAdminPasswordConfirm:
+        default: Re-enter BMC Client Management admin account password
+
       VPCID:
         default: VPC ID
 
@@ -134,6 +147,50 @@ Parameters:
       Confirm the password for the domain Admin account. Must be at least 8
       characters containing letters, numbers, and symbols.
     MaxLength: '32'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItAdminPassword:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      The password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItAdminPasswordConfirm:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      Confirm the password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItBcmAdminPassword:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      The password for the BMC Client Management admin account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItBcmAdminPasswordConfirm:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      Confirm the password for the BMC Client Management admin account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
     MinLength: '8'
     NoEcho: true
     Type: String
@@ -289,30 +346,30 @@ Parameters:
 
 Mappings:
   AWSAMIRegionMap:
-    us-east-1:                      # US East (N. Virginia)
-      x64: ami-0ea2e9db9ee94cf9d
-    us-east-2:                      # US East (Ohio)
-      x64: ami-0cf4c4621dc3b45f0
-    us-west-1:                      # US West (N. California)
-      x64: ami-046ea9bf09329f0d1
-    us-west-2:                      # US West (Oregon)
-      x64: ami-0326c35fd66908ec4
     af-south-1:                     # Africa (Cape Town)
-      x64: ami-0d219921b3f4485f1
+      x64: ami-09c7f67c731a17df6
     ca-central-1:                   # Canada (Central)
-      x64: ami-069a79833eebd56aa
+      x64: ami-0748aa200d8585eee
     eu-central-1:                   # Europe (Frankfurt)
-      x64: ami-0aeb76c5cbb73e4de
-    eu-west-1:                      # Europe (Ireland)
-      x64: ami-0e1449519708f269f
-    eu-west-2:                      # Europe (London)
-      x64: ami-0dac78ec3d0d400c8
-    eu-south-1:                     # Europe (Milan)
-      x64: ami-07892c43b58733281
-    eu-west-3:                      # Europe (Paris)
-      x64: ami-0f89b40814eaeeea0
+      x64: ami-03b766bb8c0f1190d
     eu-north-1:                     # Europe (Stockholm)
-      x64: ami-00a8607a2c84eb473
+      x64: ami-05ac498bad6e0fcc8
+    eu-south-1:                     # Europe (Milan)
+      x64: ami-0a5a5847949cd48fd
+    eu-west-1:                      # Europe (Ireland)
+      x64: ami-06219abd2e2965733
+    eu-west-2:                      # Europe (London)
+      x64: ami-05c06b78f39a92b25
+    eu-west-3:                      # Europe (Paris)
+      x64: ami-05fd903078bc9c193
+    us-east-1:                      # US East (N. Virginia)
+      x64: ami-056f6d9708237adb9
+    us-east-2:                      # US East (Ohio)
+      x64: ami-040aabb8805c81d0d
+    us-west-1:                      # US West (N. California)
+      x64: ami-0b7dc8b3663ae7c22
+    us-west-2:                      # US West (Oregon)
+      x64: ami-0974d84ed995b4182
 
   # BMC Track-It! Environment Sizes
   # See https://docs.bmc.com/docs/trackit2020/en/sizing-and-scalability-considerations-912125648.html
@@ -373,6 +430,20 @@ Rules:
           - !Ref DomainAdminPassword
           - !Ref DomainAdminPasswordConfirm
         AssertDescription: Domain Admin account password values do not match.
+
+  TrackItAdminPasswordsMatchRule:
+    Assertions:
+      - Assert: !Equals
+          - !Ref TrackItAdminPassword
+          - !Ref TrackItAdminPasswordConfirm
+        AssertDescription: _SMSYSADMIN_ account password values do not match.
+
+  TrackItBcmAdminPasswordsMatchRule:
+    Assertions:
+      - Assert: !Equals
+          - !Ref TrackItBcmAdminPassword
+          - !Ref TrackItBcmAdminPasswordConfirm
+        AssertDescription: BMC Client Management admin account password values do not match.
 
   KeyPairsNotEmpty:
     Assertions:
@@ -931,7 +1002,7 @@ Resources:
                         }
                       }"
               waitAfterCompletion: '0'
-        
+
         # Configure Track-It and BCM 
         030-configure-trackit-bcm:
           files:
@@ -969,13 +1040,15 @@ Resources:
                 BEGIN
                   DECLARE @oldpcname NVARCHAR(30)
                   DECLARE @newpcname NVARCHAR(30)
+                  --DECLARE @publicdnsname NVARCHAR(253)
 
                   SET @newpcname = '${TrackItInstanceDomainComputerName}'
 
                   SET @oldpcname = (select value from dbo.NAMSYSPROPERTIES where name='bcmDbSettings|Server')
                   UPDATE dbo.NAMSYSPROPERTIES SET NAME = REPLACE(NAME, @oldpcname, @newpcname) where NAME like '%|'+@oldpcname+'|%'
 
-                  UPDATE dbo.NAMSYSPROPERTIES SET VALUE = @newpcname where NAME in ('bcmDbSettings|Server','bcmMasterSettings|Server')
+                  UPDATE dbo.NAMSYSPROPERTIES SET VALUE = @newpcname where NAME = 'bcmDbSettings|Server'
+                  --UPDATE dbo.NAMSYSPROPERTIES SET VALUE = @publicdnsname where NAME = 'bcmMasterSettings|Server'
 
                   DELETE FROM dbo.NAMSYSSERVERS
                 END
@@ -1047,15 +1120,17 @@ Resources:
                   -File c:\cfn\scripts\Update-TrackIt-BCM-DB-Host-Entries.ps1
                   -TrackItInstanceDomainComputerName ${TrackItInstanceDomainComputerName} 
                   -PublicDnsName ${TrackItLoadBalancerPublicDNS}
+                  -TrackItAdminPassword ${TrackItAdminPassword}
+                  -TrackItBcmAdminPassword ${TrackItBcmAdminPassword}
                 - TrackItLoadBalancerPublicDNS: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
               waitAfterCompletion: '0'
 
-            # Restart BMC Client Management Service and give time to stabilize
-            d-restart-bcm-service:
+            # Start BMC Client Management Service and give time to stabilize
+            d-start-bcm-service:
               command:
                 powershell.exe
-                  -Command "Restart-Service 'BMC Client Management' -Force"
-              waitAfterCompletion: '60'
+                  -Command "Start-Service 'BMC Client Management'"
+              waitAfterCompletion: '300'
 
           services:
             windows:
@@ -1095,6 +1170,7 @@ Resources:
                   -File c:\cfn\scripts\oobxml\Import-BcmXml.ps1
                   -PublicDnsName ${TrackItLoadBalancerPublicDNS}
                   -OobXmlFilePath c:\cfn\scripts\oobxml\OOBXML.xml
+                  -TrackItBcmAdminPassword ${TrackItBcmAdminPassword}
                 - TrackItLoadBalancerPublicDNS: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
               waitAfterCompletion: '0'
 

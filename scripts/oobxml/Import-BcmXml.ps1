@@ -2,21 +2,23 @@
 param(
     [Parameter(Mandatory=$true)]
     [string]$PublicDnsName,
-    [string]$OobXmlFilePath
+
+    [Parameter(Mandatory=$true)]
+    [string]$OobXmlFilePath,
+
+    [Parameter(Mandatory=$true)]
+    [string]$TrackItBcmAdminPassword
 )
 
-try {
-    $ErrorActionPreference = "Stop"
-
-    Start-Transcript -Path c:\cfn\log\$($MyInvocation.MyCommand.Name).txt -Append -IncludeInvocationHeader;
-
+function Import-OobXml
+{
     $hostName = "localhost"
     $portNumber = 1611
     Write-Host "Creating Windows Relay Agent Rollout"
-    Write-Host "Public IP of the EC2 instance is: "$hostName
+    Write-Host "Hostname of the EC2 instance is: "$hostName
     Write-Host "Port: "$portNumber
 
-    Write-Host "Replacing _MASTERNAME_ in OOBXML.xml with Public IP of the EC2 instance"
+    Write-Host "Replacing _MASTERNAME_ in OOBXML.xml with public DNS of the EC2 instance"
     $content = Get-Content $OobXmlFilePath
     $data = $content.Replace("_MASTERNAME_", $PublicDnsName)
     #Set-Content C:\Windows\Temp\OOBXML.xml -value $content
@@ -39,9 +41,7 @@ try {
     $base64AuthInfo = "YWRtaW46"
 
     $baseUri = "https://" + $hostName + ":" + $portNumber
-    #C:\cfn\scripts\CheckIfBcmAgentIsInitialized.ps1 $baseUri $base64AuthInfo
 
-    #$data = Get-Content C:\Windows\Temp\OOBXML.xml
     Write-Host "Importing OOB XML"
     $uri = $baseUri + "/raw/1/objects/import"
     Write-Host "Uri: "$uri
@@ -70,6 +70,26 @@ try {
     $jsonBody = $data | ConvertTo-Json;
     Invoke-RestMethod -Method Put -Uri $uri -UseBasicParsing -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} -Body $jsonBody
     Write-Host "Rollout package generated successfully"
+
+    Write-Host "Updating admin password"
+    $uri = $baseUri + "/api/1/object/102/inst/2/attrs"
+
+    $data = @{
+        _DB_ATTR_ADMIN_PASSWORD_ = "$TrackItBcmAdminPassword"
+    };
+
+    $jsonBody = $data | ConvertTo-Json;
+    Invoke-RestMethod -Method Put -Uri $uri -UseBasicParsing -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} -Body $jsonBody
+    Write-Host "Successfully updated admin password"
+}
+
+try {
+    $ErrorActionPreference = "Stop"
+
+    Start-Transcript -Path c:\cfn\log\$($MyInvocation.MyCommand.Name).txt -Append -IncludeInvocationHeader;
+
+    Import-OobXml
+
 }
 catch {
     Write-Verbose "$($_.exception.message)@ $(Get-Date)"
