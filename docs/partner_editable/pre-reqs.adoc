@@ -2,7 +2,7 @@
 
 ==== Prepare your AWS account
 
-Since the Quick Start deploys an EC2 instance, you need to ensure a Key Pair is available in the region in which you plan to deploy the resources.
+Since the Quick Start deploys an Amazon EC2 instance, you need to ensure a Key Pair is available in the region in which you plan to deploy the resources.
 
 ==== Prepare your {partner-company-name} account
 

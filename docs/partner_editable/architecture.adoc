@@ -1,4 +1,4 @@
-Deploying this Quick Start for a new Virtual Private Cloud (VPC) with
+Deploying this Quick Start in a new Virtual Private Cloud (VPC) with
 default parameters builds the following {partner-product-short-name} environment in the AWS Cloud:
 
 // Replace this example diagram with your own. Send us your source PowerPoint file. Be sure to follow our guidelines here : http://(we should include these points on our contributors giude)
@@ -28,32 +28,38 @@ In the public subnets:
 
 
 == Using a registered domain
-The {partner-product-short-name} quick start uses a domain name for its HTTPS based end-points. You may choose to use a domain name registered with AWS Route 53. Although, this is an optional step it is recommended for a more secure experience for your users. 
+The {partner-product-short-name} Quick Start uses a domain name for its HTTPS based end-points. You may choose to use a domain name registered with Amazon Route 53. Although, this is an optional step it is recommended for a more secure experience for your users. 
 
-If you choose not to use a AWS Route 53 registered domain name, a random domain name will be generated. However, the certificate associated with this domain name is a self-signed certificate. The default behaviour in web browsers is to not trust such certificates. As a result your users will see a browser warning whenever any web end-point is accessed.
+If you choose not to use an Amazon Route 53 registered domain name, a random domain name will be generated. However, the certificate associated with this domain name is a self-signed certificate. The default behaviour in web browsers is to not trust such certificates. As a result your users will see a browser warning whenever any web end-point is accessed.
 
 == Microsoft Active Directory
-The {partner-product-short-name} quick start deploys a Microsoft Active Directory domain using AWS Directory Service. The DNS and NetBIOS names of the domain can be customized using parameters in the template.
+The {partner-product-short-name} Quick Start deploys a Microsoft Active Directory domain using AWS Directory Service for Microsoft Active Directory, also known as AWS Managed Microsoft Active Directory (AD). The DNS and NetBIOS names of the domain can be customized using parameters in the template.
 Depending on your requirements you can choose either Standard or Enterprise edition. For more details about these options see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html[AWS Directory Service documentation^].
 
-The {partner-product-short-name} EC2 instance is domain-joined to this domain. 
+The {partner-product-short-name} Amazon EC2 instance is domain-joined to this domain. 
 
 === Windows integrated authentication for {partner-product-short-name}
 {partner-product-short-name} supports authenticating users with Windows integrated authentication. This is an optional feature. 
 
-In order to have users on your on-premises AD instance authenticate in {partner-product-short-name} successfully, a two-way trust relationship needs to be established between your on-premises AD and the AWS hosted AD instance. For more details about how to enable this see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_connect_existing_infrastructure.html[Connect to your existing AD infrastructure^].
+In order to have users on your on-premises AD instance authenticate in {partner-product-short-name} successfully, a two-way trust relationship needs to be established between your on-premises AD and the AWS Managed Microsoft AD. For more details about how to enable this see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_connect_existing_infrastructure.html[Connect to your existing AD infrastructure^].
 
 
 == Sizing
-The {partner-product-short-name} quick start deploys an EC2 instance. You can customize the size of this instance depending on your needs. The following table lists the sizes and the instance type. For more details about EC2 instance types see https://aws.amazon.com/ec2/instance-types/[Amazon EC2 Instance Types^].
+The {partner-product-short-name} Quick Start deploys an Amazon EC2 instance. You can customize the size of this instance depending on your needs. The following table lists the sizes and the instance type. For more details about Amazon EC2 instance types see https://aws.amazon.com/ec2/instance-types/[Amazon EC2 Instance Types^].
 
 |===
-|Size |EC2 instance type |Volume size (in GB)
+|Size |Amazon EC2 instance type |Volume size (in GB)
 
 // Space needed to maintain table headers
-|Small |m5.xlarge |100
-|Medium |m5.2xlarge |150
-|Large |m5.2xlarge |300
+|Small
+
+Up to 5 active technicians and up to 100 active requestors |m5.xlarge |100
+|Medium 
+
+Up to 15 active technicians and up to 200 active requestors |m5.2xlarge |150
+|Large
+
+More than 15 active technicians and more than 200 active requestors |m5.2xlarge |300
 |===
 
 

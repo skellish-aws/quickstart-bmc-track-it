@@ -10,5 +10,5 @@
 |Auto Scaling groups |0
 |Application Load Balancers |0
 |Network Load Balancers |1
-|EC2 instances |1
+|Amazon EC2 instances |1
 |===
