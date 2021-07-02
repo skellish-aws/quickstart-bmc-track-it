@@ -15,13 +15,13 @@
 #
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  "This template deploys a BMC Track-It! BYOL/90 Day Trial stack into an existing VPC.
+  This template deploys a BMC Track-It! BYOL/90 Day Trial stack into an existing VPC.
   **WARNING** This template creates EC2 instances and related resources. You
   will be billed for the AWS resources used if you create a stack from this
   template. License: Apache 2.0 (Please do not remove) Sept,29,2020. BMC Track-It! 
   is licensed separately, please review the terms and conditions here 
   (https://www.bmc.com/about/legal/) for further details.
-  (qs-1r6abo918)"
+  (qs-1r6abo918)
 Metadata:
   "AWS::CloudFormation::Interface":
     ParameterGroups:
@@ -51,13 +51,21 @@ Metadata:
           - TrackItEndUserWebAccessCIDR
           - OperatorEmail
           - TrackItInstanceDomainComputerName
+          - TrackItAdminPassword
+          - TrackItAdminPasswordConfirm
+          - TrackItBcmAdminPassword
+          - TrackItBcmAdminPasswordConfirm
 
       - Label:
-          default: "Track-It! site domain configuration"
+          default: "Track-It! site registered domain configuration"
         Parameters:
           - Route53HostedZoneId
           - TrackItSiteDomain
           - TrackItRealSSLCertificateARN
+
+      - Label:
+          default: "Track-It! site self-signed domain configuration"
+        Parameters:
           - TrackItSelfSignSSLCertificateOptions
           - TrackItSelfSignSSLCertificateExpiresOn
 
@@ -113,6 +121,15 @@ Metadata:
         default: Track-It! Self-signed SSL certificate options
       TrackItSelfSignSSLCertificateExpiresOn:
         default: Track-It! Self-signed SSL certificate expiration date
+      TrackItAdminPassword:
+        default: Track-It! Database _SMSYSADMIN_ account password
+      TrackItAdminPasswordConfirm:
+        default: Re-enter Track-It! Database _SMSYSADMIN_ account password
+      TrackItBcmAdminPassword:
+        default: BMC Client Management admin account password
+      TrackItBcmAdminPasswordConfirm:
+        default: Re-enter BMC Client Management admin account password
+
       VPCID:
         default: VPC ID
 
@@ -127,7 +144,6 @@ Parameters:
     MinLength: '8'
     NoEcho: true
     Type: String
-    Default: Pa$$W0rd
 
   DomainAdminPasswordConfirm:
     AllowedPattern: >-
@@ -139,7 +155,50 @@ Parameters:
     MinLength: '8'
     NoEcho: true
     Type: String
-    Default: Pa$$W0rd
+
+  TrackItAdminPassword:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      The password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItAdminPasswordConfirm:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      Confirm the password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItBcmAdminPassword:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      The password for the BMC Client Management admin account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
+
+  TrackItBcmAdminPasswordConfirm:
+    AllowedPattern: >-
+      (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Description: >-
+      Confirm the password for the BMC Client Management admin account. Must be at least 8 characters
+      containing letters, numbers, and symbols.
+    MaxLength: '15'
+    MinLength: '8'
+    NoEcho: true
+    Type: String
 
   DomainDNSName:
     AllowedPattern: '[a-zA-Z0-9\-]+\..+'
@@ -155,7 +214,6 @@ Parameters:
     Description: >-
       The ID of the Domain Member Security Group (e.g., sg-7f16e910).
     Type: 'AWS::EC2::SecurityGroup::Id'
-    Default: sg-01b9cfc798c3d87ee
 
   DomainNetBIOSName:
     AllowedPattern: '[a-zA-Z0-9\-]+'
@@ -171,7 +229,6 @@ Parameters:
       Name of an existing EC2 key pair. All instances will launch with this key pair.
     Type: "AWS::EC2::KeyPair::KeyName"
     ConstraintDescription: Must be one of the existing EC2 keypair
-    Default: id_rsa
 
   OperatorEmail:
     AllowedPattern: >-
@@ -200,22 +257,19 @@ Parameters:
       ID of public subnet 1 in Availability Zone 1 for the Elastic Load
       Balancing (ELB) load balancer (e.g., subnet-9bc642ac).
     Type: "AWS::EC2::Subnet::Id"
-    Default: subnet-0300f6d9c6cd261da
 
   PublicSubnet2ID:
     Description: >-
       ID of public subnet 2 in Availability Zone 1 for the Elastic Load
       Balancing (ELB) load balancer (e.g., subnet-9bc642ac).
     Type: "AWS::EC2::Subnet::Id"
-    Default: subnet-01eba4b3e8976a032
 
   QSS3BucketName:
     AllowedPattern: "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$"
     ConstraintDescription: >-
       Quick Start bucket name can include numbers, lowercase letters, uppercase
       letters, and hyphens (-). It cannot start or end with a hyphen (-).
-    # Default: aws-quickstart
-    Default: sk-quickstart
+    Default: aws-quickstart
     Description: >-
       S3 bucket that you created for your copy of Quick Start assets.
       Use this if you decide to customize the Quick Start. This bucket name can include numbers, lowercase letters,
@@ -232,7 +286,7 @@ Parameters:
     ConstraintDescription: >-
       Quick Start key prefix can include numbers, lowercase letters, uppercase
       letters, hyphens (-), and forward slash (/).
-    Default: quickstart-bmc-track-it-ad/
+    Default: quickstart-bmc-track-it/
     Description: >-
       S3 key name prefix that is used to simulate a directory for your copy of Quick Start assets.
       Use this if you decide to customize the Quick Start. This prefix can include numbers, lowercase letters,
@@ -244,7 +298,6 @@ Parameters:
     Description: >-
       [Optional] Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.
     Type: String
-    Default: Z05816983102EY5OXZUE5
 
   TrackItEndUserWebAccessCIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
@@ -253,7 +306,6 @@ Parameters:
       CIDR IP range that is permitted to access the Track-It web portal.
       Note: a value of 0.0.0.0/0 will allow access from ANY ip address
     Type: String
-    Default: 0.0.0.0/0
 
   TrackItInstanceDomainComputerName:
     Description: Track-It! instance Windows domain computer name
@@ -276,74 +328,53 @@ Parameters:
       [Optional] Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.
     AllowedPattern: (?!-)[a-zA-Z0-9-.]*(?<!-)
     ConstraintDescription: Must be a valid fully-qualified domain name.
-    Default: trackit.skellish.people.aws.
 
   TrackItRealSSLCertificateARN:
     Type: String
     Description: >-
       [Optional] ARN of the SSL certificate to be used for the Application Load Balancer.
-    Default: arn:aws:acm:us-east-1:094559051528:certificate/bf2962bd-8da9-4e07-8e3e-830b21c59443
 
   TrackItSelfSignSSLCertificateOptions:
     Type: String
-    Description: Self-Signed Certificate Options
+    Description: (Optional) Self-Signed Certificate Options
     Default: CN=trackit.org;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
   
   TrackItSelfSignSSLCertificateExpiresOn:
     Type: String
-    Description: Enter a future expiration date for the self-signed SSL certificate. It must be at least one day in the future and in the form YYYY-MM-DD.
+    Description: (Optional) Enter a future expiration date for the self-signed SSL certificate. It must be at least one day in the future and in the form YYYY-MM-DD.
     AllowedPattern: ^$|^\d{4}\-\d{1,2}\-\d{1,2}$
     ConstraintDescription: The expiration date must be in the form YYYY-MM-DD and must be at least one day in the future. 
 
   VPCID:
     Description: ID of your existing VPC for deployment.
     Type: "AWS::EC2::VPC::Id"
-    Default: vpc-0801d7e8ce5ca9fe4
 
 Mappings:
   AWSAMIRegionMap:
-    us-east-1:                      # US East (N. Virginia)
-      x64: ami-09174dfb4a38d785b
-    us-east-2:                      # US East (Ohio)
-      x64: ami-0c25a9042f9e97d57
-    us-west-1:                      # US West (N. California)
-      x64: ami-01fcce1b1797b595c
-    us-west-2:                      # US West (Oregon)
-      x64: ami-02052da34a2cfa51c
     af-south-1:                     # Africa (Cape Town)
-      x64: ami-
-    ap-east-1:                      # Asia Pacific (Hong Kong)
-      x64: ami-
-    ap-south-1:                     # Asia Pacific (Mumbai)
-      x64: ami-0f07f1229c688d429
-    ap-northeast-3:                 # Asia Pacific (Osaka)
-      x64: ami-
-    ap-northeast-2:                 # Asia Pacific (Seoul)
-      x64: ami-
-    ap-southeast-1:                 # Asia Pacific (Singapore)
-      x64: ami-
-    ap-southeast-2:                 # Asia Pacific (Sydney)
-      x64: ami-
-    ap-northeast-1:                 # Asia Pacific (Tokyo)
-      x64: ami-
+      x64: ami-09c7f67c731a17df6
     ca-central-1:                   # Canada (Central)
-      x64: ami-
+      x64: ami-0748aa200d8585eee
     eu-central-1:                   # Europe (Frankfurt)
-      x64: ami-
-    eu-west-1:                      # Europe (Ireland)
-      x64: ami-
-    eu-west-2:                      # Europe (London)
-      x64: ami-
-    eu-south-1:                     # Europe (Milan)
-      x64: ami-
-    eu-west-3:                      # Europe (Paris)
-      x64: ami-
+      x64: ami-03b766bb8c0f1190d
     eu-north-1:                     # Europe (Stockholm)
-      x64: ami-
-    me-south-1:                     # Middle East (Bahrain)
-      x64: ami-
-    sa-east-1:                      # South America (São Paulo)
-      x64: ami-
+      x64: ami-05ac498bad6e0fcc8
+    eu-south-1:                     # Europe (Milan)
+      x64: ami-0a5a5847949cd48fd
+    eu-west-1:                      # Europe (Ireland)
+      x64: ami-06219abd2e2965733
+    eu-west-2:                      # Europe (London)
+      x64: ami-05c06b78f39a92b25
+    eu-west-3:                      # Europe (Paris)
+      x64: ami-05fd903078bc9c193
+    us-east-1:                      # US East (N. Virginia)
+      x64: ami-056f6d9708237adb9
+    us-east-2:                      # US East (Ohio)
+      x64: ami-040aabb8805c81d0d
+    us-west-1:                      # US West (N. California)
+      x64: ami-0b7dc8b3663ae7c22
+    us-west-2:                      # US West (Oregon)
+      x64: ami-0974d84ed995b4182
 
   # BMC Track-It! Environment Sizes
   # See https://docs.bmc.com/docs/trackit2020/en/sizing-and-scalability-considerations-912125648.html
@@ -405,6 +436,20 @@ Rules:
           - !Ref DomainAdminPasswordConfirm
         AssertDescription: Domain Admin account password values do not match.
 
+  TrackItAdminPasswordsMatchRule:
+    Assertions:
+      - Assert: !Equals
+          - !Ref TrackItAdminPassword
+          - !Ref TrackItAdminPasswordConfirm
+        AssertDescription: Track-It! Database _SMSYSADMIN_ account password values do not match.
+
+  TrackItBcmAdminPasswordsMatchRule:
+    Assertions:
+      - Assert: !Equals
+          - !Ref TrackItBcmAdminPassword
+          - !Ref TrackItBcmAdminPasswordConfirm
+        AssertDescription: BMC Client Management admin account password values do not match.
+
   KeyPairsNotEmpty:
     Assertions:
       - Assert:
@@ -447,29 +492,35 @@ Rules:
   TIQSSupportedRegionRule:
     Assertions:
       - Assert: !Contains
-          - # - us-east-2       # US East (Ohio)
-            - us-east-1       # US East (N. Virginia)
-            # - us-west-1       # US West (N. California)
-            # - us-west-2       # US West (Oregon)
-            # - af-south-1      # Africa (Cape Town)
-            # - ap-east-1       # Asia Pacific (Hong Kong)
-            # - ap-south-1      # Asia Pacific (Mumbai)
-            # - ap-northeast-3  # Asia Pacific (Osaka)
-            # - ap-northeast-2  # Asia Pacific (Seoul)
-            # - ap-southeast-1  # Asia Pacific (Singapore)
-            # - ap-southeast-2  # Asia Pacific (Sydney)
-            # - ap-northeast-1  # Asia Pacific (Tokyo)
-            # - ca-central-1    # Canada (Central)
-            # - eu-central-1    # Europe (Frankfurt)
-            # - eu-west-1       # Europe (Ireland)
-            # - eu-west-2       # Europe (London)
-            # - eu-south-1      # Europe (Milan)
-            # - eu-west-3       # Europe (Paris)
-            # - eu-north-1      # Europe (Stockholm)
-            # - me-south-1      # Middle East (Bahrain)
-            # - sa-east-1       # South America (São Paulo)
+          - - af-south-1        # Africa (Cape Town)
+            # - ap-east-1         # Asia Pacific (Hong Kong)
+            # - ap-northeast-1    # Asia Pacific (Tokyo)
+            # - ap-northeast-2    # Asia Pacific (Seoul)
+            # - ap-northeast-3    # Asia Pacific (Osaka)
+            # - ap-south-1        # Asia Pacific (Mumbai)
+            # - ap-southeast-1    # Asia Pacific (Singapore)
+            # - ap-southeast-2    # Asia Pacific (Sydney)
+            - ca-central-1      # Canada (Central)
+            # - cn-north-1        # China (Beijing)
+            # - cn-northwest-1    # China (Ningxia)
+            - eu-central-1      # Europe (Frankfurt)
+            - eu-north-1        # Europe (Stockholm)
+            - eu-south-1        # Europe (Milan)
+            - eu-west-1         # Europe (Ireland)
+            - eu-west-2         # Europe (London)
+            - eu-west-3         # Europe (Paris)
+            # - me-south-1        # Middle East (Bahrain)
+            # - sa-east-1         # South America (Sao Paulo)
+            - us-east-1         # US East (N. Virginia)
+            - us-east-2         # US East (Ohio)
+            # - us-gov-east-1     # AWS GovCloud (US-East) --> GovCloud not supported
+            # - us-gov-west-1     # AWS GovCloud (US-West) --> GovCloud not supported
+            - us-west-1         # US West (N. California)
+            - us-west-2         # US West (Oregon)
           - !Ref AWS::Region
-        AssertDescription: The BMC Track-It! Quick Start is not currently available in the chosen region.
+        AssertDescription: BMC Software is not currently supporting this Quick Start in the chosen region.
+          Please refer to the deployment guide located at <DEPLOYMENT_GUIDE_URL_HERE> for a list
+          of currently supported regions and launch the stack in one of those regions.
 
 Resources:
   EMailNotificationTopic:
@@ -496,8 +547,8 @@ Resources:
                 - ec2.amazonaws.com
       Path: /
       ManagedPolicyArns:
-        - "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
-        - "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
+        - !Sub "arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy"
       Policies:
         - PolicyName: aws-quick-start-s3-policy
           PolicyDocument:
@@ -956,7 +1007,7 @@ Resources:
                         }
                       }"
               waitAfterCompletion: '0'
-        
+
         # Configure Track-It and BCM 
         030-configure-trackit-bcm:
           files:
@@ -979,18 +1030,30 @@ Resources:
 
             c:\cfn\scripts\trackit-db-scripts.sql:
               content: !Sub |
+                USE master;
+                GO
+                DECLARE @InternalInstanceName sysname; 
+                DECLARE @MachineInstanceName sysname; 
+                SELECT @InternalInstanceName = @@SERVERNAME, @MachineInstanceName = CAST(SERVERPROPERTY('MACHINENAME') AS VARCHAR(128))  + COALESCE('\' + CAST(SERVERPROPERTY('INSTANCENAME') AS VARCHAR(128)), '');
+                IF @InternalInstanceName <> @MachineInstanceName 
+                BEGIN 
+                  EXEC sp_dropserver @InternalInstanceName; 
+                  EXEC sp_addserver @MachineInstanceName, 'LOCAL'; 
+                END
                 USE trackit;
                 GO
                 BEGIN
-                  DECLARE @oldpcname NVARCHAR(255)
-                  DECLARE @newpcname NVARCHAR(255)
+                  DECLARE @oldpcname NVARCHAR(30)
+                  DECLARE @newpcname NVARCHAR(30)
+                  --DECLARE @publicdnsname NVARCHAR(253)
 
                   SET @newpcname = '${TrackItInstanceDomainComputerName}'
 
                   SET @oldpcname = (select value from dbo.NAMSYSPROPERTIES where name='bcmDbSettings|Server')
                   UPDATE dbo.NAMSYSPROPERTIES SET NAME = REPLACE(NAME, @oldpcname, @newpcname) where NAME like '%|'+@oldpcname+'|%'
 
-                  UPDATE dbo.NAMSYSPROPERTIES SET VALUE = @newpcname where NAME in ('bcmDbSettings|Server','bcmMasterSettings|Server')
+                  UPDATE dbo.NAMSYSPROPERTIES SET VALUE = @newpcname where NAME = 'bcmDbSettings|Server'
+                  --UPDATE dbo.NAMSYSPROPERTIES SET VALUE = @publicdnsname where NAME = 'bcmMasterSettings|Server'
 
                   DELETE FROM dbo.NAMSYSSERVERS
                 END
@@ -1005,10 +1068,39 @@ Resources:
 
                   Invoke-SqlCmd -ServerInstance ${TrackItInstanceDomainComputerName} -InputFile c:\cfn\scripts\trackit-db-scripts.sql -Verbose
 
+                  $sqlsvc = Get-Service -Name "MSSQLSERVER"
+                  Restart-Service -InputObject $sqlsvc -Force
+                  $sqlsvc.WaitForStatus("Running","00:10:00")
+
                 } catch {
                   Write-Verbose "$($_.exception.message)@ $(Get-Date)"
                   $_ | Write-AWSQuickStartException;
                 }
+
+            c:\cfn\scripts\FilesToReplace.zip:
+              source:
+                !Sub
+                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/FilesToReplace.zip
+                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+              authentication: S3AccessCreds
+
+            c:\cfn\scripts\license.licx:
+              source:
+                !Sub
+                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/license.licx
+                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+              authentication: S3AccessCreds
+
+            c:\cfn\scripts\UpdateLicense.ps1:
+              source:
+                !Sub
+                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/UpdateLicense.ps1
+                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+              authentication: S3AccessCreds
+
 
           commands:
             # Apply TrackIt DB Scripts
@@ -1016,29 +1108,34 @@ Resources:
               command:
                 powershell.exe
                   -File c:\cfn\scripts\apply-trackit-db-scripts.ps1
-              waitAfterCompletion: '0'              
+              waitAfterCompletion: '0'
 
             # Add Windows Firewall Ingress Rules for Track-It! and BCM ingress
-            a-add-trackit-bcm-firewall-ingress-rules:
+            b-add-trackit-bcm-firewall-ingress-rules:
               command:
                 powershell.exe 
                   -File c:\cfn\scripts\Add-TrackIt-BCM-Firewall-Ingress-Rules.ps1
               waitAfterCompletion: '0'
 
             # Update Track-It! and BCM ODBC DSN's to point to 'new' instance name
-            b-update-trackit-bcm-db-host-entries:
+            c-update-trackit-bcm-db-host-entries:
               command: !Sub
-                powershell.exe 
+                - >-
+                  powershell.exe 
                   -File c:\cfn\scripts\Update-TrackIt-BCM-DB-Host-Entries.ps1
                   -TrackItInstanceDomainComputerName ${TrackItInstanceDomainComputerName} 
+                  -PublicDnsName ${TrackItLoadBalancerPublicDNS}
+                  -TrackItAdminPassword ${TrackItAdminPassword}
+                  -TrackItBcmAdminPassword ${TrackItBcmAdminPassword}
+                - TrackItLoadBalancerPublicDNS: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
               waitAfterCompletion: '0'
 
-            # Restart BMC Client Management Service and give time to stabilize
-            c-restart-bcm-service:
+            # Start BMC Client Management Service and give time to stabilize
+            d-start-bcm-service:
               command:
                 powershell.exe
-                  -Command "Restart-Service 'BMC Client Management' -Force"
-              waitAfterCompletion: '60'
+                  -Command "Start-Service 'BMC Client Management'"
+              waitAfterCompletion: '300'
 
           services:
             windows:
@@ -1078,6 +1175,7 @@ Resources:
                   -File c:\cfn\scripts\oobxml\Import-BcmXml.ps1
                   -PublicDnsName ${TrackItLoadBalancerPublicDNS}
                   -OobXmlFilePath c:\cfn\scripts\oobxml\OOBXML.xml
+                  -TrackItBcmAdminPassword ${TrackItBcmAdminPassword}
                 - TrackItLoadBalancerPublicDNS: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
               waitAfterCompletion: '0'
 
@@ -1243,9 +1341,177 @@ Resources:
                                       "auto_removal": true
                                   },
                                   {
-                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Database\\Logs\\DBInstall_*.log",
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\ChangeManagement_*.log",
                                       "log_group_name": "BMC-Track-It",
-                                      "log_stream_name": "{instance_id}/Track-It/Database/DBInstall",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/ChangeManagement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMLogicNotification_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMLogicNotification",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCFeatureInfo_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCFeatureInfo",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCImap_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCImap",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCPop3_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCPop3",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCQuickViews_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCQuickViews",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCSmtp_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCSmtp",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCUserTrack_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCUserTrack",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\SDEAttach_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/SDEAttach",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCStopTheClock_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCStopTheClock",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\MGCSuperBR_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/MGCSuperBR",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMLogicNotification_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMLogicNotification",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMLogicWorkOrder*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMLogicWorkOrder",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMServerControl_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMServerControl",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\Announcement_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/Announcement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\AssetManagement_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/AssetManagement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\NAMLogicAttach_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/NAMLogicAttach",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\LogicDetails_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/LogicDetails",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\LogicHelpDesk_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/LogicHelpDesk",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\PurchaseManagement_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/PurchaseManagement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\LogicRequestor_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/LogicRequestor",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\LogicSMTP_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/LogicSMTP",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\StopTheClock_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/StopTheClock",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\WOPredecessor_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/WOPredecessor",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\TemplateLinks_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/TemplateLinks",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\EwsMailListener_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/EwsMailListener",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\ServiceManagement_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/ServiceManagement",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\WebApi_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/WebApi",
+                                      "auto_removal": true
+                                  },
+                                  {
+                                      "file_path": "C:\\Program Files (x86)\\BMC\\Track-It!\\Logs\\SelfService_*.log",
+                                      "log_group_name": "BMC-Track-It",
+                                      "log_stream_name": "{instance_id}/Track-It/Logs/SelfService",
                                       "auto_removal": true
                                   },
                                   {
@@ -1378,26 +1644,42 @@ Resources:
 
 Outputs:
 
-  # Track-It! Web Application Public URL (https/443) 
-  TrackItWebApplicationPublicURL:
-    Description: Track-It! Web Application Public URL (https/443) 
+  # Track-It! Tech portal Public URL (https/443) 
+  TrackItTechnicianPortalPublicURL:
+    Description: Track-It! Technician Portal Public URL (https/443) 
     Value:
       Fn::Sub:
         - "https://${AppDomain}/TrackIt"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
 
-  # BMC CM Client Agent Public URL (tcp/1610)
-  BCMClientAgentPublicURL:
-    Description: BMC CM Client Agent Public URL (tcp/1610)
+  # Track-It! Self-service portal Public URL (https/443) 
+  TrackItSelfServicePortalPublicURL:
+    Description: Track-It! Self-Service Portal Public URL (https/443) 
     Value:
       Fn::Sub:
-        - "https://${AppDomain}:1610/"
+        - "https://${AppDomain}/TrackIt/SelfService"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
 
-  # BMC CM Web Console Public URL (tcp/1611)
-  BCMWebConsolePublicURL:
-    Description: BMC CM Web Console Public URL (tcp/1611)
+  # Track-It! Web API Public URL (https/443) 
+  TrackItWebApiPublicURL:
+    Description: Track-It! Web API Public URL (https/443) 
     Value:
       Fn::Sub:
-        - "https://${AppDomain}:1611/"
+        - "https://${AppDomain}/TrackIt/WebApi/"
+        - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
+
+  # BMC CM Rollout Agent Public URL (tcp/1610)
+  BCMRolloutPublicURL:
+    Description: BMC Client Management Rollout Agent Public URL (tcp/1610)
+    Value:
+      Fn::Sub:
+        - "https://${AppDomain}:1610/rollout"
+        - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
+
+  # BMC CM Web Console Public URL (tcp/1610)
+  BCMConsolePublicURL:
+    Description: BMC Client Management Web Console Public URL (tcp/1610)
+    Value:
+      Fn::Sub:
+        - "https://${AppDomain}:1610/console"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
