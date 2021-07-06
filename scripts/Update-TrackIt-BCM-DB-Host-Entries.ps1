@@ -115,31 +115,24 @@ function Update-BcmMasterName{
 
 }
 
-# Because Track-It! COM+ applications are pre-installed when EC2 AMI is created, their Windows Identity,
-# is EC2AMZ_xxxxxx\TIComPlusUser where xxxxxx is from the source machine which means the identify does not
-# exist on the deployed machine. We need to replace the COM+ application Identity with the deployed 
-# machines identity (EC2AMZ_yyyyyy\TIComPlusUser), but to do that we need the user's password which we 
-# also don't have from the source machine. 
-#
-# To overcome we:
-# 1. Change the TIComPlusUser password to the passed in Track-It! Admin password
-# 2. Then use that to update the identity for the COM+ apps
-#
 function Update-ComPlusCredentials{
 
     Write-Host "Updating COM+ package password"
-
     $objShell = New-Object -ComObject "WScript.Shell"
     $szUser = "TIComPlusUser"
 
-    # Update the TIComPlusUser password
-    Get-LocalUser -Name $szUser | Set-LocalUser -Password (ConvertTo-SecureString -String $TrackItAdminPassword -AsPlainText -Force) 
+    $szPassword = ""
+    if($env:ADMIN_PASSWORD -ne "")
+    {
+        $szPassword = $env:ADMIN_PASSWORD
+    }
 
-#    $szPassword = ""
-#    if($env:ADMIN_PASSWORD -ne "")
-#    {
-#        $szPassword = $env:ADMIN_PASSWORD
-#    }
+    # Delete the existing TIComPlusUser local user associated with the source machine 
+    # used to create the AMI and recreate as a local user on this VM.
+    Write-Host "Re-creating TIComPlusUser user"
+    net user "$szUser" /delete /y
+    net user "$szUser" "$szPassword" /add /y
+    net localgroup "administrators" "$szUser" /add /y
 
     $catalog = New-Object -ComObject "COMAdmin.COMAdminCatalog"
     $applications = $catalog.GetCollection("Applications")
@@ -152,7 +145,7 @@ function Update-ComPlusCredentials{
         {
             Write-Host "Updating password for Track-It! Server Components"
             $COMApp.Value("Identity") = $szUser
-            $COMApp.Value("Password") = $TrackItAdminPassword
+            $COMApp.Value("Password") = $szPassword
             $applications.SaveChanges()
             break
         }

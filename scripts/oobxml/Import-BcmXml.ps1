@@ -71,6 +71,17 @@ function Import-OobXml
     Invoke-RestMethod -Method Put -Uri $uri -UseBasicParsing -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} -Body $jsonBody
     Write-Host "Rollout package generated successfully"
 
+    Write-Host "Updating Track-It! user password"
+    $uri = $baseUri + "/api/1/object/102/inst/3/attrs"
+
+    $data = @{
+        _DB_ATTR_ADMIN_PASSWORD_ = "$TrackItBcmAdminPassword"
+    };
+
+    $jsonBody = $data | ConvertTo-Json;
+    Invoke-RestMethod -Method Put -Uri $uri -UseBasicParsing -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} -Body $jsonBody
+    Write-Host "Successfully updated Track-It! user password"
+
     Write-Host "Updating admin password"
     $uri = $baseUri + "/api/1/object/102/inst/2/attrs"
 
@@ -81,6 +92,7 @@ function Import-OobXml
     $jsonBody = $data | ConvertTo-Json;
     Invoke-RestMethod -Method Put -Uri $uri -UseBasicParsing -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} -Body $jsonBody
     Write-Host "Successfully updated admin password"
+
 }
 
 try {

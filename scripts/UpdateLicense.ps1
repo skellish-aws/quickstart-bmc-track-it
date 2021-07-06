@@ -13,29 +13,6 @@ param(
     [string]$TrackItBcmAdminPassword
 )
 
-function GetConnectionString{
-    
-    param(
-        [string] $dsn, 
-        [string] $user, 
-        [string] $password
-    )
-
-    $connectionStringbuilder = New-Object System.Data.Odbc.OdbcConnectionStringBuilder
-    $connectionStringbuilder.Add("DSN",$dsn)
-    $connectionStringbuilder.Add("UID",$user)
-    $connectionStringbuilder.Add("PWD",$password)
-
-    return $connectionStringbuilder.ConnectionString;
-}
-
-function GetConnection{
-    $conn = New-Object System.Data.Odbc.OdbcConnection
-    
-
-    return $conn
-}
-
 function Update-TrackIt-Admin-Password()
 {
     $ac = New-Object -ComObject "MGC.Utils.Account"
@@ -50,6 +27,8 @@ function Update-TrackIt-Admin-Password()
 
         $encryptedPassword = $work.SetWorker($TrackItAdminPassword)
 
+        $encryptedTrackItUserPwd = $work.SetWorker2($TrackItBcmAdminPassword)
+
         $encryptedPasswordSysAcc = $work.SetWorker("3,1," + $TrackItAdminPassword)
 
         $newEncryptedPassword = $ac.GetPassword($dsn, $false)
@@ -63,21 +42,54 @@ function Update-TrackIt-Admin-Password()
 
         Write-Host "Calling SQL script 1"
         $cmd = $connection.CreateCommand()
-        $cmd.CommandText = "{call NAMSYSMANAGEWORK(N'" + $TrackItAdminPassword + "',N'" + $newEncryptedPassword + "',N'" + $dbPrefix + "')}"
+        $cmd.CommandText = "{call NAMSYSMANAGEWORK(?,?,?)}"
         $cmd.CommandType = [System.Data.CommandType]::StoredProcedure
+
+        $p1 = $cmd.CreateParameter()
+        $p1.ParameterName = "@plainvar"
+        $p1.Size = 512
+        $p1.Value = $TrackItAdminPassword
+        $cmd.Parameters.Add($p1)
+
+        $p2 = $cmd.CreateParameter()
+        $p2.ParameterName = "@encryptvar"
+        $p2.Size = 512
+        $p2.Value = $newEncryptedPassword
+        $cmd.Parameters.Add($p2)
+
+        $p3 = $cmd.CreateParameter()
+        $p3.ParameterName = "@dbprefix"
+        $p3.Size = 255
+        $p3.Value = $dbPrefix
+        $cmd.Parameters.Add($p3)
 
         $cmd.ExecuteNonQuery()
         $cmd.Dispose()
 
         Write-Host "Calling SQL script 2"
         $cmd = $connection.CreateCommand()
-        $cmd.CommandText = "UPDATE [NAMSYSCSCONFIG] set WEBSTAFFPWD= N'" + $encryptedPassword + "' where WEBSTAFFID= 'SELFSERVICE'"
+        $cmd.CommandText = "UPDATE [NAMSYSCSCONFIG] set WEBSTAFFPWD= ? where WEBSTAFFID= 'SELFSERVICE'" #N'" + $encryptedPassword + "'
+        $p1 = $cmd.CreateParameter()
+        $p1.Value = $encryptedPassword 
+        $cmd.Parameters.Add($p1)
         $cmd.ExecuteNonQuery()
         $cmd.Dispose()
 
         Write-Host "Calling SQL script 3"
         $cmd = $connection.CreateCommand()
-        $cmd.CommandText = "UPDATE [NAMSYSPROPERTIES] set [VALUE]= N'" + $encryptedPasswordSysAcc + "' where [NAME]= 'namMBLCredentials'"
+        $cmd.CommandText = "UPDATE [NAMSYSPROPERTIES] set [VALUE]= ? where [NAME]= 'namMBLCredentials'" #N'" + $encryptedPasswordSysAcc  + "'
+        $p1 = $cmd.CreateParameter()
+        $p1.Value = $encryptedPasswordSysAcc 
+        $cmd.Parameters.Add($p1)
+        $cmd.ExecuteNonQuery()
+        $cmd.Dispose()
+
+        Write-Host "Calling SQL script 4"
+        $cmd = $connection.CreateCommand()
+        $cmd.CommandText = "UPDATE [NAMSYSPROPERTIES] set [VALUE]= ? where [NAME]= 'bcmMasterSettings|Password'" #$encryptedTrackItUserPwd
+        $p1 = $cmd.CreateParameter()
+        $p1.Value = $encryptedTrackItUserPwd
+        $cmd.Parameters.Add($p1)
         $cmd.ExecuteNonQuery()
         $cmd.Dispose()
 

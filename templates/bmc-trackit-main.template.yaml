@@ -125,9 +125,9 @@ Metadata:
       TrackItSelfSignSSLCertificateExpiresOn:
         default: Track-It! Self-signed SSL certificate expiration date
       TrackItAdminPassword:
-        default: Track-It! Database _SMSYSADMIN_ account password
+        default: Track-It! database administrator account password
       TrackItAdminPasswordConfirm:
-        default: Re-enter Track-It! Database _SMSYSADMIN_ account password
+        default: Re-enter Track-It! database administrator account password
       TrackItBcmAdminPassword:
         default: BMC Client Management admin account password
       TrackItBcmAdminPasswordConfirm:
@@ -170,7 +170,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      The password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      The password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters
       containing letters, numbers, and symbols.
     MaxLength: '15'
     MinLength: '8'
@@ -181,7 +181,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the password for the _SMSYSADMIN_ account. Must be at least 8 characters
+      Confirm the password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters
       containing letters, numbers, and symbols.
     MaxLength: '15'
     MinLength: '8'
@@ -369,7 +369,7 @@ Parameters:
   TrackItSelfSignSSLCertificateOptions:
     Type: String
     Description: (Optional) Self-Signed Certificate Options
-    Default: CN=trackit.org;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
+    Default: CN=trackit.com;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
   
   TrackItSelfSignSSLCertificateExpiresOn:
     Type: String
