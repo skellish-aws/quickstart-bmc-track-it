@@ -92,6 +92,7 @@ function Import-OobXml
     $jsonBody = $data | ConvertTo-Json;
     Invoke-RestMethod -Method Put -Uri $uri -UseBasicParsing -Headers @{Authorization=("Basic {0}" -f $base64AuthInfo)} -Body $jsonBody
     Write-Host "Successfully updated admin password"
+
 }
 
 try {

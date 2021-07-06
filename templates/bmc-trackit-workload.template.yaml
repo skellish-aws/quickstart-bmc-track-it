@@ -522,39 +522,6 @@ Rules:
           Please refer to the deployment guide located at <DEPLOYMENT_GUIDE_URL_HERE> for a list
           of currently supported regions and launch the stack in one of those regions.
 
-  TISupportedRegionRule:
-    Assertions:
-      - Assert: !Contains
-          - - us-east-2          # US East (Ohio)
-            - us-east-1          # US East (N. Virginia)
-            - us-west-1          # US West (N. California)
-            - us-west-2          # US West (Oregon)
-            - af-south-1         # Africa (Cape Town)
-            #- ap-east-1          # Asia Pacific (Hong Kong) --> MFES not available
-            #- ap-south-1         # Asia Pacific (Mumbai)
-            # - ap-northeast-3     # Asia Pacific (Osaka-Local) --> Osaka-Local not supported
-            #- ap-northeast-2     # Asia Pacific (Seoul)
-            #- ap-southeast-1     # Asia Pacific (Singapore)
-            #- ap-southeast-2     # Asia Pacific (Sydney)
-            #- ap-northeast-1     # Asia Pacific (Tokyo)
-            - ca-central-1       # Canada (Central)
-            # - cn-north-1         # China (Beijing) --> MFES not available
-            # - cn-northwest-1     # China (Ningxia) --> MFES not available
-            - eu-central-1       # Europe (Frankfurt)
-            - eu-west-1          # Europe (Ireland)
-            - eu-west-2          # Europe (London)
-            - eu-south-1         # Europe (Milan)
-            - eu-west-3          # Europe (Paris)
-            - eu-north-1         # Europe (Stockholm)
-            #- me-south-1         # Middle East (Bahrain) --> MFES not available
-            #- sa-east-1          # South America (Sao Paulo)
-            # - us-gov-east-1      # AWS GovCloud (US-East) --> GovCloud not supported
-            # - us-gov-west-1      # AWS GovCloud (US-West) --> GovCloud not supported 
-          - !Ref AWS::Region
-        AssertDescription: BMC Software is not currently supporting this Quick Start in the chosen region.
-          Please refer to the deployment guide located at <DEPLOYMENT_GUIDE_URL_HERE> for a list
-          of currently supported regions and launch the stack in one of those regions.
-
 Resources:
   EMailNotificationTopic:
     Type: "AWS::SNS::Topic"
