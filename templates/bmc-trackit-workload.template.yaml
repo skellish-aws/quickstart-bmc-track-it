@@ -343,29 +343,29 @@ Parameters:
 Mappings:
   AWSAMIRegionMap:
     af-south-1:                     # Africa (Cape Town)
-      x64: ami-09c7f67c731a17df6
+      x64: ami-0f0df4fe533362a76
     ca-central-1:                   # Canada (Central)
-      x64: ami-0748aa200d8585eee
+      x64: ami-0c60e1bb172aea62c
     eu-central-1:                   # Europe (Frankfurt)
-      x64: ami-03b766bb8c0f1190d
+      x64: ami-0db5d36df7f60c71f
     eu-north-1:                     # Europe (Stockholm)
-      x64: ami-05ac498bad6e0fcc8
+      x64: ami-0dc575d07c4445120
     eu-south-1:                     # Europe (Milan)
-      x64: ami-0a5a5847949cd48fd
+      x64: ami-00ae5eee1b408d960
     eu-west-1:                      # Europe (Ireland)
-      x64: ami-06219abd2e2965733
+      x64: ami-00c3f472163ac5eef
     eu-west-2:                      # Europe (London)
-      x64: ami-05c06b78f39a92b25
+      x64: ami-0cf305bd4e26fd561
     eu-west-3:                      # Europe (Paris)
-      x64: ami-05fd903078bc9c193
+      x64: ami-036d743b2d0399c41
     us-east-1:                      # US East (N. Virginia)
-      x64: ami-056f6d9708237adb9
+      x64: ami-008e731842a345a33
     us-east-2:                      # US East (Ohio)
-      x64: ami-040aabb8805c81d0d
+      x64: ami-08123801ef12867fc
     us-west-1:                      # US West (N. California)
-      x64: ami-0b7dc8b3663ae7c22
+      x64: ami-0aab734d1dec4c1db
     us-west-2:                      # US West (Oregon)
-      x64: ami-0974d84ed995b4182
+      x64: ami-0db6bbaa923349dc6
 
   # BMC Track-It! Environment Sizes
   # See https://docs.bmc.com/docs/trackit2020/en/sizing-and-scalability-considerations-912125648.html
