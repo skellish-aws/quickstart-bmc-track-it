@@ -23,6 +23,28 @@ Description: >-
   (https://www.bmc.com/about/legal/) for further details.
   (qs-1r6abo8ti)
 Metadata:
+  LintSpellExclude:
+    - Active
+    - Admin
+    - Application Load Balancer
+    - BMC Client Management
+    - Directory
+    - Domain
+    - Edition
+    - Elastic Load Balancing
+    - Email
+    - Managed
+    - Microsoft
+    - NetBIOS
+    - Route53 Hosted Zone ID
+    - Self-signed
+    - Server
+    - Site
+    - Track-It
+    - Windows
+    - example.com
+    - x.x.x.x/16-28
+    - (Optional) Enter
   'AWS::CloudFormation::Interface':
     ParameterGroups:
       - Label:
@@ -336,11 +358,11 @@ Parameters:
     ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
     Description: >-
       CIDR IP range that is permitted to access the Track-It web portal.
-      Note: a value of 0.0.0.0/0 will allow access from ANY ip address
+      Note: a value of 0.0.0.0/0 will allow access from ANY ip address.
     Type: String
 
   TrackItInstanceDomainComputerName:
-    Description: Track-It! instance Windows domain computer name
+    Description: Track-It! instance Windows domain computer name.
     Type: String
     Default: TrackIt01
 
@@ -368,7 +390,7 @@ Parameters:
 
   TrackItSelfSignSSLCertificateOptions:
     Type: String
-    Description: (Optional) Self-Signed Certificate Options
+    Description: (Optional) Self-signed certificate options.
     Default: CN=trackit.com;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
   
   TrackItSelfSignSSLCertificateExpiresOn:

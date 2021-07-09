@@ -23,6 +23,29 @@ Description: >-
   (https://www.bmc.com/about/legal/) for further details.
   (qs-1r6abo918)
 Metadata:
+  LintSpellExclude:
+    - Active
+    - Admin
+    - Application Load Balancer
+    - BMC Client Management
+    - Directory
+    - Domain
+    - Edition
+    - Elastic Load Balancing
+    - Email
+    - Managed
+    - Microsoft
+    - NetBIOS
+    - Route53 Hosted Zone ID
+    - Self-signed
+    - Server
+    - Site
+    - Track-It
+    - Windows
+    - example.com
+    - x.x.x.x/16-28
+    - subnet-a0246dcd
+    - (Optional) Enter
   "AWS::CloudFormation::Interface":
     ParameterGroups:
       - Label:
@@ -83,7 +106,7 @@ Metadata:
       DomainDNSName:
         default: Domain DNS name
       DomainMemberSGID:
-        default: Domain member Security Group ID
+        default: Domain member security group ID
       DomainNetBIOSName:
         default: Domain NetBIOS name
       KeyPairName:
@@ -209,7 +232,7 @@ Parameters:
 
   DomainMemberSGID:
     Description: >-
-      The ID of the Domain Member Security Group (e.g., sg-7f16e910).
+      The ID of the domain member security group (e.g., sg-7f16e910).
     Type: 'AWS::EC2::SecurityGroup::Id'
 
   DomainNetBIOSName:
@@ -240,7 +263,7 @@ Parameters:
   PrivateSubnet1AID:
     Description: >-
       ID of private subnet 1A in Availability Zone 1 (e.g.,
-      subnet-a0246dcd). default: subnet-026fa230f711c0b56
+      subnet-a0246dcd).
     Type: 'AWS::EC2::Subnet::Id'   
 
   PublicSubnet1ID:
@@ -295,11 +318,11 @@ Parameters:
     ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
     Description: >-
       CIDR IP range that is permitted to access the Track-It web portal.
-      Note: a value of 0.0.0.0/0 will allow access from ANY ip address
+      Note: a value of 0.0.0.0/0 will allow access from ANY ip address.
     Type: String
 
   TrackItInstanceDomainComputerName:
-    Description: Track-It! instance Windows domain computer name
+    Description: Track-It! instance Windows domain computer name.
     Type: String
     Default: TrackIt01
 
@@ -327,7 +350,7 @@ Parameters:
 
   TrackItSelfSignSSLCertificateOptions:
     Type: String
-    Description: (Optional) Self-Signed Certificate Options
+    Description: (Optional) Self-signed certificate options.
     Default: CN=trackit.com;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
   
   TrackItSelfSignSSLCertificateExpiresOn:
@@ -845,6 +868,14 @@ Resources:
       ResourceSignal:
         Timeout: PT30M
     Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - E9101
+            - W4002
+          ignore_reasons:
+            E9101: The database name master can not be changed at this time.
+            W4002: DomainAdminPassword is not being explicitly logged.
       'AWS::CloudFormation::Authentication':
         S3AccessCreds:
           type: S3
