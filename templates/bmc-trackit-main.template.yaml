@@ -18,8 +18,8 @@ Description: >-
   This template deploys a BMC Track-It! BYOL/90 Day Trial stack into a new VPC.
   **WARNING** This template creates EC2 instances and related resources. You
   will be billed for the AWS resources used if you create a stack from this
-  template. License: Apache 2.0 (Please do not remove) Sept,29,2020. BMC Track-It! 
-  is licensed separately, please review the terms and conditions here 
+  template. License: Apache 2.0 (Please do not remove) Sept,29,2020. BMC Track-It!
+  is licensed separately, please review the terms and conditions here
   (https://www.bmc.com/about/legal/) for further details.
   (qs-1r6abo8ti)
 Metadata:
@@ -367,7 +367,7 @@ Parameters:
     Default: TrackIt01
 
   TrackItEnvironmentSize:
-    Description: 
+    Description:
       Track-It! environment size suitable for expected average number of active users on a regular work day.
     Type: String
     AllowedValues:
@@ -392,12 +392,12 @@ Parameters:
     Type: String
     Description: (Optional) Self-signed certificate options.
     Default: CN=trackit.com;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
-  
+
   TrackItSelfSignSSLCertificateExpiresOn:
     Type: String
     Description: (Optional) Enter a future expiration date for the self-signed SSL certificate. It must be at least one day in the future and in the form YYYY-MM-DD.
     AllowedPattern: ^$|^\d{4}\-\d{1,2}\-\d{1,2}$
-    ConstraintDescription: The expiration date must be in the form YYYY-MM-DD and must be at least one day in the future. 
+    ConstraintDescription: The expiration date must be in the form YYYY-MM-DD and must be at least one day in the future.
 
   VPCCIDR:
     AllowedPattern: >-
@@ -644,7 +644,6 @@ Resources:
         KeyPairName: !Ref KeyPairName
         OperatorEmail: !Ref OperatorEmail
         PrivateSubnet1AID: !GetAtt VPCStack.Outputs.PrivateSubnet1AID
-        PrivateSubnet2AID: !GetAtt VPCStack.Outputs.PrivateSubnet2AID
         PublicSubnet1ID: !GetAtt VPCStack.Outputs.PublicSubnet1ID
         PublicSubnet2ID: !GetAtt VPCStack.Outputs.PublicSubnet2ID
         QSS3BucketName: !Ref QSS3BucketName
@@ -661,24 +660,24 @@ Resources:
         VPCID: !GetAtt VPCStack.Outputs.VPCID
 
 Outputs:
-  # MS Active Directory Service ID 
+  # MS Active Directory Service ID
   DirectoryServiceID:
     Description: Microsoft directory service ID
     Value: !Ref DSMicrosoftAD
 
-  # Track-It! Tech portal Public URL (https/443) 
+  # Track-It! Tech portal Public URL (https/443)
   TrackItTechnicianPortalPublicURL:
-    Description: Track-It! Technician Portal Public URL (https/443) 
+    Description: Track-It! Technician Portal Public URL (https/443)
     Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItTechnicianPortalPublicURL
 
-  # Track-It! Self-service portal Public URL (https/443) 
+  # Track-It! Self-service portal Public URL (https/443)
   TrackItSelfServicePortalPublicURL:
-    Description: Track-It! Self-Service Portal Public URL (https/443) 
+    Description: Track-It! Self-Service Portal Public URL (https/443)
     Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItSelfServicePortalPublicURL
 
-  # Track-It! Web API Public URL (https/443) 
+  # Track-It! Web API Public URL (https/443)
   TrackItWebApiPublicURL:
-    Description: Track-It! Web API Public URL (https/443) 
+    Description: Track-It! Web API Public URL (https/443)
     Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItWebApiPublicURL
 
   # BMC CM Rollout Agent Public URL (tcp/1610)

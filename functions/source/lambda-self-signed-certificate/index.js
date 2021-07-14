@@ -246,22 +246,22 @@ exports.handler = async (event, context) => {
                     result.CertificateArn = physicalId = importCertificateResponse.CertificateArn;
                     return await success(result);
                 }
-        }
-        if (resourceProperties.UploadTo.toLowerCase() == 'acm') {
-            var ACMCLIENT = require('aws-sdk/clients/acm');
-            var acmClient = new ACMCLIENT({});
+        // }
+        // if (resourceProperties.UploadTo.toLowerCase() == 'acm') {
+        //     var ACMCLIENT = require('aws-sdk/clients/acm');
+        //     var acmClient = new ACMCLIENT({});
 
-            const getCertificateResponse = await acmClient.getCertificate({
-                CertificateArn: physicalId
-            }).promise();
+        //     const getCertificateResponse = await acmClient.getCertificate({
+        //         CertificateArn: physicalId
+        //     }).promise();
 
-            result.Certificate = getCertificateResponse.Certificate;
-            result.CertificateArn = physicalId;
+        //     result.Certificate = getCertificateResponse.Certificate;
+        //     result.CertificateArn = physicalId;
 
-            return await success(result);
-            //            if (JSON.stringify(resourceProperties) !== JSON.stringify(event.OldResourceProperties)) {
-            //
-            //            }
+        //     return await success(result);
+        //     //            if (JSON.stringify(resourceProperties) !== JSON.stringify(event.OldResourceProperties)) {
+        //     //
+        //     //            }
 
         } else if (event.RequestType == "Delete") {
 
