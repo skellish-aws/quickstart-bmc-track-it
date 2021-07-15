@@ -44,14 +44,9 @@ project:
     QSS3BucketName:  $[taskcat_autobucket]
     QSS3BucketRegion: $[taskcat_current_region]
     QSS3KeyPrefix: quickstart-bmc-track-it/
-    Route53HostedZoneId: ''
     TrackItEndUserWebAccessCIDR: 0.0.0.0/0
     TrackItInstanceDomainComputerName: TrackIt01
     TrackItEnvironmentSize: Small
-    TrackItSiteDomain: ''
-    TrackItRealSSLCertificateARN: ''
-    TrackItSelfSignSSLCertificateOptions: CN=trackit.org;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
-    TrackItSelfSignSSLCertificateExpiresOn: '2031-12-31'
     VPCCIDR: 10.0.0.0/16
     TrackItAdminPassword: bmcAdm1n
     TrackItAdminPasswordConfirm: bmcAdm1n
@@ -64,6 +59,12 @@ tests:
     regions:
       -  us-east-1
       -  us-east-2
+    parameters:
+      Route53HostedZoneId: ''
+      TrackItSiteDomain: ''
+      TrackItRealSSLCertificateARN: ''
+      TrackItSelfSignSSLCertificateOptions: CN=trackit.org;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
+      TrackItSelfSignSSLCertificateExpiresOn: '2031-12-31'
     s3_bucket: ''
     template: ./templates/bmc-trackit-main.template.yaml
 
@@ -73,10 +74,13 @@ tests:
   # # hosted zone, then provide values for the three parameters below
   # trackit-small-registereddomain:
   #   parameters:
-  #     Route53HostedZoneId: ''
-  #     TrackItSiteDomain: ''
-  #     TrackItRealSSLCertificateARN: ''
+  #     Route53HostedZoneId: 'Z05816983102EY5OXZUE5'
+  #     TrackItSiteDomain: 'trackit.skellish.people.aws.dev'
+  #     TrackItRealSSLCertificateARN: 'arn:aws:acm:us-east-2:094559051528:certificate/0425831c-77bc-478d-a841-4c0c78d4213d'
+  #     TrackItSelfSignSSLCertificateOptions: CN=trackit.org;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
+  #     TrackItSelfSignSSLCertificateExpiresOn: '2031-12-31'
   #   regions:
   #     -  us-east-2
   #   s3_bucket: ''
   #   template: ./templates/bmc-trackit-main.template.yaml
+

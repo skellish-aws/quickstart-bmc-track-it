@@ -3,6 +3,7 @@ var util = require("util");
 const {
     strict
 } = require("assert");
+const { Resolver } = require("dns");
 
 exports.handler = async (event, context) => {
 
@@ -269,23 +270,67 @@ exports.handler = async (event, context) => {
                 return await success(result);
             }
 
-            switch (resourceProperties.UploadTo.toLowerCase()) {
-                case 'acm':
-                    var ACMCLIENT = require('aws-sdk/clients/acm');
-                    var acmClient = new ACMCLIENT({});
-                    const deleteCertificateResponse = await acmClient.deleteCertificate({
-                        CertificateArn: physicalId
-                    }).promise();
-                    return await success(result);
+            var ACMCLIENT = require('aws-sdk/clients/acm');
+//            var acmClient = new ACMCLIENT({region: "us-east-1"});
+            var acmClient = new ACMCLIENT({});
 
-                case 'iam':
-                    var IAMCLIENT = require('aws-sdk/clients/iam');
-                    var iamClient = new IAMCLIENT({});
-                    const deleteServerCertificateResponse = await iamClient.deleteServerCertificate({
-                        ServerCertificateName: physicalId
-                    }).promise();
-                    return await success(result);
+            // Poll for period of time to ensure the certificate is not "in use". The certificate can continue to 
+            // show as "in use" upwards of 2-3 min after it is nolonger really in use (e.g, the LB Listener was deleted)
+            const checkCertificateInUse = async (certificateArn) => {
+
+                const describeCertificateResponse = await acmClient.describeCertificate({
+                    CertificateArn: certificateArn
+                }).promise();
+                if (describeCertificateResponse.Certificate.InUseBy.length > 0) {
+                    return describeCertificateResponse.Certificate.InUseBy[0];
+                } else
+                    return '';
             }
+
+            const asyncInterval = async (callback, delaySeconds, maxSeconds) => {
+                var triesLeft = maxSeconds / delaySeconds
+                return new Promise((resolve, reject) => {
+                  const interval = setInterval(async () => {
+                    var inuse_lb = await callback(physicalId)
+                    if (!inuse_lb) {
+                      resolve();
+                      clearInterval(interval);
+                    } else if (triesLeft <= 1) {
+                      reject(inuse_lb);
+                      clearInterval(interval);
+                    }
+                    triesLeft--;
+                  }, delaySeconds*1000);
+                });
+            }
+            
+            // Wait up to 5min for the certificate to no longer be 'in-use'
+            await (async () => {
+                try {
+                  await asyncInterval(checkCertificateInUse, 15, 5*60);
+                } catch (e) {
+                    return await failed({
+                        Error: "Unable to delete certificate as still in-use by "+e
+                    });
+                }
+
+                switch (resourceProperties.UploadTo.toLowerCase()) {
+                    case 'acm':
+
+                        const deleteCertificateResponse = await acmClient.deleteCertificate({
+                            CertificateArn: physicalId
+                        }).promise();
+                        return await success(result);
+
+                    case 'iam':
+                        var IAMCLIENT = require('aws-sdk/clients/iam');
+                        var iamClient = new IAMCLIENT({});
+                        const deleteServerCertificateResponse = await iamClient.deleteServerCertificate({
+                            ServerCertificateName: physicalId
+                        }).promise();
+                        return await success(result);
+                }
+              })();
         } else {
             return await failed({
                 Error: "Expected Create, Update or Delete for event.ResourceType"
@@ -309,7 +354,7 @@ exports.handler = async (event, context) => {
 //         "ServiceToken": "arn:aws:lambda:us-east-1:094559051528:function:ss1-SelfSignedCertLambdaFunction-FSIY0U5V08RK",
 // //        "Options": "CommonName=example.org;CountryName=US;LocalityName=New Jersey;StateOrProvinceName=NJ;OrganizationName=example;OrganizationalUnitName=dev;EmailAddress=skellish@amazon.com",
 //         "Options": "CN=example.org;C=US;L=New Jersey;ST=NJ;O=example;OU=dev;E=skellish@amazon.com",
-//         "ExpiresOn": "2021-04-1",
+//         "ExpiresOn": "2022-04-1",
 //         "Attributes": {
 // //             "Days": "10",
 //             "KeySize": "2048"
@@ -367,19 +412,40 @@ exports.handler = async (event, context) => {
 //     }
 // }
 
-// const context = {
+// const deleteEvent = {
+//     "RequestType": "Delete",
+//     "ServiceToken": "arn:aws:lambda:us-east-2:094559051528:function:tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
+//     "ResponseURL": "https://cloudformation-custom-resource-response-useast2.s3.us-east-2.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-2%3A094559051528%3Astack/tCaT-trackit-small-selfsign-da71cc-TrackItWorkloadStack-C8T997JB9LB2/b2e44350-e4cb-11eb-b28d-0a956c7d4a58%7CTISelfSignedCert%7Cfbd183fd-2928-46fd-bd4f-e227dc7973db?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210714T183420Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7200&X-Amz-Credential=AKIAVRFIPK6PDVZHSWWG%2F20210714%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Signature=ce254c052443b352dcedab6415eb3c2dd5c8a617722a6b803648047c296a84cc",
+//     "StackId": "arn:aws:cloudformation:us-east-2:094559051528:stack/tCaT-trackit-small-selfsign-da71cc-TrackItWorkloadStack-C8T997JB9LB2/b2e44350-e4cb-11eb-b28d-0a956c7d4a58",
+//     "RequestId": "fbd183fd-2928-46fd-bd4f-e227dc7973db",
+//     "LogicalResourceId": "TISelfSignedCert",
+//     "PhysicalResourceId": "arn:aws:acm:us-east-1:094559051528:certificate/d27f9f77-73d7-4002-b0b1-c1fa4ab7d922",
+//     "ResourceType": "Custom::SelfSignedCert",
+//     "ResourceProperties": {
+//         "ServiceToken": "arn:aws:lambda:us-east-2:094559051528:function:tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
+//         "Options": "CN=trackit.org;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com",
+//         "ExpiresOn": "2031-12-31",
+//         "Attributes": {
+//             "KeySize": "2048"
+//         },
+//         "ServerCertificateName": "tCaT-trackit-small-selfsign-da71cc-TrackItWorkloadStack-C8T997JB9LB2-TrackItSelfSignSSLCertificate",
+//         "UploadTo": "acm"
+//     }
+// }
+
+// const context= {
 //     "callbackWaitsForEmptyEventLoop": true,
 //     "functionVersion": "$LATEST",
-//     "functionName": "ss1-SelfSignedCertLambdaFunction-FSIY0U5V08RK",
+//     "functionName": "tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
 //     "memoryLimitInMB": "128",
-//     "logGroupName": "/aws/lambda/ss1-SelfSignedCertLambdaFunction-FSIY0U5V08RK",
-//     "logStreamName": "2021/03/11/[$LATEST]cd6fe0797b674038be198ea2b4c48eaa",
-//     "invokedFunctionArn": "arn:aws:lambda:us-east-1:094559051528:function:ss1-SelfSignedCertLambdaFunction-FSIY0U5V08RK",
-//     "awsRequestId": "ccc95cc2-3d61-448b-a8db-eede8c830dfc"
+//     "logGroupName": "/aws/lambda/tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
+//     "logStreamName": "2021/07/14/[$LATEST]612b8c8cc87b4ee2b0429375d5da2b0c",
+//     "invokedFunctionArn": "arn:aws:lambda:us-east-2:094559051528:function:tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
+//     "awsRequestId": "f41728b1-b1b9-4ef0-9008-e9d07fd9a8f8"
 // }
 
 // try {
-//     var r = this.handler(createEvent, context);
+//     var r = this.handler(deleteEvent, context);
 //     console.log(r);
 // } catch (err) {
 //     console.log(err);
