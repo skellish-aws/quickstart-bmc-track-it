@@ -18,8 +18,8 @@ Description: >-
   This template deploys a BMC Track-It! BYOL/90 Day Trial stack into an existing VPC.
   **WARNING** This template creates EC2 instances and related resources. You
   will be billed for the AWS resources used if you create a stack from this
-  template. License: Apache 2.0 (Please do not remove) Sept,29,2020. BMC Track-It! 
-  is licensed separately, please review the terms and conditions here 
+  template. License: Apache 2.0 (Please do not remove) Sept,29,2020. BMC Track-It!
+  is licensed separately, please review the terms and conditions here
   (https://www.bmc.com/about/legal/) for further details.
   (qs-1r6abo918)
 Metadata:
@@ -264,7 +264,7 @@ Parameters:
     Description: >-
       ID of private subnet 1A in Availability Zone 1 (e.g.,
       subnet-a0246dcd).
-    Type: 'AWS::EC2::Subnet::Id'   
+    Type: 'AWS::EC2::Subnet::Id'
 
   PublicSubnet1ID:
     Description: >-
@@ -327,7 +327,7 @@ Parameters:
     Default: TrackIt01
 
   TrackItEnvironmentSize:
-    Description: 
+    Description:
       Track-It! environment size suitable for expected average number of active users on a regular work day.
     Type: String
     AllowedValues:
@@ -352,12 +352,12 @@ Parameters:
     Type: String
     Description: (Optional) Self-signed certificate options.
     Default: CN=trackit.com;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
-  
+
   TrackItSelfSignSSLCertificateExpiresOn:
     Type: String
     Description: (Optional) Enter a future expiration date for the self-signed SSL certificate. It must be at least one day in the future and in the form YYYY-MM-DD.
     AllowedPattern: ^$|^\d{4}\-\d{1,2}\-\d{1,2}$
-    ConstraintDescription: The expiration date must be in the form YYYY-MM-DD and must be at least one day in the future. 
+    ConstraintDescription: The expiration date must be in the form YYYY-MM-DD and must be at least one day in the future.
 
   VPCID:
     Description: ID of your existing VPC for deployment.
@@ -366,30 +366,30 @@ Parameters:
 Mappings:
   AWSAMIRegionMap:
     af-south-1:                     # Africa (Cape Town)
-      x64: ami-0f0df4fe533362a76
+      x64: ami-0ea7566a69e1b2f94
     ca-central-1:                   # Canada (Central)
-      x64: ami-0c60e1bb172aea62c
+      x64: ami-0af19eaad86555f07
     eu-central-1:                   # Europe (Frankfurt)
-      x64: ami-0db5d36df7f60c71f
+      x64: ami-0a9dca9ee2d5b2797
     eu-north-1:                     # Europe (Stockholm)
-      x64: ami-0dc575d07c4445120
+      x64: ami-01261c7e8f303352e
     eu-south-1:                     # Europe (Milan)
-      x64: ami-00ae5eee1b408d960
+      x64: ami-04ad4f2b3a6c81361
     eu-west-1:                      # Europe (Ireland)
-      x64: ami-00c3f472163ac5eef
+      x64: ami-0fd5388ed798f9ffd
     eu-west-2:                      # Europe (London)
-      x64: ami-0cf305bd4e26fd561
+      x64: ami-072ac9c4dd637152c
     eu-west-3:                      # Europe (Paris)
-      x64: ami-036d743b2d0399c41
+      x64: ami-0e3d2f1adba852559
     us-east-1:                      # US East (N. Virginia)
-      x64: ami-008e731842a345a33
+      x64: ami-023d0496ff199d665
     us-east-2:                      # US East (Ohio)
-      x64: ami-08123801ef12867fc
+      x64: ami-073e3bcca376d56e0
     us-west-1:                      # US West (N. California)
-      x64: ami-0aab734d1dec4c1db
+      x64: ami-027afc07d1fe973c2
     us-west-2:                      # US West (Oregon)
-      x64: ami-0db6bbaa923349dc6
-
+      x64: ami-0aa473dd2f41e3a02     
+     
   # BMC Track-It! Environment Sizes
   # See https://docs.bmc.com/docs/trackit2020/en/sizing-and-scalability-considerations-912125648.html
   TrackItEnvironmentSizes:
@@ -405,7 +405,7 @@ Mappings:
 
 Conditions:
 
-  UsingDefaultBucket: !Equals 
+  UsingDefaultBucket: !Equals
     - !Ref QSS3BucketName
     - 'aws-quickstart'
 
@@ -419,7 +419,7 @@ Conditions:
   #   - Route53 Hosted Zone ID and
   #   - SSL Certificate ACM Arn
   #
-  UseRegisteredRoute53Domain: 
+  UseRegisteredRoute53Domain:
     Fn::And:
       - Fn::And:
         - Fn::Not:
@@ -434,14 +434,14 @@ Conditions:
         - Fn::Equals:
           - Ref: TrackItRealSSLCertificateARN
           - ""
-    
+
   # If any of the three are missing, then we default to:
   # 1. Using the NLB public DNS
   # 2. Generating/using a self-signed certificate
   #
-  GenerateTrackItSSLCertificate: !Not 
+  GenerateTrackItSSLCertificate: !Not
     - !Condition UseRegisteredRoute53Domain
-    
+
 Rules:
   DomainAdminPasswordsMatchRule:
     Assertions:
@@ -502,7 +502,7 @@ Rules:
           - Fn::Equals:
               - Ref: TrackItSiteDomain
               - ""
-          
+
   TIQSSupportedRegionRule:
     Assertions:
       - Assert: !Contains
@@ -593,6 +593,13 @@ Resources:
   TISelfSignedCertLambdaRole:
     Condition: GenerateTrackItSSLCertificate
     Type: AWS::IAM::Role
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - EIAMPolicyWildcardResource
+          ignore_reasons:
+            EIAMPolicyWildcardResource: acm:ImportCertificate only accepts single asterisk for the Resources
     Properties:
       AssumeRolePolicyDocument:
         Statement:
@@ -602,7 +609,7 @@ Resources:
           Action: sts:AssumeRole
           Condition: {}
       Path: /
-      ManagedPolicyArns: 
+      ManagedPolicyArns:
         - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
         - PolicyDocument:
@@ -617,10 +624,14 @@ Resources:
               - Action:
                   - acm:GetCertificate
                   - acm:DeleteCertificate
+                  - acm:DescribeCertificate
+                Effect: Allow
+                Resource:
+                  - !Sub arn:${AWS::Partition}:acm:${AWS::Region}:${AWS::AccountId}:certificate/*
+              - Action:
                   - acm:ImportCertificate
                 Effect: Allow
-                Resource: 
-                  - !Sub arn:${AWS::Partition}:acm:${AWS::Region}:${AWS::AccountId}:certificate/*
+                Resource: "*"
             Version: 2012-10-17
           PolicyName: trackit-selfsigned-cert-lambda-policy
 
@@ -632,7 +643,7 @@ Resources:
       Role: !GetAtt TISelfSignedCertLambdaRole.Arn
       Runtime: nodejs14.x
       Handler: index.handler
-      Timeout: 15
+      Timeout: 600
       Code:
         S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
         S3Key: !Sub ${QSS3KeyPrefix}functions/packages/lambda-self-signed-certificate/lambda.zip
@@ -646,7 +657,7 @@ Resources:
       Options: !Ref TrackItSelfSignSSLCertificateOptions
       ExpiresOn: !Ref TrackItSelfSignSSLCertificateExpiresOn
       Attributes:
-        KeySize: 2048 
+        KeySize: 2048
       ServerCertificateName: !Sub ${AWS::StackName}-TrackItSelfSignSSLCertificate
       UploadTo: acm
 
@@ -693,7 +704,7 @@ Resources:
         Ref: TrackItNetworkLoadBalancer
       Port:  443
       Protocol: TLS
-      Certificates: 
+      Certificates:
         - CertificateArn: !If [ GenerateTrackItSSLCertificate, !GetAtt TISelfSignedCert.CertificateArn, !Ref TrackItRealSSLCertificateARN ]
 
   # Track-It! Web (External User) Ingress Target Group (tcp/80) [tls/443->NLB->tcp/80]
@@ -798,7 +809,7 @@ Resources:
         Ref: TrackItNetworkLoadBalancer
       Port:  1616
       Protocol: TLS
-      Certificates: 
+      Certificates:
         - CertificateArn: !If [ GenerateTrackItSSLCertificate, !GetAtt TISelfSignedCert.CertificateArn, !Ref TrackItRealSSLCertificateARN ]
 
   # BCM WebAPI Ingress Target Group (tls/1616)
@@ -935,7 +946,7 @@ Resources:
                 triggers=post.update
                 path=Resources.TrackItAppPlusDB.Metadata.AWS::CloudFormation::Init
                 action=cfn-init.exe -v --configsets UpdateEnvironment -s ${AWS::StackId} --resource TrackItAppPlusDB --region ${AWS::Region}
-            
+
             C:\cfn\scripts\Join-Domain.ps1:
               source:
                 !Sub
@@ -943,7 +954,7 @@ Resources:
                 - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
                   S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
               authentication: S3AccessCreds
-            
+
             C:\cfn\scripts\Rename-Computer.ps1:
               source:
                 !Sub
@@ -954,33 +965,33 @@ Resources:
 
           commands:
             a-set-execution-policy:
-              command: 
-                powershell.exe 
+              command:
+                powershell.exe
                   -Command "Set-ExecutionPolicy RemoteSigned"
                     -Force
               waitAfterCompletion: '0'
 
             b-unpack-quickstart-module:
-              command: 
-                powershell.exe 
-                  -File C:\cfn\scripts\Unzip-Archive.ps1 
-                    -Source C:\cfn\modules\AWSQuickStart.zip 
+              command:
+                powershell.exe
+                  -File C:\cfn\scripts\Unzip-Archive.ps1
+                    -Source C:\cfn\modules\AWSQuickStart.zip
                     -Destination C:\Windows\system32\WindowsPowerShell\v1.0\Modules\
               waitAfterCompletion: '0'
 
             c-init-quickstart-module:
               command: !Sub
-                powershell.exe 
+                powershell.exe
                   -Command New-AWSQuickStartResourceSignal
-                  -Stack ${AWS::StackName} 
-                  -Resource TrackItAppPlusDB 
+                  -Stack ${AWS::StackName}
+                  -Resource TrackItAppPlusDB
                   -Region ${AWS::Region}
               waitAfterCompletion: '0'
 
             d-install-psgallery-functions:
-              command: 
-                powershell.exe 
-                  -File c:\cfn\scripts\Install-PSGallery-Functions.ps1 
+              command:
+                powershell.exe
+                  -File c:\cfn\scripts\Install-PSGallery-Functions.ps1
               waitAfterCompletion: '0'
 
           services:
@@ -1006,10 +1017,10 @@ Resources:
             # Join the renamed instance to the Windows Domain. Requires a restart
             b-join-domain-and-restart:
               command: !Sub
-                powershell.exe 
-                  -File C:\cfn\scripts\Join-Domain.ps1 
-                  -DomainName ${DomainDNSName} 
-                  -UserName ${DomainNetBIOSName}\Admin 
+                powershell.exe
+                  -File C:\cfn\scripts\Join-Domain.ps1
+                  -DomainName ${DomainDNSName}
+                  -UserName ${DomainNetBIOSName}\Admin
                   -Password ${DomainAdminPassword}
               waitAfterCompletion: forever
 
@@ -1031,7 +1042,7 @@ Resources:
                       }"
               waitAfterCompletion: '0'
 
-        # Configure Track-It and BCM 
+        # Configure Track-It and BCM
         030-configure-trackit-bcm:
           files:
 
@@ -1055,13 +1066,13 @@ Resources:
               content: !Sub |
                 USE master;
                 GO
-                DECLARE @InternalInstanceName sysname; 
-                DECLARE @MachineInstanceName sysname; 
+                DECLARE @InternalInstanceName sysname;
+                DECLARE @MachineInstanceName sysname;
                 SELECT @InternalInstanceName = @@SERVERNAME, @MachineInstanceName = CAST(SERVERPROPERTY('MACHINENAME') AS VARCHAR(128))  + COALESCE('\' + CAST(SERVERPROPERTY('INSTANCENAME') AS VARCHAR(128)), '');
-                IF @InternalInstanceName <> @MachineInstanceName 
-                BEGIN 
-                  EXEC sp_dropserver @InternalInstanceName; 
-                  EXEC sp_addserver @MachineInstanceName, 'LOCAL'; 
+                IF @InternalInstanceName <> @MachineInstanceName
+                BEGIN
+                  EXEC sp_dropserver @InternalInstanceName;
+                  EXEC sp_addserver @MachineInstanceName, 'LOCAL';
                 END
                 USE trackit;
                 GO
@@ -1100,31 +1111,6 @@ Resources:
                   $_ | Write-AWSQuickStartException;
                 }
 
-            c:\cfn\scripts\FilesToReplace.zip:
-              source:
-                !Sub
-                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/FilesToReplace.zip
-                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-              authentication: S3AccessCreds
-
-            c:\cfn\scripts\license.licx:
-              source:
-                !Sub
-                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/license.licx
-                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-              authentication: S3AccessCreds
-
-            c:\cfn\scripts\UpdateLicense.ps1:
-              source:
-                !Sub
-                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/UpdateLicense.ps1
-                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-              authentication: S3AccessCreds
-
-
           commands:
             # Apply TrackIt DB Scripts
             a-apply-trackit-db-scripts:
@@ -1136,7 +1122,7 @@ Resources:
             # Add Windows Firewall Ingress Rules for Track-It! and BCM ingress
             b-add-trackit-bcm-firewall-ingress-rules:
               command:
-                powershell.exe 
+                powershell.exe
                   -File c:\cfn\scripts\Add-TrackIt-BCM-Firewall-Ingress-Rules.ps1
               waitAfterCompletion: '0'
 
@@ -1144,9 +1130,9 @@ Resources:
             c-update-trackit-bcm-db-host-entries:
               command: !Sub
                 - >-
-                  powershell.exe 
+                  powershell.exe
                   -File c:\cfn\scripts\Update-TrackIt-BCM-DB-Host-Entries.ps1
-                  -TrackItInstanceDomainComputerName ${TrackItInstanceDomainComputerName} 
+                  -TrackItInstanceDomainComputerName ${TrackItInstanceDomainComputerName}
                   -PublicDnsName ${TrackItLoadBalancerPublicDNS}
                   -TrackItAdminPassword ${TrackItAdminPassword}
                   -TrackItBcmAdminPassword ${TrackItBcmAdminPassword}
@@ -1163,41 +1149,33 @@ Resources:
           services:
             windows:
               # Make sure BMC Client Management Service is/stays running
-              BMC Client Management: 
+              BMC Client Management:
                 enabled: true
                 ensureRunning: true
                 files:
                   - "C:\\Program Files\\BMC Software\\Client Management\\Master\\config\\Vision64Database.ini"
 
-        040-exec-import-bcmxml: 
+        040-exec-import-bcmxml:
           files:
 
-            c:\cfn\scripts\oobxml\Import-BcmXml.ps1:
+            c:\cfn\scripts\Import-BcmXml.ps1:
               source:
                 !Sub
-                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/oobxml/Import-BcmXml.ps1
-                - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
-                  S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
-              authentication: S3AccessCreds
-
-            c:\cfn\scripts\oobxml\OOBXML.xml:
-              source:
-                !Sub
-                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/oobxml/OOBXML.xml
+                - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}scripts/Import-BcmXml.ps1
                 - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
                   S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
               authentication: S3AccessCreds
 
           commands:
 
-            # Update the BCM Client Package to reference the Load Balancer/Route53 record URL for TrackIt!/BCM endpoints, import the package and teast 
+            # Update the BCM Client Package to reference the Load Balancer/Route53 record URL for TrackIt!/BCM endpoints, import the package and teast
             a-exec-import-bcmxml:
-              command: !Sub 
+              command: !Sub
                 - >-
                   powershell.exe
-                  -File c:\cfn\scripts\oobxml\Import-BcmXml.ps1
+                  -File c:\cfn\scripts\Import-BcmXml.ps1
                   -PublicDnsName ${TrackItLoadBalancerPublicDNS}
-                  -OobXmlFilePath c:\cfn\scripts\oobxml\OOBXML.xml
+                  -OobXmlFilePath c:\windows\temp\OOBXML.xml
                   -TrackItBcmAdminPassword ${TrackItBcmAdminPassword}
                 - TrackItLoadBalancerPublicDNS: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
               waitAfterCompletion: '0'
@@ -1667,25 +1645,25 @@ Resources:
 
 Outputs:
 
-  # Track-It! Tech portal Public URL (https/443) 
+  # Track-It! Tech portal Public URL (https/443)
   TrackItTechnicianPortalPublicURL:
-    Description: Track-It! Technician Portal Public URL (https/443) 
+    Description: Track-It! Technician Portal Public URL (https/443)
     Value:
       Fn::Sub:
         - "https://${AppDomain}/TrackIt"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
 
-  # Track-It! Self-service portal Public URL (https/443) 
+  # Track-It! Self-service portal Public URL (https/443)
   TrackItSelfServicePortalPublicURL:
-    Description: Track-It! Self-Service Portal Public URL (https/443) 
+    Description: Track-It! Self-Service Portal Public URL (https/443)
     Value:
       Fn::Sub:
         - "https://${AppDomain}/TrackIt/SelfService"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
 
-  # Track-It! Web API Public URL (https/443) 
+  # Track-It! Web API Public URL (https/443)
   TrackItWebApiPublicURL:
-    Description: Track-It! Web API Public URL (https/443) 
+    Description: Track-It! Web API Public URL (https/443)
     Value:
       Fn::Sub:
         - "https://${AppDomain}/TrackIt/WebApi/"

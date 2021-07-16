@@ -89,22 +89,15 @@ function Update-TrackItWebConfig{
 
 }
 
-function Replace-TrackItBinaries{
-
-    Write-Host "Replacing Track-It! binaries"
-    Expand-Archive -Path "C:\cfn\scripts\FilesToReplace.zip" -DestinationPath "C:\Program Files (x86)\BMC\Track-It!" -Force
-
-}
-
 function Update-ApplicationLicenses{
 
     Write-Host "Updating license"
-    $job = Start-Job -FilePath "C:\cfn\scripts\UpdateLicense.ps1" -RunAs32 -ArgumentList "$TrackItInstanceDomainComputerName", "$PublicDnsName", "$TrackItAdminPassword", "$TrackItBcmAdminPassword"
+    $job = Start-Job -FilePath "C:\windows\temp\UpdateLicense.ps1" -RunAs32 -ArgumentList "$TrackItInstanceDomainComputerName", "$PublicDnsName", "$TrackItAdminPassword", "$TrackItBcmAdminPassword"
 
     Wait-Job  $job > $null
     Receive-Job  $job
 
-    Remove-Item "C:\cfn\scripts\UpdateLicense.ps1" -Force
+    Remove-Item "C:\windows\temp\UpdateLicense.ps1" -Force
     
 }
 
@@ -163,13 +156,6 @@ function Start-Services{
     foreach($s in ($services + @("BMC Client Management"))) { Set-Service $s -StartupType Automatic }
 }
 
-function Register-ExportComplianceApp{
-
-    Write-Host "Registering Export compliance app"
-    $expPath = "C:\Program Files (x86)\BMC\Track-It!\ExportCheckApp"
-    Start-Process -Wait -FilePath "$expPath\ExportLicenseAgreement.WebHost.exe" -WorkingDirectory "$expPath" -ArgumentList register_iis_app
-}
-
 try {
 
     $ErrorActionPreference = 'Stop';
@@ -184,8 +170,6 @@ try {
 
     Update-TrackItWebConfig
 
-    Replace-TrackItBinaries
-
     Update-ApplicationLicenses
     
     Update-BcmMasterName
@@ -193,8 +177,6 @@ try {
     Update-ComPlusCredentials
 
     Start-Services
-
-    Register-ExportComplianceApp
 
 } catch {
     Write-Verbose "$($_.exception.message)@ $(Get-Date)"
