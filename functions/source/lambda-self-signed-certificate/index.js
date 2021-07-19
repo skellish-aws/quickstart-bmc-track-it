@@ -118,21 +118,31 @@ exports.handler = async (event, context) => {
             // Cast integer properties from passed string type back to integer 
             var attributes = toCamel(resourceProperties.Attributes)
             attributes.keySize = parseInt(attributes.keySize) || 1024
+            
+            // Parse the # of days the certificate should exists, defaulting to 365 if not provided
+            attributes.days = parseInt(attributes.days) || 365
 
+            // If an explicit 'ExpiresOn' YYYY-MM-DD is provided, validate that. Must be:
+            // 1. Non-empty string
+            // 2. In the form YYYY-MM-DD where MM is 01-12, DD is 01-31. Does not check for leap year
+            // 3. Must be at least 1 day in the future.
+            //
             if (resourceProperties.hasOwnProperty("ExpiresOn")) {
-                if (resourceProperties["ExpiresOn"].match(/^\d{4}\-\d{1,2}\-\d{1,2}$/) == null) {
-                    throw new Error("Invalid 'ExpiresOn' date format. Expected 'YYYY-MM-DD'");
+                attributes.days = 365
+                if (resourceProperties["ExpiresOn"] !== "") {
+                    if (resourceProperties["ExpiresOn"].match(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/gm) == null) {
+                        throw new Error("Invalid 'ExpiresOn' date format. Expected 'YYYY-MM-DD'");
+                    }
+                    // Calc number of days between new expiration and today (12:00midnight)
+                    var curDate = new Date()
+                    var expDate = new Date(resourceProperties["ExpiresOn"])
+                    attributes.days = Math.round((expDate.setUTCHours(0,0,0)-curDate.setUTCHours(0,0,0)) / (1000*60*60*24))
                 }
-                // Calc number of days between new expiration and today (12:00midnight)
-                var curDate = new Date()
-                var expDate = new Date(resourceProperties["ExpiresOn"])
-                attributes.days = Math.round((expDate.setUTCHours(0,0,0)-curDate.setUTCHours(0,0,0)) / (1000*60*60*24))
+            }
 
-                if (attributes.days <= 0) {
-                    throw new Error("'ExpiresOn' date must be at least one day in the future.");
-                }
-            } else 
-                attributes.days = parseInt(attributes.days) || 365
+            if (attributes.days <= 0) {
+                throw new Error("'ExpiresOn' or 'Attributes.Days' must result in an expiration date at least one day in the future.");
+            }
 
             var options = []
             for (var o of resourceProperties.Options.split(';')) {
@@ -199,14 +209,6 @@ exports.handler = async (event, context) => {
                     ServerCertificateName: physicalId
                 }).promise()
 
-                // {
-                //     Path: '/', 
-                //     ServerCertificateName: 'TestCert', 
-                //     ServerCertificateId: 'ASCARMBBIT4EHITCJ36IC', 
-                //     Arn: 'arn:aws:iam::094559051528:server-certificate/TestCert', 
-                //     UploadDate: Sun Mar 07 2021 01:20:47 GMT-0500 (Eastern Standard Time)
-                // }
-
                 result.CertificateId = uploadServerCertificateResponse.ServerCertificateMetadata.ServerCertificateId;
                 result.CertificateArn = uploadServerCertificateResponse.ServerCertificateMetadata.Arn;
                 return await success(result);
@@ -271,7 +273,6 @@ exports.handler = async (event, context) => {
             }
 
             var ACMCLIENT = require('aws-sdk/clients/acm');
-//            var acmClient = new ACMCLIENT({region: "us-east-1"});
             var acmClient = new ACMCLIENT({});
 
             // Poll for period of time to ensure the certificate is not "in use". The certificate can continue to 
@@ -341,112 +342,3 @@ exports.handler = async (event, context) => {
         return await failed(err);
     }
 };
-
-// const createEvent = {
-//     "RequestType": "Create",
-//     "ServiceToken": "arn:aws:lambda:us-east-1:094559051528:function:ss1-SelfSignedCertLambdaFunction-FSIY0U5V08RK",
-//     "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A094559051528%3Astack/ss2/38ac72e0-8212-11eb-8fb3-0e794c84352f%7CSelfSignedCert%7C270a2c1e-36e4-43c3-a136-7b4e929c7054?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210311T023358Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7199&X-Amz-Credential=AKIA6L7Q4OWT3UXBW442%2F20210311%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=5d6e4dcbd5ff6c2002a9192503beaaed851575530439d2713e5ff92c8e443326",
-//     "StackId": "arn:aws:cloudformation:us-east-1:094559051528:stack/ss2/38ac72e0-8212-11eb-8fb3-0e794c84352f",
-//     "RequestId": "270a2c1e-36e4-43c3-a136-7b4e929c7054",
-//     "LogicalResourceId": "SelfSignedCert",
-//     "ResourceType": "Custom::SelfSignedCert",
-//     "ResourceProperties": {
-//         "ServiceToken": "arn:aws:lambda:us-east-1:094559051528:function:ss1-SelfSignedCertLambdaFunction-FSIY0U5V08RK",
-// //        "Options": "CommonName=example.org;CountryName=US;LocalityName=New Jersey;StateOrProvinceName=NJ;OrganizationName=example;OrganizationalUnitName=dev;EmailAddress=skellish@amazon.com",
-//         "Options": "CN=example.org;C=US;L=New Jersey;ST=NJ;O=example;OU=dev;E=skellish@amazon.com",
-//         "ExpiresOn": "2022-04-1",
-//         "Attributes": {
-// //             "Days": "10",
-//             "KeySize": "2048"
-//         },
-//         "ServerCertificateName": "ss2-TestCert",
-//         "UploadTo": "acm"
-//     }
-// }
-
-// var updateevent= 
-// {
-//     "RequestType": "Update",
-//     "ServiceToken": "arn:aws:lambda:us-east-1:094559051528:function:ss1-SelfSignedCertLambdaFunction-1TSU1Z6LB1KE4",
-//     "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A094559051528%3Astack/ss1/21888470-8233-11eb-bf70-0ecd7efaa235%7CSelfSignedCert%7C49a03a6e-a55c-44a2-acec-c8dd4d67d40c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210311T063108Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7200&X-Amz-Credential=AKIA6L7Q4OWT3UXBW442%2F20210311%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=643f3bbca95990ae6213c88b8c0cc61adcfab572274e12413c06ad722efdf6bc",
-//     "StackId": "arn:aws:cloudformation:us-east-1:094559051528:stack/ss1/21888470-8233-11eb-bf70-0ecd7efaa235",
-//     "RequestId": "49a03a6e-a55c-44a2-acec-c8dd4d67d40c",
-//     "LogicalResourceId": "SelfSignedCert",
-//     "PhysicalResourceId": "arn:aws:acm:us-east-1:094559051528:certificate/88f9d08b-92ee-49f7-9574-27d1300e0bb7",
-//     "ResourceType": "Custom::SelfSignedCert",
-//     "ResourceProperties": {
-//         "ServiceToken": "arn:aws:lambda:us-east-1:094559051528:function:ss1-SelfSignedCertLambdaFunction-1TSU1Z6LB1KE4",
-//         "Options": {
-//             "OrganizationName": "example",
-//             "CountryName": "US",
-//             "LocalityName": "New York",
-//             "StateOrProvinceName": "NJ",
-//             "OrganizationalUnitName": "dev",
-//             "EmailAddress": "skellish@amazon.com",
-//             "CommonName": "example.org"
-//         },
-//         "Attributes": {
-//             "Days": "10",
-//             "KeySize": "2048"
-//         },
-//         "ServerCertificateName": "ss1-TestCert",
-//         "UploadTo": "acm"
-//     },
-//     "OldResourceProperties": {
-//         "ServiceToken": "arn:aws:lambda:us-east-1:094559051528:function:ss1-SelfSignedCertLambdaFunction-1TSU1Z6LB1KE4",
-//         "Options": {
-//             "OrganizationName": "example",
-//             "CountryName": "US",
-//             "LocalityName": "New York",
-//             "StateOrProvinceName": "NY",
-//             "OrganizationalUnitName": "dev",
-//             "EmailAddress": "skellish@amazon.com",
-//             "CommonName": "example.org"
-//         },
-//         "Attributes": {
-//             "Days": "10",
-//             "KeySize": "2048"
-//         },
-//         "ServerCertificateName": "ss1-TestCert",
-//         "UploadTo": "acm"
-//     }
-// }
-
-// const deleteEvent = {
-//     "RequestType": "Delete",
-//     "ServiceToken": "arn:aws:lambda:us-east-2:094559051528:function:tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
-//     "ResponseURL": "https://cloudformation-custom-resource-response-useast2.s3.us-east-2.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-2%3A094559051528%3Astack/tCaT-trackit-small-selfsign-da71cc-TrackItWorkloadStack-C8T997JB9LB2/b2e44350-e4cb-11eb-b28d-0a956c7d4a58%7CTISelfSignedCert%7Cfbd183fd-2928-46fd-bd4f-e227dc7973db?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20210714T183420Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7200&X-Amz-Credential=AKIAVRFIPK6PDVZHSWWG%2F20210714%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Signature=ce254c052443b352dcedab6415eb3c2dd5c8a617722a6b803648047c296a84cc",
-//     "StackId": "arn:aws:cloudformation:us-east-2:094559051528:stack/tCaT-trackit-small-selfsign-da71cc-TrackItWorkloadStack-C8T997JB9LB2/b2e44350-e4cb-11eb-b28d-0a956c7d4a58",
-//     "RequestId": "fbd183fd-2928-46fd-bd4f-e227dc7973db",
-//     "LogicalResourceId": "TISelfSignedCert",
-//     "PhysicalResourceId": "arn:aws:acm:us-east-1:094559051528:certificate/d27f9f77-73d7-4002-b0b1-c1fa4ab7d922",
-//     "ResourceType": "Custom::SelfSignedCert",
-//     "ResourceProperties": {
-//         "ServiceToken": "arn:aws:lambda:us-east-2:094559051528:function:tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
-//         "Options": "CN=trackit.org;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com",
-//         "ExpiresOn": "2031-12-31",
-//         "Attributes": {
-//             "KeySize": "2048"
-//         },
-//         "ServerCertificateName": "tCaT-trackit-small-selfsign-da71cc-TrackItWorkloadStack-C8T997JB9LB2-TrackItSelfSignSSLCertificate",
-//         "UploadTo": "acm"
-//     }
-// }
-
-// const context= {
-//     "callbackWaitsForEmptyEventLoop": true,
-//     "functionVersion": "$LATEST",
-//     "functionName": "tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
-//     "memoryLimitInMB": "128",
-//     "logGroupName": "/aws/lambda/tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
-//     "logStreamName": "2021/07/14/[$LATEST]612b8c8cc87b4ee2b0429375d5da2b0c",
-//     "invokedFunctionArn": "arn:aws:lambda:us-east-2:094559051528:function:tCaT-trackit-small-selfsi-TISelfSignedCertLambdaFu-OiQStyOy0v70",
-//     "awsRequestId": "f41728b1-b1b9-4ef0-9008-e9d07fd9a8f8"
-// }
-
-// try {
-//     var r = this.handler(deleteEvent, context);
-//     console.log(r);
-// } catch (err) {
-//     console.log(err);
-// }

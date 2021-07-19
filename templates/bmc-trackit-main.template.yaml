@@ -143,9 +143,9 @@ Metadata:
       TrackItRealSSLCertificateARN:
         default: Track-It! SSL certificate ARN
       TrackItSelfSignSSLCertificateOptions:
-        default: Track-It! Self-signed SSL certificate options
+        default: Track-It! Self-signed SSL certificate options (Unused if registered domain configuration is provided)
       TrackItSelfSignSSLCertificateExpiresOn:
-        default: Track-It! Self-signed SSL certificate expiration date
+        default: Track-It! Self-signed SSL certificate expiration date (Unused if registered domain configuration is provided)
       TrackItAdminPassword:
         default: Track-It! database administrator account password
       TrackItAdminPasswordConfirm:
@@ -395,9 +395,13 @@ Parameters:
 
   TrackItSelfSignSSLCertificateExpiresOn:
     Type: String
-    Description: (Optional) Enter a future expiration date for the self-signed SSL certificate. It must be at least one day in the future and in the form YYYY-MM-DD.
-    AllowedPattern: ^$|^\d{4}\-\d{1,2}\-\d{1,2}$
-    ConstraintDescription: The expiration date must be in the form YYYY-MM-DD and must be at least one day in the future.
+    Description: >-
+      (Optional) Enter a future expiration date for the self-signed SSL certificate. Defaults to one year from today 
+      if left empty, otherwise enter an explict date at least one day in the future and in the form YYYY-MM-DD.
+    AllowedPattern: ^$|^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$
+    ConstraintDescription: >-
+      The expiration date must be empty or a date at least one day in the future and 
+      in the form YYYY-MM-DD 
 
   VPCCIDR:
     AllowedPattern: >-
@@ -408,6 +412,7 @@ Parameters:
     Type: String
 
 Rules:
+
   DomainAdminPasswordsMatchRule:
     Assertions:
       - Assert: !Equals
