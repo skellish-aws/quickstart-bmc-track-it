@@ -39,10 +39,13 @@ image::../images/trackit1.png[export_err,width=1235,height=502]
 
 == Post deployment steps
 
-=== BMC Client Management Relay server
-. To fully leverage the BMC Client Management functionality, you must install the BMC Client Management relay software on one of your on-premises servers. This relay collects information of your on-premises network infrastructure and transmits it to the master server located on the AWS Cloud.
+=== Getting started with {partner-product-short-name}
+Review the https://docs.bmc.com/docs/trackit2020/en/getting-started-912125630.html[Getting started^] documentation for a brief introduction to {partner-product-short-name} product features. Bookmark this page for quick access to product documentaion.
 
-. The relay installation can be downloaded by launching the URL next to the key denoted by *BCMRolloutPublicURL* on the *Outputs* tab of the main stack. 
+=== BMC Client Management Relay
+. To fully leverage the BCM functionality, you must install the BCM relay software on one of your on-premises Microsoft Windows servers. The relay collects information of your on-premises network infrastructure and transmits it to the master server located on the AWS Cloud.
+
+. Relay software can be downloaded by launching the URL next to the key denoted by *BCMRolloutPublicURL* on the *Outputs* tab of the main stack. 
 
 [#outputs2]
 .{partner-product-short-name} BMC Client Management rollout URL 
@@ -50,7 +53,7 @@ image::../images/trackit1.png[export_err,width=1235,height=502]
 image::../images/outputs2.png[outputs1,width=1235,height=502]
 
 [start=3]
-. Upon launching the *BCMRolloutPublicURL* in a browser, a warning as shown in the following figure is displayed. This happens because BMC Client Management issues its own certificates. It is safe to continue.
+. Upon launching the *BCMRolloutPublicURL* in a browser, a warning is displayed as seen in the following figure. This happens because BCM uses self-signed certificates. It is safe to continue.
 
 [#rollout1]
 .BMC Client Management rollout login warning
@@ -66,7 +69,7 @@ image::../images/rollout1.png[export,width=1235,height=502]
 image::../images/rollout2.png[export,width=1235,height=502]
 
 [start=5]
-. You can login with the BCM admin user credentials to access the rollout download page. 
+. You can login with the *Track-It!* user credentials to access the rollout download page. The password for this user is supplied as a parameter in the CloudFormation template.
 
 . Click the _BCM_Agent_Install.exe_ link to download the rollout installation. Then, run the program to complete the installation.
 
@@ -74,6 +77,11 @@ image::../images/rollout2.png[export,width=1235,height=502]
 .BMC Client Management rollout download page
 [link=images/rollout3.png]
 image::../images/rollout3.png[export,width=1235,height=502]
+
+=== BMC Client Management Console
+. In order to fully configure BCM to work with {partner-product-short-name} you need to install the Client Management console.
+
+. The Client Management console can be installed by navigating to the URL denoted by *BCMConsolePublicURL* on the *Outputs* tab of the main stack.
 
 
 ==== Default credentials
