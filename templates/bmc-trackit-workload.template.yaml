@@ -23,6 +23,9 @@ Description: >-
   (https://www.bmc.com/about/legal/) for further details.
   (qs-1r6abo918)
 Metadata:
+  QuickStartDocumentation:
+    EntrypointName: "Parameters for deploying into an existing VPC"
+    Order: 1
   LintSpellExclude:
     - Active
     - Admin
@@ -130,7 +133,7 @@ Metadata:
       TrackItEndUserWebAccessCIDR:
         default: Track-It! end-user web access permitted IP range
       TrackItInstanceDomainComputerName:
-        default: Track-It! Instance domain computer name
+        default: Track-It! Instance Server Name
       TrackItEnvironmentSize:
         default: Track-It! 'all-in-one' environment size
       TrackItSiteDomain:
@@ -138,9 +141,9 @@ Metadata:
       TrackItRealSSLCertificateARN:
         default: Track-It! SSL certificate ARN
       TrackItSelfSignSSLCertificateOptions:
-        default: Track-It! Self-signed SSL certificate options (Unused if registered domain configuration is provided)
+        default: Track-It! Self-signed SSL certificate options (Unused if registered domain configuration is provided above)
       TrackItSelfSignSSLCertificateExpiresOn:
-        default: Track-It! Self-signed SSL certificate expiration date (Unused if registered domain configuration is provided)
+        default: Track-It! Self-signed SSL certificate expiration date (Unused if registered domain configuration is provided above)
       TrackItAdminPassword:
         default: Track-It! database administrator account password
       TrackItAdminPasswordConfirm:
@@ -159,7 +162,9 @@ Parameters:
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
       The password for the domain Admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      containing letters, numbers, and symbols. This password is mandatory.
+      Please make note of this password as you will need it in the future for
+      administration purposes.
     MaxLength: '32'
     MinLength: '8'
     NoEcho: true
@@ -169,8 +174,10 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the password for the domain Admin account. Must be at least 8
-      characters containing letters, numbers, and symbols.
+      Confirm the password for the domain Admin account. Must be at least 8 characters
+      containing letters, numbers, and symbols. This password is mandatory.
+      Please make note of this password as you will need it in the future for
+      administration purposes.
     MaxLength: '32'
     MinLength: '8'
     NoEcho: true
@@ -180,8 +187,11 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      The password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      The password for the database account (_SMSYSADMIN_) used by Track-It!
+      to connect to the database. Must be at least 8 characters
+      containing letters, numbers, and symbols. This password is mandatory.
+      Please make note of this password as you will need it in the future
+      for administration purposes.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -191,8 +201,11 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      Confirm the password for the database account (_SMSYSADMIN_) used by Track-It!
+      to connect to the database. Must be at least 8 characters
+      containing letters, numbers, and symbols. This password is mandatory.
+      Please make note of this password as you will need it in the future
+      for administration purposes.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -203,7 +216,8 @@ Parameters:
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
       The password for the BMC Client Management admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      containing letters, numbers, and symbols. This password is mandatory. Please make note
+      of this password as you will need it in the future for administration purposes.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -214,7 +228,8 @@ Parameters:
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
       Confirm the password for the BMC Client Management admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      containing letters, numbers, and symbols. This password is mandatory. Please make note
+      of this password as you will need it in the future for administration purposes.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -222,10 +237,12 @@ Parameters:
 
   DomainDNSName:
     AllowedPattern: '[a-zA-Z0-9\-]+\..+'
-    Default: example.internal
+    Default: trackitdomain.internal
     Description: >-
       The fully qualified domain name (FQDN), e.g., example.com. Must be 2-255
-      characters.
+      characters. The default setting is optimal for most Track-It! customers.
+      We do not recommend changing this setting unless you know why you need to
+      change it and fully understand the impacts of doing so.
     MaxLength: '255'
     MinLength: '2'
     Type: String
@@ -237,16 +254,22 @@ Parameters:
 
   DomainNetBIOSName:
     AllowedPattern: '[a-zA-Z0-9\-]+'
-    Default: example
+    Default: trackitdomain
     Description: >-
-      The NetBIOS name of the domain (up to 15 characters) for users of
-      earlier versions of Microsoft Windows, e.g., example.
+      The NetBIOS name of the domain for users of earlier versions of
+      Microsoft Windows, e.g., example. Must be up to 15 characters.
+      The default setting is optimal for most Track-It! customers. We do
+      not recommend changing this setting unless you know why you need to
+      change it and fully understand the impacts of doing so.
     MaxLength: '15'
     Type: String
 
   KeyPairName:
     Description: >-
-      Name of an existing EC2 key pair. All instances will launch with this key pair.
+      This key pair is used to encrypt and decrypt passwords and other
+      secret data within your environment. Typical Track-It! customers
+      should simply select the first option.  If you have multiple keys,
+      consult with your Amazon Web Services administrator for guidance.
     Type: "AWS::EC2::KeyPair::KeyName"
     ConstraintDescription: Must be one of the existing EC2 keypair
 
@@ -287,12 +310,17 @@ Parameters:
     Description: >-
       S3 bucket that you created for your copy of Quick Start assets.
       Use this if you decide to customize the Quick Start. This bucket name can include numbers, lowercase letters,
-      uppercase letters, and hyphens but should not start or end with a hyphen.
+      uppercase letters, and hyphens but should not start or end with a hyphen. The default setting is optimal for
+      most Track-It! customers. We do not recommend changing this setting unless you know why you need to change it
+      and fully understand the impacts of doing so.
     Type: String
 
   QSS3BucketRegion:
     Default: "us-east-1"
-    Description: "AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value."
+    Description: >-
+      AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must
+      specify this value. The default setting is optimal for most Track-It! customers. We do not recommend changing
+      this setting unless you know why you need to change it and fully understand the impacts of doing so.
     Type: String
 
   QSS3KeyPrefix:
@@ -306,47 +334,58 @@ Parameters:
       Use this if you decide to customize the Quick Start. This prefix can include numbers, lowercase letters,
       uppercase letters, hyphens, and forward slashes.
       See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html.
+      The default setting is optimal for most Track-It! customers. We do not recommend changing
+      this setting unless you know why you need to change it and fully understand the impacts of doing so.
     Type: String
 
   Route53HostedZoneId:
     Description: >-
-      [Optional] Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.
+      (Optional) Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.
     Type: String
 
   TrackItEndUserWebAccessCIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
     ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
     Description: >-
-      CIDR IP range that is permitted to access the Track-It web portal.
-      Note: a value of 0.0.0.0/0 will allow access from ANY ip address.
+      This setting specifies which IP ranges will have access to your
+      Track-It! application. The default setting of 0.0.0.0/0 allows
+      all external IP addresses to have access and can be used by most
+      Track-It! customers. We do not recommend changing this setting
+      unless you know why you need to change it and fully understand
+      the impact of doing so. Please consult the Track-It! Deployment
+      Guide for further information.
     Type: String
 
   TrackItInstanceDomainComputerName:
-    Description: Track-It! instance Windows domain computer name.
+    Description: >-
+      Track-It! instance server name. The default setting is optimal for most Track-It! customers.
+      We do not recommend changing this setting unless you know why you need to change it and fully
+      understand the impacts of doing so.
     Type: String
     Default: TrackIt01
 
   TrackItEnvironmentSize:
-    Description:
+    Description: >-
       Track-It! environment size suitable for expected average number of active users on a regular work day.
+      Selecting a larger server here will result in additional server costs.
     Type: String
     AllowedValues:
-      - Small
-      - Medium
-      - Large
-    Default: Small
+      - Small (Up to 5 active technicians)
+      - Medium (Up to 15 active technicians)
+      - Large (More than 15 active technicians)
+    Default: Small (Up to 5 active technicians)
 
   TrackItSiteDomain:
     Type: String
     Description: >-
-      [Optional] Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.
+      (Optional) Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.
     AllowedPattern: (?!-)[a-zA-Z0-9-.]*(?<!-)
     ConstraintDescription: Must be a valid fully-qualified domain name.
 
   TrackItRealSSLCertificateARN:
     Type: String
     Description: >-
-      [Optional] ARN of the SSL certificate to be used for the Application Load Balancer.
+      (Optional) ARN of the SSL certificate to be used for the Application Load Balancer.
 
   TrackItSelfSignSSLCertificateOptions:
     Type: String
@@ -408,6 +447,18 @@ Mappings:
       VolumeSize: 300
 
 Conditions:
+
+  IsSmall: !Equals
+    - !Ref TrackItEnvironmentSize
+    - Small (Up to 5 active technicians)
+
+  IsMedium: !Equals
+    - !Ref TrackItEnvironmentSize
+    - Medium (Up to 15 active technicians)
+
+  # IsLarge: !Equals
+  #   - !Ref TrackItEnvironmentSize
+  #   - Large (More than 15 active technicians)
 
   UsingDefaultBucket: !Equals
     - !Ref QSS3BucketName
@@ -540,6 +591,7 @@ Rules:
           of currently supported regions and launch the stack in one of those regions.
 
 Resources:
+
   EMailNotificationTopic:
     Type: "AWS::SNS::Topic"
     Condition: HaveOperatorEmail
@@ -1600,7 +1652,13 @@ Resources:
         - AWSAMIRegionMap
         - !Ref "AWS::Region"
         - x64
-      InstanceType: !FindInMap [ TrackItEnvironmentSizes, !Ref TrackItEnvironmentSize, InstanceType ]
+      InstanceType: !If
+        - IsSmall
+        - !FindInMap [ TrackItEnvironmentSizes, Small, InstanceType ]
+        - !If
+          - IsMedium
+          - !FindInMap [ TrackItEnvironmentSizes, Medium, InstanceType ]
+          - !FindInMap [ TrackItEnvironmentSizes, Large, InstanceType ]
       IamInstanceProfile: !Ref TIInstanceRoleProfile
       SecurityGroupIds:
         - !Ref DomainMemberSGID
@@ -1611,7 +1669,13 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             DeleteOnTermination: false
-            VolumeSize: !FindInMap [ TrackItEnvironmentSizes, !Ref TrackItEnvironmentSize, VolumeSize ]
+            VolumeSize: !If
+              - IsSmall
+              - !FindInMap [ TrackItEnvironmentSizes, Small, VolumeSize ]
+              - !If
+                - IsMedium
+                - !FindInMap [ TrackItEnvironmentSizes, Medium, VolumeSize ]
+                - !FindInMap [ TrackItEnvironmentSizes, Large, VolumeSize ]
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-TrackIt-Instance"
