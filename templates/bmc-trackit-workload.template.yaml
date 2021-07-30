@@ -174,10 +174,8 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the password for the domain Admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols. This password is mandatory.
-      Please make note of this password as you will need it in the future for
-      administration purposes.
+      Confirm the password for the domain Admin account. Must be at least 8 
+      characters containing letters, numbers, and symbols.
     MaxLength: '32'
     MinLength: '8'
     NoEcho: true
@@ -237,12 +235,10 @@ Parameters:
 
   DomainDNSName:
     AllowedPattern: '[a-zA-Z0-9\-]+\..+'
-    Default: trackitdomain.internal
+    Default: example.internal
     Description: >-
       The fully qualified domain name (FQDN), e.g., example.com. Must be 2-255
-      characters. The default setting is optimal for most Track-It! customers.
-      We do not recommend changing this setting unless you know why you need to
-      change it and fully understand the impacts of doing so.
+      characters.
     MaxLength: '255'
     MinLength: '2'
     Type: String
@@ -254,22 +250,16 @@ Parameters:
 
   DomainNetBIOSName:
     AllowedPattern: '[a-zA-Z0-9\-]+'
-    Default: trackitdomain
+    Default: example
     Description: >-
-      The NetBIOS name of the domain for users of earlier versions of
-      Microsoft Windows, e.g., example. Must be up to 15 characters.
-      The default setting is optimal for most Track-It! customers. We do
-      not recommend changing this setting unless you know why you need to
-      change it and fully understand the impacts of doing so.
+      The NetBIOS name of the domain (up to 15 characters) for users of
+      earlier versions of Microsoft Windows, e.g., example.
     MaxLength: '15'
     Type: String
 
   KeyPairName:
     Description: >-
-      This key pair is used to encrypt and decrypt passwords and other
-      secret data within your environment. Typical Track-It! customers
-      should simply select the first option.  If you have multiple keys,
-      consult with your Amazon Web Services administrator for guidance.
+      Name of an existing EC2 key pair. All instances will launch with this key pair.
     Type: "AWS::EC2::KeyPair::KeyName"
     ConstraintDescription: Must be one of the existing EC2 keypair
 
@@ -310,17 +300,12 @@ Parameters:
     Description: >-
       S3 bucket that you created for your copy of Quick Start assets.
       Use this if you decide to customize the Quick Start. This bucket name can include numbers, lowercase letters,
-      uppercase letters, and hyphens but should not start or end with a hyphen. The default setting is optimal for
-      most Track-It! customers. We do not recommend changing this setting unless you know why you need to change it
-      and fully understand the impacts of doing so.
+      uppercase letters, and hyphens but should not start or end with a hyphen.
     Type: String
 
   QSS3BucketRegion:
     Default: "us-east-1"
-    Description: >-
-      AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must
-      specify this value. The default setting is optimal for most Track-It! customers. We do not recommend changing
-      this setting unless you know why you need to change it and fully understand the impacts of doing so.
+    Description: "AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value."
     Type: String
 
   QSS3KeyPrefix:
@@ -334,8 +319,6 @@ Parameters:
       Use this if you decide to customize the Quick Start. This prefix can include numbers, lowercase letters,
       uppercase letters, hyphens, and forward slashes.
       See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html.
-      The default setting is optimal for most Track-It! customers. We do not recommend changing
-      this setting unless you know why you need to change it and fully understand the impacts of doing so.
     Type: String
 
   Route53HostedZoneId:
@@ -347,13 +330,8 @@ Parameters:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
     ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
     Description: >-
-      This setting specifies which IP ranges will have access to your
-      Track-It! application. The default setting of 0.0.0.0/0 allows
-      all external IP addresses to have access and can be used by most
-      Track-It! customers. We do not recommend changing this setting
-      unless you know why you need to change it and fully understand
-      the impact of doing so. Please consult the Track-It! Deployment
-      Guide for further information.
+      CIDR IP range that is permitted to access the Track-It web portal.
+      Note: a value of 0.0.0.0/0 will allow access from ANY ip address.
     Type: String
 
   TrackItInstanceDomainComputerName:
