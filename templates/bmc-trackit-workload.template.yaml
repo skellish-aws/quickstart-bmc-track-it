@@ -1114,7 +1114,7 @@ Resources:
                   DECLARE @newpcname NVARCHAR(30)
                   --DECLARE @publicdnsname NVARCHAR(253)
 
-                  SET @newpcname = '${TrackItInstanceDomainComputerName}'
+                  SET @newpcname = LOWER('${TrackItInstanceDomainComputerName}')
 
                   SET @oldpcname = (select value from dbo.NAMSYSPROPERTIES where name='bcmDbSettings|Server')
                   UPDATE dbo.NAMSYSPROPERTIES SET NAME = REPLACE(NAME, @oldpcname, @newpcname) where NAME like '%|'+@oldpcname+'|%'
