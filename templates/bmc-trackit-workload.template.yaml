@@ -345,7 +345,7 @@ Parameters:
   TrackItEnvironmentSize:
     Description: >-
       Track-It! environment size suitable for expected average number of active users on a regular work day.
-      Selecting a larger server here will result in additional server costs.
+      Selecting a larger size here will result in additional server costs.
     Type: String
     AllowedValues:
       - Small (Up to 5 active technicians)
