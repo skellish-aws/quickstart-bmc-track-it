@@ -29,3 +29,26 @@ The Help Desk function is at the core of  {partner-product-short-name}. This fun
 * Custom Reports for metrics analysis and reporting
 
 You can access {partner-product-short-name} via a web browser from a desktop computer or mobile client (iOS and Android devices). With Track-It! you can improve customer service, decrease response and resolution times, and lower your IT costs.
+
+== Before you begin
+Before you begin, there are several important things to understand about this solution. This guide is designed to be followed during the Amazon Web Services CloudFormation stack setup. This initial checklist will cover all the things you need to have ready before you can proceed. Once you have gathered all of this information or at least considered how you plan to configure each item, you can proceed forward in this document and with the actual setup.
+
+Things you will need for setup: 
+
+. *An Amazon Web Services account* – You will need this in order to set up, run and pay for the servers and resources on AWS that you will be using to host your {partner-product-short-name} server.  
+
+. *Software licenses for {partner-product-short-name}* – You can purchase these from BMC Software in advance OR any time within the 90-day trial period that comes with this server instance. 
+
+. *A registered domain name* – This will be the root name of the website. You can purchase and register a domain name using the https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html[Amazon Route 53^] service. 
+
+NOTE: If you have an existing domain name registered with another registrar then you have the option of transferring it over to Route 53. Consult the AWS documentation located https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html[here^] for guidance.
+
+[start=4]
+. *An SSL certificate for your domain* - You can purchase this from the https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html[AWS Certificate Manager (ACM)^] service. It is possible to use a self-signed certificate, but this will cause all browsers to show a certificate not trusted error when visiting the site and require each individual user to modify settings in their browser to stop this from happening. It is a better experience for your users, more secure, and preferable to use a certificate issued by a trusted certificate authority (CA). 
+
+NOTE: If you have an existing certificate issued for your domain, it is possible to import it in ACM. Consult the AWS documentation located https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html[here^] for guidance.
+
+[start=5]
+. *What server size you need* – This is an option during the installation and the different sizes have different memory, disk space, and CPU settings, which could cost you more or less depending on which you select. Most users will be fine with the _Small_ server setup but this is something you should consider and be prepared to answer.
+
+. *IP Addresses to Whitelist* – You may need this if you wish to restrict which users/computers can connect to your {partner-product-short-name} server.  There is a configuration option during the setup which allows you to enter a CIDR (pronounced _Cider_) or range of IP addresses that are allowed to connect to your {partner-product-short-name} server.  If you aren’t sure or don’t know, you can always use the default setting there and change it later.  
