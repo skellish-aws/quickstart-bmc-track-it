@@ -10,15 +10,20 @@
 image::../images/outputs1.png[outputs1,width=1235,height=502]
 
 [start=2]
-. When you launch the application URL for the first time, the *Export Compliance And Access Terms* page is displayed. You need to fill in the form and accept the terms to gain access to {partner-product-short-name}.
+. When you launch the application URL, the *Export Compliance And Access Terms* page is displayed. You need to fill in the form and accept the terms to gain access to {partner-product-short-name}. However, if you did not provide the Route 53 and certificate details in the CloudFormation template, then a self-signed certificate will be generated. This will cause a browser error as seen in figure 5.
 
 [#export1]
 .Export Compliance and Access Terms
 [link=images/export_compliance.png]
 image::../images/export_compliance.png[export,width=1235,height=502]
 
+[#certwarn]
+.Untrusted certificate error
+[link=images/certificate_warning.png]
+image::../images/certificate_warning.png[export,width=1235,height=502]
+
 [start=3]
-. After you click *Continue* on the *Export Compliance And Access Terms* page, the information is processed by a BMC system for auditing purposes. If it is determined that access cannot be granted, then a message similar to the following is displayed:
+. After you click *Continue* on the *Export Compliance And Access Terms* page, the information is processed by a BMC system for auditing purposes. If it is determined that access cannot be granted, then a message similar to the following is displayed.
 
 [#export2]
 .Export Compliance error
@@ -26,9 +31,9 @@ image::../images/export_compliance.png[export,width=1235,height=502]
 image::../images/export_compliance_error.png[export_err,width=1235,height=502]
 
 [start=4]
-. You must contact BMC Support with the information that is displayed in Figure 4 for assistance.
+. You must contact BMC Support with the information that is displayed in Figure 6 for assistance.
 
-. If there is no error, the {partner-product-short-name} Technician portal login screen is displayed momentarily as seen in the following figure:
+. If there is no error, the {partner-product-short-name} Technician portal login screen is displayed momentarily as seen in the following figure.
 
 [#trackit1]
 .{partner-product-short-name} Technician portal login screen
