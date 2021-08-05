@@ -1,8 +1,8 @@
-:quickstart-project-name: quickstart-documentation-base
-:partner-product-name: Track-It!
+:quickstart-project-name: quickstart-bmc-track-it
+:partner-product-name: Track-It! 20.20.03
 :partner-product-short-name: Track-It!
 :partner-company-name: BMC Software, Inc.
-:doc-month: April
+:doc-month: August
 :doc-year: 2021
 :partner-contributors: {partner-company-name}
 :quickstart-contributors: AWS Quick Start Team

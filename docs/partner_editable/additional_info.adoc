@@ -7,7 +7,7 @@
 [#outputs1]
 .{partner-product-short-name} Technician portal URL
 [link=images/outputs1.png]
-image::../images/outputs1.png[outputs1,width=1235,height=502]
+image::../images/outputs1.png[outputs1,width=650,height=266]
 
 [start=2]
 . When you launch the application URL, the *Export Compliance And Access Terms* page is displayed. You need to fill in the form and accept the terms to gain access to {partner-product-short-name}. However, if you did not provide the Route 53 and certificate details in the CloudFormation template, then a self-signed certificate will be generated. This will cause a browser error as seen in figure 5.
@@ -15,12 +15,12 @@ image::../images/outputs1.png[outputs1,width=1235,height=502]
 [#export1]
 .Export Compliance and Access Terms
 [link=images/export_compliance.png]
-image::../images/export_compliance.png[export,width=1235,height=502]
+image::../images/export_compliance.png[export,width=650,height=266]
 
 [#certwarn]
 .Untrusted certificate error
 [link=images/certificate_warning.png]
-image::../images/certificate_warning.png[export,width=1235,height=502]
+image::../images/certificate_warning.png[export,width=650,height=266]
 
 [start=3]
 . After you click *Continue* on the *Export Compliance And Access Terms* page, the information is processed by a BMC system for auditing purposes. If it is determined that access cannot be granted, then a message similar to the following is displayed.
@@ -28,7 +28,7 @@ image::../images/certificate_warning.png[export,width=1235,height=502]
 [#export2]
 .Export Compliance error
 [link=images/export_compliance_error.png]
-image::../images/export_compliance_error.png[export_err,width=1235,height=502]
+image::../images/export_compliance_error.png[export_err,width=650,height=266]
 
 [start=4]
 . You must contact BMC Support with the information that is displayed in Figure 6 for assistance.
@@ -38,7 +38,7 @@ image::../images/export_compliance_error.png[export_err,width=1235,height=502]
 [#trackit1]
 .{partner-product-short-name} Technician portal login screen
 [link=images/trackit1.png]
-image::../images/trackit1.png[export_err,width=1235,height=502]
+image::../images/trackit1.png[export_err,width=650,height=266]
 
 
 
@@ -57,7 +57,7 @@ NOTE: BCM supports relay installation on the Linux OS. However this Quick Start 
 [#outputs2]
 .{partner-product-short-name} BMC Client Management rollout URL 
 [link=images/outputs2.png]
-image::../images/outputs2.png[outputs1,width=1235,height=502]
+image::../images/outputs2.png[outputs1,width=650,height=266]
 
 [start=2]
 . Upon launching the *BCMRolloutPublicURL* in a browser, a warning is displayed as seen in the following figure. This happens because BCM uses self-signed certificates. It is safe to continue.
@@ -65,7 +65,7 @@ image::../images/outputs2.png[outputs1,width=1235,height=502]
 [#rollout1]
 .BMC Client Management certificate warning
 [link=images/rollout1.png]
-image::../images/rollout1.png[export,width=1235,height=502]
+image::../images/rollout1.png[export,width=650,height=266]
 
 [start=3]
 . Upon continuing the following login screen is displayed.
@@ -73,7 +73,7 @@ image::../images/rollout1.png[export,width=1235,height=502]
 [#rollout2]
 .BMC Client Management rollout login page
 [link=images/rollout2.png]
-image::../images/rollout2.png[export,width=1235,height=502]
+image::../images/rollout2.png[export,width=650,height=266]
 
 [start=4]
 . Log-in with the *Track-It!* user to access the rollout download page. The password for this user is supplied as a parameter in the CloudFormation template.
@@ -83,7 +83,7 @@ image::../images/rollout2.png[export,width=1235,height=502]
 [#rollout3]
 .BMC Client Management rollout download page
 [link=images/rollout3.png]
-image::../images/rollout3.png[export,width=1235,height=502]
+image::../images/rollout3.png[export,width=650,height=266]
 
 [start=6]
 . Upon launching the installer you should see a warning similar to the following. Click *More info* followed by *Run anyway*.
@@ -91,20 +91,20 @@ image::../images/rollout3.png[export,width=1235,height=502]
 [#rollout4]
 .Rollout install warning
 [link=images/rollout4.png]
-image::../images/rollout4.png[export,width=1235,height=502]
+image::../images/rollout4.png[export,width=650,height=400]
 
 [#rollout5]
 .Ignore rollout install warning
 [link=images/rollout5.png]
-image::../images/rollout5.png[export,width=1235,height=502]
+image::../images/rollout5.png[export,width=650,height=400]
 
 [start=7]
 . The installation is an automated process which does not require any user input. After a few minutes you should see the following message. The relay agent has installed successfully.
 
 [#rollout6]
-.BMC Client Management rollout download page
+.BMC Client Management rollout installed successfully
 [link=images/rollout6.png]
-image::../images/rollout6.png[export,width=1235,height=502]
+image::../images/rollout6.png[export,width=650,height=400]
 
 
 === BMC Client Management Console
@@ -115,7 +115,7 @@ In order to correctly configure BCM to work with {partner-product-short-name} yo
 [#outputs3]
 .{partner-product-short-name} BMC Client Management console URL 
 [link=images/outputs3.png]
-image::../images/outputs3.png[outputs1,width=1235,height=502]
+image::../images/outputs3.png[outputs1,width=650,height=266]
 
 [start=2]
 . Upon launching the *BCMConsolePublicURL* in a browser, a warning is displayed as seen in the following figure. This happens because BCM uses self-signed certificates. It is safe to continue.
@@ -123,7 +123,7 @@ image::../images/outputs3.png[outputs1,width=1235,height=502]
 [#console1]
 .BMC Client Management certificate warning
 [link=images/console1.png]
-image::../images/console1.png[export,width=1235,height=502]
+image::../images/console1.png[export,width=650,height=266]
 
 [start=3]
 . Upon continuing the following login screen is displayed:
@@ -131,7 +131,7 @@ image::../images/console1.png[export,width=1235,height=502]
 [#console2]
 .BMC Client Management console login screen
 [link=images/console2.png]
-image::../images/console2.png[export,width=1235,height=502]
+image::../images/console2.png[export,width=650,height=266]
 
 [start=4]
 . Log-in with the *Track-It!* user. The password for this user is supplied as a parameter in the CloudFormation template.
@@ -141,7 +141,7 @@ image::../images/console2.png[export,width=1235,height=502]
 [#console3]
 .BMC Client Management console download page
 [link=images/console3.png]
-image::../images/console3.png[export,width=1235,height=502]
+image::../images/console3.png[export,width=650,height=266]
 
 [start=6]
 . Leave the default selections as-is and log-in using the same credentials used earlier. 
@@ -149,7 +149,7 @@ image::../images/console3.png[export,width=1235,height=502]
 [#console4]
 .BMC Client Management console login screen
 [link=images/console4.png]
-image::../images/console4.png[export,width=1235,height=502]
+image::../images/console4.png[export,width=650,height=266]
 
 [start=7]
 . Upon successful login, you should see the home page similar to the following figure.
@@ -157,7 +157,7 @@ image::../images/console4.png[export,width=1235,height=502]
 [#console5]
 .BMC Client Management console home screen
 [link=images/console5.png]
-image::../images/console5.png[export,width=1235,height=502]
+image::../images/console5.png[export,width=650,height=266]
 
 === Set relay agent as the scanner
 In order to perform discovery of your on-premises devices, additional manual configuration is required. Follow the steps given below.
@@ -167,7 +167,7 @@ In order to perform discovery of your on-premises devices, additional manual con
 [#console6]
 .BMC Client Management console device topology screen
 [link=images/console6.png]
-image::../images/console6.png[export,width=1235,height=502]
+image::../images/console6.png[export,width=650,height=266]
 
 [start=2]
 . From the navigation bar, expand *Asset Discovery* then right-click the *Scanners* node and click *Add Device*.
@@ -175,7 +175,7 @@ image::../images/console6.png[export,width=1235,height=502]
 [#console7]
 .BMC Client Management console asset discovery screen
 [link=images/console7.png]
-image::../images/console7.png[export,width=1235,height=502]
+image::../images/console7.png[export,width=650,height=266]
 
 [start=3]
 . In the *Add a scanner* dialog select the device on which the relay agent was installed previously and click *OK*.
