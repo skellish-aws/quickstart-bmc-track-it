@@ -5,7 +5,7 @@
 :doc-month: August
 :doc-year: 2021
 :partner-contributors: {partner-company-name}
-:quickstart-contributors: AWS Quick Start Team
+:quickstart-contributors: Scott Kellish and Vinod Shukla, AWS Quick Start team
 :parameters_as_appendix:
 :template_deterministic_ec2_instances:
 :deployment_time: 30 minutes / 1 hour

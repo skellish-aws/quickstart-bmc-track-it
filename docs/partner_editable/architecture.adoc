@@ -8,10 +8,13 @@ default parameters builds the following {partner-product-short-name} environment
 image::../images/aws_architecture_diagram.png[Architecture,width=648,height=439]
 
 //[TODO: Shardul] 
-As shown in Figure 1, the Quick Start sets up the following:
+As seen in Figure 1, the Quick Start sets up the following:
 
 * A highly available architecture that spans at least two availability zones
 * A VPC configured with public and private subnets, according to AWS best practices, to provide you with your own virtual network on AWS
+* AWS Directory Service for Microsoft Active Directory (also known as AWS Managed 
+Microsoft AD)
+* Amazon CloudWatch for the {partner-product-short-name} instance logs
 
 In the public subnets:
 
@@ -28,7 +31,7 @@ In the public subnets:
 
 
 == Using a registered domain
-The {partner-product-short-name} Quick Start uses a domain name for its HTTPS based end-points. You may choose to use a domain name registered with Amazon Route 53. Although, this is an optional step it is recommended for a more secure experience for your users. 
+The {partner-product-short-name} Quick Start uses a domain name for its HTTPS based end-points. You may choose to use a domain name registered with Amazon Route 53 along with an associated SSL certificate issued by a trusted certificate authority (CA). Although, this is an optional step it is recommended for a more secure experience for your users. 
 
 If you choose not to use an Amazon Route 53 registered domain name, a random domain name will be generated. However, the certificate associated with this domain name is a self-signed certificate. The default behavior in web browsers is to not trust such certificates. As a result your users will see a browser warning whenever any web end-point is accessed.
 

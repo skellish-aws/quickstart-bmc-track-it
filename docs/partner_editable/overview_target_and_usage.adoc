@@ -39,16 +39,26 @@ Things you will need for setup:
 
 . *Software licenses for {partner-product-short-name}* – You can purchase these from BMC Software in advance OR any time within the 90-day trial period that comes with this server instance. 
 
-. *A registered domain name* – This will be the root name of the website. You can purchase and register a domain name using the https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html[Amazon Route 53^] service. 
+. *Choose between a 'registered domain name with associated SSL certificate' or a 'random domain name and self-signed certificate'* - If you have an existing registered domain name or wish to register a new domain name, you may set this up using Amazon Route 53 service. 
++
+[NOTE]
+=====
+If you have an existing domain name registered with another registrar then you
+have the option of transferring it over to Route 53. Consult the AWS documentation
+located https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html[here^] for guidance.
 
-NOTE: If you have an existing domain name registered with another registrar then you have the option of transferring it over to Route 53. Consult the AWS documentation located https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html[here^] for guidance.
+
+If you have an existing certificate issued for your domain, it is possible to import it
+in AWS Certificate Manager (ACM). Consult the AWS documentation located https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html[here^] for guidance.
+=====
++
+When using a registered domain name, you must provide a corresponding SSL certificate for the domain issued by a trusted certificate authority (CA). You can purchase this from the AWS Certificate Manager (ACM) service.
++
+If you do not wish to use a registered domain name, users will access Track-It! using a random domain name assigned. The Quick Start will generate and associate a self-signed certificate to the load balancer to provide SSL (HTTP/S) termination. Note that use of a self-signed certificate will cause all browsers to show a 'certificate not trusted' error when visiting the site and require each individual user to modify settings in their browser to hide this error. It is a better experience for your users, more secure, and highly recommended to use a registered domain name with associated certificate issued by a trusted certificate authority (CA).
 
 [start=4]
-. *An SSL certificate for your domain* - You can purchase this from the https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html[AWS Certificate Manager (ACM)^] service. It is possible to use a self-signed certificate, but this will cause all browsers to show a certificate not trusted error when visiting the site and require each individual user to modify settings in their browser to stop this from happening. It is a better experience for your users, more secure, and preferable to use a certificate issued by a trusted certificate authority (CA). 
-
-NOTE: If you have an existing certificate issued for your domain, it is possible to import it in ACM. Consult the AWS documentation located https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html[here^] for guidance.
-
-[start=5]
-. *What server size you need* – This is an option during the installation and the different sizes have different memory, disk space, and CPU settings, which could cost you more or less depending on which you select. Most users will be fine with the _Small_ server setup but this is something you should consider and be prepared to answer.
+. *What server size you need* – This is an option during the installation and the different sizes have different memory, disk space, and CPU settings, which could cost you more or less depending on which you select. Most users will be fine with the _Small_ server setup but this is something you should consider and be prepared to answer. 
++
+Details on the available sizing options are available in the link:#_sizing[Sizing] section of this guide and the https://docs.bmc.com/docs/trackit2020/en/sizing-and-scalability-considerations-912125648.html[Sizing and scalability considerations^] page of the {partner-product-short-name} online documentation.
 
 . *IP Addresses to Whitelist* – You may need this if you wish to restrict which users/computers can connect to your {partner-product-short-name} server.  There is a configuration option during the setup which allows you to enter a CIDR (pronounced _Cider_) or range of IP addresses that are allowed to connect to your {partner-product-short-name} server.  If you aren’t sure or don’t know, you can always use the default setting there and change it later.  
