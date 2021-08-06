@@ -414,7 +414,7 @@ Parameters:
     Type: String
     Description: >-
       (Optional) Enter a future expiration date for the self-signed SSL certificate. Defaults to one year from today 
-      if left empty, otherwise enter an explict date at least one day in the future and in the form YYYY-MM-DD.
+      if left empty, otherwise enter an explicit date at least one day in the future and in the form YYYY-MM-DD.
     AllowedPattern: ^$|^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$
     ConstraintDescription: >-
       The expiration date must be empty or a date at least one day in the future and 
