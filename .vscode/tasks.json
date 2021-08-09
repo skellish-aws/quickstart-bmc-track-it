@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build image",
+			"type": "docker-build",
+			"dockerBuild": {
+				"context": "${workspaceFolder}/functions/source/lambda-self-signed-certificate",
+				"dockerfile": "${workspaceFolder}/functions/source/lambda-self-signed-certificate/Dockerfile",
+				"tag": "my-tag"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
