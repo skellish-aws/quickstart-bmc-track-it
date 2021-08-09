@@ -23,6 +23,9 @@ Description: >-
   (https://www.bmc.com/about/legal/) for further details.
   (qs-1r6abo8ti)
 Metadata:
+  QuickStartDocumentation:
+    EntrypointName: "Parameters for deploying into a new VPC"
+    Order: 1
   LintSpellExclude:
     - Active
     - Admin
@@ -135,7 +138,7 @@ Metadata:
       TrackItEndUserWebAccessCIDR:
         default: Track-It! end-user web access permitted IP range
       TrackItInstanceDomainComputerName:
-        default: Track-It! Instance domain computer name
+        default: Track-It! Instance Server Name
       TrackItEnvironmentSize:
         default: Track-It! 'all-in-one' environment size
       TrackItSiteDomain:
@@ -143,9 +146,9 @@ Metadata:
       TrackItRealSSLCertificateARN:
         default: Track-It! SSL certificate ARN
       TrackItSelfSignSSLCertificateOptions:
-        default: Track-It! Self-signed SSL certificate options (Unused if registered domain configuration is provided)
+        default: Track-It! Self-signed SSL certificate options (Unused if registered domain configuration is provided above)
       TrackItSelfSignSSLCertificateExpiresOn:
-        default: Track-It! Self-signed SSL certificate expiration date (Unused if registered domain configuration is provided)
+        default: Track-It! Self-signed SSL certificate expiration date (Unused if registered domain configuration is provided above)
       TrackItAdminPassword:
         default: Track-It! database administrator account password
       TrackItAdminPasswordConfirm:
@@ -171,7 +174,9 @@ Parameters:
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
       The password for the domain Admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      containing letters, numbers, and symbols. This password is mandatory.
+      Please make note of this password as you will need it in the future for
+      administration purposes.
     MaxLength: '32'
     MinLength: '8'
     NoEcho: true
@@ -181,7 +186,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the password for the domain Admin account. Must be at least 8
+      Confirm the password for the domain Admin account. Must be at least 8 
       characters containing letters, numbers, and symbols.
     MaxLength: '32'
     MinLength: '8'
@@ -192,8 +197,11 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      The password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      The password for the database account (_SMSYSADMIN_) used by Track-It!
+      to connect to the database. Must be at least 8 characters
+      containing letters, numbers, and symbols. This password is mandatory.
+      Please make note of this password as you will need it in the future
+      for administration purposes.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -203,8 +211,11 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      Confirm the password for the database account (_SMSYSADMIN_) used by Track-It!
+      to connect to the database. Must be at least 8 characters
+      containing letters, numbers, and symbols. This password is mandatory.
+      Please make note of this password as you will need it in the future
+      for administration purposes.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -215,7 +226,8 @@ Parameters:
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
       The password for the BMC Client Management admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      containing letters, numbers, and symbols. This password is mandatory. Please make note
+      of this password as you will need it in the future for administration purposes.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -226,7 +238,8 @@ Parameters:
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
       Confirm the password for the BMC Client Management admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols.
+      containing letters, numbers, and symbols. This password is mandatory. Please make note
+      of this password as you will need it in the future for administration purposes.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -350,7 +363,7 @@ Parameters:
 
   Route53HostedZoneId:
     Description: >-
-      [Optional] Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.
+      (Optional) Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.
     Type: String
 
   TrackItEndUserWebAccessCIDR:
@@ -362,31 +375,35 @@ Parameters:
     Type: String
 
   TrackItInstanceDomainComputerName:
-    Description: Track-It! instance Windows domain computer name.
+    Description: >-
+      Track-It! instance server name. The default setting is optimal for most Track-It! customers.
+      We do not recommend changing this setting unless you know why you need to change it and fully
+      understand the impacts of doing so.
     Type: String
     Default: TrackIt01
 
   TrackItEnvironmentSize:
-    Description:
+    Description: >-
       Track-It! environment size suitable for expected average number of active users on a regular work day.
+      Selecting a larger size here will result in additional server costs.
     Type: String
     AllowedValues:
-      - Small
-      - Medium
-      - Large
-    Default: Small
+      - Small (Up to 5 active technicians)
+      - Medium (Up to 15 active technicians)
+      - Large (More than 15 active technicians)
+    Default: Small (Up to 5 active technicians)
 
   TrackItSiteDomain:
     Type: String
     Description: >-
-      [Optional] Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.
+      (Optional) Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.
     AllowedPattern: (?!-)[a-zA-Z0-9-.]*(?<!-)
     ConstraintDescription: Must be a valid fully-qualified domain name.
 
   TrackItRealSSLCertificateARN:
     Type: String
     Description: >-
-      [Optional] ARN of the SSL certificate to be used for the Application Load Balancer.
+      (Optional) ARN of the SSL certificate to be used for the Application Load Balancer.
 
   TrackItSelfSignSSLCertificateOptions:
     Type: String
@@ -397,7 +414,7 @@ Parameters:
     Type: String
     Description: >-
       (Optional) Enter a future expiration date for the self-signed SSL certificate. Defaults to one year from today 
-      if left empty, otherwise enter an explict date at least one day in the future and in the form YYYY-MM-DD.
+      if left empty, otherwise enter an explicit date at least one day in the future and in the form YYYY-MM-DD.
     AllowedPattern: ^$|^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$
     ConstraintDescription: >-
       The expiration date must be empty or a date at least one day in the future and 
