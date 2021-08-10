@@ -46,7 +46,7 @@ project:
     QSS3KeyPrefix: quickstart-bmc-track-it/
     TrackItEndUserWebAccessCIDR: 0.0.0.0/0
     TrackItInstanceDomainComputerName: TrackIt01
-    TrackItEnvironmentSize: Small
+    TrackItEnvironmentSize: Small (Up to 5 active technicians)
     VPCCIDR: 10.0.0.0/16
     TrackItAdminPassword: $[taskcat_getval_DomainAdminPassword]
     TrackItAdminPasswordConfirm: $[taskcat_getval_DomainAdminPassword]
