@@ -5,8 +5,8 @@
 // Space needed to maintain table headers
 |VPCs |1
 |Elastic IP addresses |2
-|AWS Identity and Access Management (IAM) security groups |0
-|IAM roles |1
+|AWS Identity and Access Management (IAM) security groups |2
+|IAM roles |3
 |Auto Scaling groups |0
 |Application Load Balancers |0
 |Network Load Balancers |1

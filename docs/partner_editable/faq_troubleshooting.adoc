@@ -18,4 +18,39 @@ For additional information, see https://docs.aws.amazon.com/AWSCloudFormation/la
 
 == Troubleshooting
 
-<Steps for troubleshooting the deployment go here.>
+This Quick Start configures Microsoft Windows and {partner-product-short-name} log files to be stored in Amazon CloudWatch Logs with the group prefix 'BMC-Track-It'. Log files captured include:
+
+* C:\Program Files (x86)\BMC\Track-It!\Logs\NAMMetadata_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\ServiceDesk_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\ChangeManagement_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\NAMLogicNotification_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\MGCFeatureInfo_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\MGCImap_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\MGCPop3_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\MGCQuickViews_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\MGCSmtp_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\MGCUserTrack_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\SDEAttach_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\MGCStopTheClock_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\MGCSuperBR_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\NAMLogicWorkOrder*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\NAMServerControl_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\Announcement_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\AssetManagement_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\NAMLogicAttach_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\LogicDetails_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\LogicHelpDesk_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\PurchaseManagement_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\LogicRequestor_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\LogicSMTP_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\StopTheClock_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\WOPredecessor_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\TemplateLinks_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\EwsMailListener_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\ServiceManagement_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\WebApi_*.log
+* C:\Program Files (x86)\BMC\Track-It!\Logs\SelfService_*.log
+* C:\Windows\System32\LogFiles\HTTPERR\**.log
+* C:\inetpub\logs\LogFiles\W3SVC1\u_ex.log
+* C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Log\ERRORLOG
+* Windows Event Manager BMC-Track-It log group System, Security and Application log streams.

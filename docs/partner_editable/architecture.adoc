@@ -4,14 +4,17 @@ default parameters builds the following {partner-product-short-name} environment
 // Replace this example diagram with your own. Send us your source PowerPoint file. Be sure to follow our guidelines here : http://(we should include these points on our contributors giude)
 [#architecture1]
 .Quick Start architecture for _{partner-product-short-name}_ on AWS
-[link=images/architecture_diagram.png]
-image::../images/architecture_diagram.png[Architecture,width=648,height=439]
+[link=images/aws_architecture_diagram.png]
+image::../images/aws_architecture_diagram.png[Architecture,width=648,height=439]
 
 //[TODO: Shardul] 
-As shown in Figure 1, the Quick Start sets up the following:
+As seen in Figure 1, the Quick Start sets up the following:
 
 * A highly available architecture that spans at least two availability zones
 * A VPC configured with public and private subnets, according to AWS best practices, to provide you with your own virtual network on AWS
+* AWS Directory Service for Microsoft Active Directory (also known as AWS Managed 
+Microsoft AD)
+* Amazon CloudWatch for the {partner-product-short-name} instance logs
 
 In the public subnets:
 
@@ -28,24 +31,28 @@ In the public subnets:
 
 
 == Using a registered domain
-The {partner-product-short-name} Quick Start uses a domain name for its HTTPS based end-points. You may choose to use a domain name registered with Amazon Route 53. Although, this is an optional step it is recommended for a more secure experience for your users. 
+The {partner-product-short-name} Quick Start uses a domain name for its HTTPS based end-points. You may choose to use a domain name registered with Amazon Route 53 along with an associated SSL certificate issued by a trusted certificate authority (CA). Although, this is an optional step it is recommended for a more secure experience for your users. 
 
-If you choose not to use an Amazon Route 53 registered domain name, a random domain name will be generated. However, the certificate associated with this domain name is a self-signed certificate. The default behaviour in web browsers is to not trust such certificates. As a result your users will see a browser warning whenever any web end-point is accessed.
+If you choose not to use an Amazon Route 53 registered domain name, a random domain name will be generated. However, the certificate associated with this domain name is a self-signed certificate. The default behavior in web browsers is to not trust such certificates. As a result your users will see a browser warning whenever any web end-point is accessed.
 
 == Microsoft Active Directory
 The {partner-product-short-name} Quick Start deploys a Microsoft Active Directory domain using AWS Directory Service for Microsoft Active Directory, also known as AWS Managed Microsoft Active Directory (AD). The DNS and NetBIOS names of the domain can be customized using parameters in the template.
-Depending on your requirements you can choose either Standard or Enterprise edition. For more details about these options see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html[AWS Directory Service documentation^].
+Depending on your requirements you can choose either Standard or Enterprise edition. For more details on these options consult the AWS documentation located https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html[here^].
 
-The {partner-product-short-name} Amazon EC2 instance is domain-joined to this domain. 
+The {partner-product-short-name} EC2 instance is domain-joined to this AD domain. 
 
-=== Windows integrated authentication for {partner-product-short-name}
+=== Windows integrated authentication
 {partner-product-short-name} supports authenticating users with Windows integrated authentication. This is an optional feature. 
 
-In order to have users on your on-premises AD instance authenticate in {partner-product-short-name} successfully, a two-way trust relationship needs to be established between your on-premises AD and the AWS Managed Microsoft AD. For more details about how to enable this see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_connect_existing_infrastructure.html[Connect to your existing AD infrastructure^].
+In order to have users on your on-premises AD instance authenticate in {partner-product-short-name} successfully, a two-way trust relationship needs to be established between your on-premises AD and the AWS Managed Microsoft AD. For more details on how to enable this consult the AWS documentation located https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_connect_existing_infrastructure.html[here^].
 
 
 == Sizing
-The {partner-product-short-name} Quick Start deploys an Amazon EC2 instance. You can customize the size of this instance depending on your needs. The following table lists the sizes and the instance type. For more details about Amazon EC2 instance types see https://aws.amazon.com/ec2/instance-types/[Amazon EC2 Instance Types^].
+The {partner-product-short-name} Quick Start deploys an Amazon EC2 instance. You can customize the size of this instance depending on your needs. The following table lists the sizes and the instance type. 
+
+For more details on sizing and recommendations consult the {partner-product-short-name} documentation on https://docs.bmc.com/docs/display/trackit2020/Sizing+and+scalability+considerations[Sizing and scalability considerations^].
+
+For more details about Amazon EC2 instance types see https://aws.amazon.com/ec2/instance-types/[Amazon EC2 Instance Types^].
 
 |===
 |Size |Amazon EC2 instance type |Volume size (in GB)
