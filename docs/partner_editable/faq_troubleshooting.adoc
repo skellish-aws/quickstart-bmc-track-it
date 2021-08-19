@@ -53,4 +53,4 @@ This Quick Start configures Microsoft Windows and {partner-product-short-name} l
 * C:\Windows\System32\LogFiles\HTTPERR\**.log
 * C:\inetpub\logs\LogFiles\W3SVC1\u_ex.log
 * C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Log\ERRORLOG
-* Windows Event Manager BMC-Track-It log group System, Security and Application log streams.
+* Windows Event Manager BMC-Track-It log group System, Security, and Application log streams.
