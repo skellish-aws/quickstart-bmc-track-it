@@ -9,7 +9,7 @@ Test the deployment by accessing the BMC Track It Technician Client portal.
 . On the *Outputs* tab, note the URL in the *Value* column of the  *TrackItTechnicianPortalPublicURL* key.
 
 [#outputs1]
-.{partner-product-short-name} Technician portal URL
+.{partner-product-short-name} Track It Technician Client portal URL
 [link=images/outputs1.png]
 image::../images/outputs1.png[outputs1,width=650,height=266]
 
@@ -18,29 +18,25 @@ image::../images/outputs1.png[outputs1,width=650,height=266]
 . Complete the form on the *Export Compliance And Access Terms* page and choose *Continue*.
 
 [#export1]
-.Export Compliance and Access Terms
+.Export Compliance and Access Terms page
 [link=images/export_compliance.png]
 image::../images/export_compliance.png[export,width=650,height=266]
 
-NOTE: If you did not enter registered domain parameters during deployment, a browser privacy warning displays.
+[NOTE]
+==== 
+* If you receive an error stating *We are unable to grant access to the application at this time*, contact BMC support for assistance.
+
+* If you did not enter link:#_parameter_reference[registered domain parameters] during deployment, a browser privacy warning displays.
+====
 
 [start=4]
 :xrefstyle: short
 . The Track It login screen displays, as shown in <<trackit1>>.
 
 [#trackit1]
-.{partner-product-short-name} Technician portal login screen
+.{partner-product-short-name} Track It login page
 [link=images/trackit1.png]
 image::../images/trackit1.png[export_err,width=650,height=266]
-
-=== Access error
-:xrefstyle: short
-If you receive an error shown after entering Export Compliance And Access Terms, contact BMC support for assistance.
-
-[#export2]
-.Export Compliance error
-[link=images/export_compliance_error.png]
-image::../images/export_compliance_error.png[export_err,width=650,height=266]
 
 == Post deployment steps
 
