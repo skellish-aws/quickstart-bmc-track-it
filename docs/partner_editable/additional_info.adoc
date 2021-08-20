@@ -1,8 +1,10 @@
 // Add steps as necessary for accessing the software, post-configuration, and testing. Don’t include full usage instructions for your software, but add links to your product documentation for that information.
 //Should any sections not be applicable, remove them
 
-== Test the deployment
-Test the deployment by accessing the BMC Track It Technician Client portal.
+== Post-deployment steps
+
+=== Test the deployment
+Test the deployment by accessing the Track It portal.
 
 . Open the https://console.aws.amazon.com/cloudformation/[AWS CloudFormation console].
 . On the *Stacks* page, select the stack name.
@@ -26,7 +28,7 @@ image::../images/export_compliance.png[export,width=650,height=266]
 ==== 
 * If you receive an error stating *We are unable to grant access to the application at this time*, contact BMC support for assistance.
 
-* If you did not enter link:#_parameter_reference[registered domain parameters] during deployment, a browser privacy warning displays.
+* If you did not enter link:#_parameter_reference[registered domain parameters] during deployment, a browser privacy warning displays before the Track It login page.
 ====
 
 [start=4]
@@ -38,17 +40,14 @@ image::../images/export_compliance.png[export,width=650,height=266]
 [link=images/trackit1.png]
 image::../images/trackit1.png[export_err,width=650,height=266]
 
-== Post deployment steps
+=== Install BMC Client Management relay agent
+After deployment, you must install a BMC Client Management relay agent on one of your on-premises Microsoft Windows servers. A relay agent collects and transmits data from your on-premises network infrastructure to the BMC Client Management server on the Track It EC2 instance.
 
-=== Getting started with {partner-product-short-name}
-Review the https://docs.bmc.com/docs/trackit2020/en/getting-started-912125630.html[Getting started^] {partner-product-short-name} documentation for a brief introduction to product features. Bookmark this page for quick access to product documentaion.
+NOTE: These instructions describe a Windows relay agent installation. To install a relay agent on Linux, see https://docs.bmc.com/docs/bcm2008/rolling-out-the-relay-agents-930382510.html[Rolling out the relay agents^].
 
-=== BMC Client Management Relay agent
-To fully leverage the BCM functionality, you must install the BCM relay agent on one of your on-premises Microsoft Windows servers. The relay agent collects data of your on-premises network infrastructure and transmits it to the master server located on the {partner-product-short-name} EC2 instance. Follow the steps given below.
-
-NOTE: BCM supports relay installation on the Linux OS. However this Quick Start only generates a Microsoft Windows relay installation. If you need to install the relay on Linux please consult the BCM documentation located https://docs.bmc.com/docs/bcm2008/rolling-out-the-relay-agents-930382510.html[here^].
-
-. Relay agent installer can be downloaded by launching the URL next to the key denoted by *BCMRolloutPublicURL* on the *Outputs* tab of the main stack. 
+. Open the https://console.aws.amazon.com/cloudformation/[AWS CloudFormation console].
+. On the *Stacks* page, select the stack name.
+. On the *Outputs* tab, note the URL in the *Value* column of the  *BCMRolloutPublicURL* key.
 
 [#outputs2]
 .{partner-product-short-name} BMC Client Management rollout URL 
@@ -56,15 +55,9 @@ NOTE: BCM supports relay installation on the Linux OS. However this Quick Start 
 image::../images/outputs2.png[outputs1,width=650,height=266]
 
 [start=2]
-. Upon launching the *BCMRolloutPublicURL* in a browser, a warning is displayed as seen in the following figure. This happens because BCM uses self-signed certificates. It is safe to continue.
-
-[#rollout1]
-.BMC Client Management certificate warning
-[link=images/rollout1.png]
-image::../images/rollout1.png[export,width=650,height=266]
-
-[start=3]
-. Upon continuing the following login screen is displayed.
+. Navigate the the URL.
+. A browser privacy warning displays. BMC Client Management uses a self-signed certificate. Choose to continue to the site.
+. The BMC Client Management login page displays. 
 
 [#rollout2]
 .BMC Client Management rollout login page
@@ -103,7 +96,7 @@ image::../images/rollout5.png[export,width=650,height=400]
 image::../images/rollout6.png[export,width=650,height=400]
 
 
-=== BMC Client Management Console
+=== Install and configure BMC Client Management Console
 In order to correctly configure BCM to work with {partner-product-short-name} you also need to install the BCM console and complete some manual configuration. Follow the steps given below.
 
 . The Client Management console should be installed by navigating to the URL denoted by *BCMConsolePublicURL* on the *Outputs* tab of the main stack.
@@ -193,6 +186,10 @@ image::../images/console8.png[export,width=486,height=420]
 |Track-It! Technician portal|`+ADMINISTRATOR+` |`+welcome+`
 
 |===
+
+
+=== Getting started with {partner-product-short-name}
+Review the https://docs.bmc.com/docs/trackit2020/en/getting-started-912125630.html[Getting started^] {partner-product-short-name} documentation for a brief introduction to product features. Bookmark this page for quick access to product documentaion.
 
 == Training Videos
 
