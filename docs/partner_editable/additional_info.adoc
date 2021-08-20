@@ -7,7 +7,7 @@
 Test the deployment by accessing the Track It portal.
 
 . Open the https://console.aws.amazon.com/cloudformation/[AWS CloudFormation console].
-. On the *Stacks* page, select the stack name.
+. On the *Stacks* page, choose the stack name.
 . On the *Outputs* tab, note the URL in the *Value* column of the  *TrackItTechnicianPortalPublicURL* key.
 
 [#outputs1]
@@ -19,26 +19,16 @@ image::../images/outputs1.png[outputs1,width=650,height=266]
 . Navigate to the URL.
 . Complete the form on the *Export Compliance And Access Terms* page and choose *Continue*.
 
-[#export1]
-.Export Compliance and Access Terms page
-[link=images/export_compliance.png]
-image::../images/export_compliance.png[export,width=650,height=266]
-
 [NOTE]
 ==== 
 * If you receive an error stating *We are unable to grant access to the application at this time*, contact BMC support for assistance.
 
-* If you did not enter link:#_parameter_reference[registered domain parameters] during deployment, a browser privacy warning displays before the Track It login page.
+* If you did not enter link:#_parameter_reference[registered domain parameters] during deployment, a browser privacy warning displays before the Track It login page. Choose to continue to the site.
 ====
 
 [start=4]
 :xrefstyle: short
-. The Track It login screen displays, as shown in <<trackit1>>.
-
-[#trackit1]
-.{partner-product-short-name} Track It login page
-[link=images/trackit1.png]
-image::../images/trackit1.png[export_err,width=650,height=266]
+. The Track It login screen displays. The default Track It login credentials for the deployment are *ADMINISTRATOR/password*.
 
 === Install BMC Client Management relay agent
 After deployment, you must install a BMC Client Management relay agent on one of your on-premises Microsoft Windows servers. A relay agent collects and transmits data from your on-premises network infrastructure to the BMC Client Management server on the Track It EC2 instance.
@@ -46,7 +36,7 @@ After deployment, you must install a BMC Client Management relay agent on one of
 NOTE: These instructions describe a Windows relay agent installation. To install a relay agent on Linux, see https://docs.bmc.com/docs/bcm2008/rolling-out-the-relay-agents-930382510.html[Rolling out the relay agents^].
 
 . Open the https://console.aws.amazon.com/cloudformation/[AWS CloudFormation console].
-. On the *Stacks* page, select the stack name.
+. On the *Stacks* page, choose the stack name.
 . On the *Outputs* tab, note the URL in the *Value* column of the  *BCMRolloutPublicURL* key.
 
 [#outputs2]
@@ -54,47 +44,14 @@ NOTE: These instructions describe a Windows relay agent installation. To install
 [link=images/outputs2.png]
 image::../images/outputs2.png[outputs1,width=650,height=266]
 
-[start=2]
-. Navigate the the URL.
+[start=4]
+. Navigate to the URL.
 . A browser privacy warning displays. BMC Client Management uses a self-signed certificate. Choose to continue to the site.
 . The BMC Client Management login page displays. 
-
-[#rollout2]
-.BMC Client Management rollout login page
-[link=images/rollout2.png]
-image::../images/rollout2.png[export,width=650,height=266]
-
-[start=4]
-. Log-in with the *Track-It!* user to access the rollout download page. The password for this user is supplied as a parameter in the CloudFormation template.
-
-. Click the _BCM_Agent_Install.exe_ link to download the rollout installation.
-
-[#rollout3]
-.BMC Client Management rollout download page
-[link=images/rollout3.png]
-image::../images/rollout3.png[export,width=650,height=266]
-
-[start=6]
-. Upon launching the installer you should see a warning similar to the following. Click *More info* followed by *Run anyway*.
-
-[#rollout4]
-.Rollout install warning
-[link=images/rollout4.png]
-image::../images/rollout4.png[export,width=650,height=400]
-
-[#rollout5]
-.Ignore rollout install warning
-[link=images/rollout5.png]
-image::../images/rollout5.png[export,width=650,height=400]
-
-[start=7]
-. The installation is an automated process which does not require any user input. After a few minutes you should see the following message. The relay agent has installed successfully.
-
-[#rollout6]
-.BMC Client Management rollout installed successfully
-[link=images/rollout6.png]
-image::../images/rollout6.png[export,width=650,height=400]
-
+. Log in with the user name *admin* and the password you entered you entered for the `TrackItBcmAdminPassword` link:#_parameter_reference[parameter] during deployment. 
+. On the *Welcome to the Rollout Server Download Page*, choose *BCM_Agent_Install.exe* in the *Auto-extractable Name* column.
+. A Windows Defender warning displays. Choose *More info*, then *Run anyway*.
+. After the installation is complete, a message stating *The Agent has been installed successfully* displays. Choose *OK*.
 
 === Install and configure BMC Client Management Console
 In order to correctly configure BCM to work with {partner-product-short-name} you also need to install the BCM console and complete some manual configuration. Follow the steps given below.
@@ -133,7 +90,7 @@ image::../images/console2.png[export,width=650,height=266]
 image::../images/console3.png[export,width=650,height=266]
 
 [start=6]
-. Leave the default selections as-is and log-in using the same credentials used earlier. 
+. Leave the default choices as-is and log-in using the same credentials used earlier. 
 
 [#console4]
 .BMC Client Management console login screen
@@ -167,7 +124,7 @@ image::../images/console6.png[export,width=650,height=266]
 image::../images/console7.png[export,width=650,height=266]
 
 [start=3]
-. In the *Add a scanner* dialog select the device on which the relay agent was installed previously and click *OK*.
+. In the *Add a scanner* dialog box choose the device on which the relay agent was installed previously and click *OK*.
 
 [#console8]
 .BMC Client Management console asset discovery screen
