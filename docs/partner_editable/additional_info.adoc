@@ -2,7 +2,11 @@
 //Should any sections not be applicable, remove them
 
 == Test the deployment
-. After the deployment is completed, you can launch the Technician portal. Check the *Outputs* section of the main stack and navigate to the URL beside the *TrackItTechnicianPortalPublicURL* key.
+Test the deployment by accessing the BMC Track It Technician Client portal.
+
+. Open the https://console.aws.amazon.com/cloudformation/[AWS CloudFormation console].
+. On the *Stacks* page, select the stack name.
+. On the *Outputs* tab, note the URL in the *Value* column of the  *TrackItTechnicianPortalPublicURL* key.
 
 [#outputs1]
 .{partner-product-short-name} Technician portal URL
@@ -10,37 +14,33 @@
 image::../images/outputs1.png[outputs1,width=650,height=266]
 
 [start=2]
-. When you launch the application URL, the *Export Compliance And Access Terms* page is displayed. You need to fill in the form and accept the terms to gain access to {partner-product-short-name}. However, if you did not provide the Route 53 and certificate details in the CloudFormation template, then a self-signed certificate will be generated. This will cause a browser error as seen in figure 5.
+. Navigate to the URL.
+. Complete the form on the *Export Compliance And Access Terms* page and choose *Continue*.
 
 [#export1]
 .Export Compliance and Access Terms
 [link=images/export_compliance.png]
 image::../images/export_compliance.png[export,width=650,height=266]
 
-[#certwarn]
-.Untrusted certificate error
-[link=images/certificate_warning.png]
-image::../images/certificate_warning.png[export,width=650,height=266]
-
-[start=3]
-. After you click *Continue* on the *Export Compliance And Access Terms* page, the information is processed by a BMC system for auditing purposes. If it is determined that access cannot be granted, then a message similar to the following is displayed.
-
-[#export2]
-.Export Compliance error
-[link=images/export_compliance_error.png]
-image::../images/export_compliance_error.png[export_err,width=650,height=266]
+NOTE: If you did not enter registered domain parameters during deployment, a browser privacy warning displays.
 
 [start=4]
-. You must contact BMC Support with the information that is displayed in Figure 6 for assistance.
-
-. If there is no error, the {partner-product-short-name} Technician portal login screen is displayed momentarily as seen in the following figure.
+:xrefstyle: short
+. The Track It login screen displays, as shown in <<trackit1>>.
 
 [#trackit1]
 .{partner-product-short-name} Technician portal login screen
 [link=images/trackit1.png]
 image::../images/trackit1.png[export_err,width=650,height=266]
 
+=== Access error
+:xrefstyle: short
+If you receive an error shown after entering Export Compliance And Access Terms, contact BMC support for assistance.
 
+[#export2]
+.Export Compliance error
+[link=images/export_compliance_error.png]
+image::../images/export_compliance_error.png[export_err,width=650,height=266]
 
 == Post deployment steps
 
