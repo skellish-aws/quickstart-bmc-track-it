@@ -37,7 +37,7 @@ NOTE: These instructions describe a Windows relay agent installation. To install
 
 . Open the https://console.aws.amazon.com/cloudformation/[AWS CloudFormation console].
 . On the *Stacks* page, choose the stack name.
-. On the *Outputs* tab, note the URL in the *Value* column of the  *BCMRolloutPublicURL* key.
+. On the *Outputs* tab, note the URL in the *Value* column of the *BCMRolloutPublicURL* key.
 
 [#outputs2]
 .{partner-product-short-name} BMC Client Management rollout URL 
@@ -47,39 +47,27 @@ image::../images/outputs2.png[outputs1,width=650,height=266]
 [start=4]
 . Navigate to the URL.
 . A browser privacy warning displays. BMC Client Management uses a self-signed certificate. Choose to continue to the site.
-. The BMC Client Management login page displays. 
-. Log in with the user name *admin* and the password you entered you entered for the `TrackItBcmAdminPassword` link:#_parameter_reference[parameter] during deployment. 
+. The BMC Client Management login page displays. Log in with the user name *admin* and the password you entered for the `TrackItBcmAdminPassword` link:#_parameter_reference[parameter] during deployment. 
 . On the *Welcome to the Rollout Server Download Page*, choose *BCM_Agent_Install.exe* in the *Auto-extractable Name* column.
 . A Windows Defender warning displays. Choose *More info*, then *Run anyway*.
 . After the installation is complete, a message stating *The Agent has been installed successfully* displays. Choose *OK*.
 
 === Install and configure BMC Client Management Console
-In order to correctly configure BCM to work with {partner-product-short-name} you also need to install the BCM console and complete some manual configuration. Follow the steps given below.
-
-. The Client Management console should be installed by navigating to the URL denoted by *BCMConsolePublicURL* on the *Outputs* tab of the main stack.
+. Open the https://console.aws.amazon.com/cloudformation/[AWS CloudFormation console].
+. On the *Stacks* page, choose the stack name.
+. On the *Outputs* tab, note the URL in the *Value* column of the *BCMConsolePublicURL* key.
 
 [#outputs3]
 .{partner-product-short-name} BMC Client Management console URL 
 [link=images/outputs3.png]
 image::../images/outputs3.png[outputs1,width=650,height=266]
 
-[start=2]
-. Upon launching the *BCMConsolePublicURL* in a browser, a warning is displayed as seen in the following figure. This happens because BCM uses self-signed certificates. It is safe to continue.
-
-[#console1]
-.BMC Client Management certificate warning
-[link=images/console1.png]
-image::../images/console1.png[export,width=650,height=266]
-
-[start=3]
-. Upon continuing the following login screen is displayed:
-
-[#console2]
-.BMC Client Management console login screen
-[link=images/console2.png]
-image::../images/console2.png[export,width=650,height=266]
-
 [start=4]
+. Navigate to the URL.
+. A browser privacy warning displays. BMC Client Management uses a self-signed certificate. Choose to continue to the site.
+. The BMC Client Management login page displays. Log in with the user name *admin* and the password you entered for the `TrackItBcmAdminPassword` link:#_parameter_reference[parameter] during deployment.
+
+
 . Log-in with the *Track-It!* user. The password for this user is supplied as a parameter in the CloudFormation template.
 
 . Click the *Web Start Package* button on the console download page to download the console app. Once downloaded launch the app.
