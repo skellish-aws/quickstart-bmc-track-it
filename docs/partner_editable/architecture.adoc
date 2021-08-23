@@ -10,23 +10,18 @@ image::../images/aws_architecture_diagram.png[Architecture,width=648,height=439]
 //[TODO: Shardul] 
 As seen in Figure 1, the Quick Start sets up the following:
 
-* A highly available architecture that spans at least two availability zones
-* A VPC configured with public and private subnets, according to AWS best practices, to provide you with your own virtual network on AWS
-* AWS Directory Service for Microsoft Active Directory (also known as AWS Managed 
-Microsoft AD)
-* Amazon CloudWatch for the {partner-product-short-name} instance logs
+* A highly available architecture that spans two Availabilty Zones.*
+* A virtual private cloud (VPC) configured with public and private subnets, according to AWS best practices, to provide you with your own virtual network on AWS.*
+* In the public subnets:
+** Managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets.*
+** Network Load Balancer to distribute incoming traffic to Track-It Amazon Elastic Compute Cloud (Amazon EC2) instances.*
+* In the private subnets:
+** Two Amazon EC2 instances running SQL Server with Track-It help desk software and BMC Client Management server.
+** AWS Managed Microsoft Active Directory (AD) to provide a fully managed Active Directory domain to which the Track-It EC2 instances are joined.
+* AWS Directory Service to provision and manage AWS Managed Microsoft AD in the private subnets.
+* AWS Lambda to  .
+* Amazon CloudWatch to monitor, store, and access log files from EC2 instances.
 
-In the public subnets:
-
-* Managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets
-
-
-//In the private subnets:*
-
-// Add bullet points for any additional components that are included in the deployment. Make sure that the additional components are also represented in the architecture diagram.
-//* 
-
-
-//*The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.
+[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
 
 
