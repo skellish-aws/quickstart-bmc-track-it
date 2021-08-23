@@ -6,7 +6,7 @@ This Quick Start reference deployment guide provides step-by-step instructions f
 
 This Quick Start is for small and medium-sized organizations looking for an IT help desk product at an affordable price. {partner-product-short-name} is easy to install, configure, and use. It has powerful integrated IT asset management capabilities as well. 
 
-The help desk function is at the core of  {partner-product-short-name}. This function shows you your incidents, problems, and change requests. {partner-product-short-name} can automate and streamline your IT support processes, enhancing your response and delivery resolutions to end users more quickly than ever before. 
+The help desk shows you your incidents, problems, and change requests. {partner-product-short-name} can automate and streamline your IT support processes, enhancing your response and delivery resolutions to end users more quickly than ever before. 
 
 {partner-product-short-name} is a single integrated suite for IT end point management offering: 
 
@@ -28,7 +28,7 @@ The help desk function is at the core of  {partner-product-short-name}. This fun
 * Customizable dashboards
 * Custom reports for metrics analysis and reporting
 
-You can access {partner-product-short-name} via a web browser from a desktop computer or mobile client (iOS and Android devices). With Track-It you can improve customer service, decrease response and resolution times, and lower your IT costs.
+You can access {partner-product-short-name} using a web browser from a desktop computer or mobile client (iOS and Android devices). With Track-It you can improve customer service, decrease response and resolution times, and lower your IT costs.
 
 == Before you begin
 Things you will need for setup: 

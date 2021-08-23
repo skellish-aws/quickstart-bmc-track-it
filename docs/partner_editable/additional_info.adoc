@@ -33,7 +33,7 @@ image::../images/outputs1.png[outputs1,width=650,height=266]
 === Install BMC Client Management relay agent
 After deployment, you must install a BMC Client Management relay agent on one of your on-premises Microsoft Windows servers. A relay agent collects and transmits data from your on-premises network infrastructure to the BMC Client Management server on the Track-It EC2 instance.
 
-NOTE: These instructions describe a Windows relay agent installation. To install a relay agent on Linux, see https://docs.bmc.com/docs/bcm2008/rolling-out-the-relay-agents-930382510.html[Rolling out the relay agents^].
+NOTE: These instructions provide a Microsoft Windows relay agent installation. To install a relay agent on Linux, see https://docs.bmc.com/docs/bcm2008/rolling-out-the-relay-agents-930382510.html[Rolling out the relay agents^].
 
 . Open the https://console.aws.amazon.com/cloudformation/[AWS CloudFormation console^].
 . On the *Stacks* page, choose the stack name.
