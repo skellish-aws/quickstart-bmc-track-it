@@ -1,15 +1,14 @@
 // Replace the content in <>
 // Describe or link to specific knowledge requirements; for example: “familiarity with basic concepts in the areas of networking, database operations, and data encryption” or “familiarity with <software>.”
 
-This Quick Start assumes familiarity with various functions or components of a typical Help Desk software like Asset Management, Change Management, Purchasing, etc. and setting up or configuring Microsoft Active Directory Services and on-premises Exchange or Office365 accounts. This would also need understanding of Amazon Route 53 for setting up correct DNS entries for the Amazon EC2 instance.
+This Quick Start assumes familiarity with help desk software, Active Directory Domain Services (AD DS), and on-premises Exchange and Office365 accounts. This would also need understanding of Amazon Route 53 for setting up correct DNS entries for the Amazon EC2 instance.
 
 ==== Using a registered domain
-The {partner-product-short-name} Quick Start uses a domain name for its HTTPS based end-points. You may choose to use a domain name registered with Amazon Route 53 along with an associated SSL certificate issued by a trusted certificate authority (CA). Although, this is an optional step it is recommended for a more secure experience for your users.
-
-If you choose not to use an Amazon Route 53 registered domain name, a random domain name will be generated. However, the certificate associated with this domain name is a self-signed certificate. The default behavior in web browsers is to not trust such certificates. As a result your users will see a browser warning whenever any web end-point is accessed.
+This Quick Start deployment uses a domain name for its HTTPS-based endpoints. During deployment, you can enter a domain name registered with Amazon Route 53 and an SSL certificate issued by a trusted certificate authority (CA). If you do not use an Amazon Route 53 domain, a random domain associated with a self-signed certificate is automatically generated. With a self-signed certificate, browsers display a privacy warning to users attempting to access endpoints.
 
 ==== Microsoft Active Directory
 The {partner-product-short-name} Quick Start deploys a Microsoft Active Directory domain using AWS Directory Service for Microsoft Active Directory, also known as AWS Managed Microsoft Active Directory (AD). The DNS and NetBIOS names of the domain can be customized using parameters in the template.
+
 Depending on your requirements you can choose either Standard or Enterprise edition. For more details on these options consult the AWS documentation located https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html[here^].
 
 The {partner-product-short-name} EC2 instance is domain-joined to this AD domain.
