@@ -4,7 +4,7 @@
 == Post-deployment steps
 
 === Test the deployment
-Test the deployment by accessing the Track-It portal.
+Test the deployment by accessing the Track-It! portal.
 
 . Open the https://console.aws.amazon.com/cloudformation/[AWS CloudFormation console^].
 . On the *Stacks* page, choose the stack name.
@@ -23,15 +23,15 @@ image::../images/outputs1.png[outputs1,width=650,height=266]
 ==== 
 * If you receive an error stating *We are unable to grant access to the application at this time*, contact BMC support for assistance.
 
-* If you did not enter link:#_parameter_reference[registered domain parameters] during deployment, a browser privacy warning displays before the Track-It login page. Choose to continue to the site.
+* If you did not enter link:#_parameter_reference[registered domain parameters] during deployment, a browser privacy warning displays before the Track-It! login page. Choose to continue to the site.
 ====
 
 [start=4]
 :xrefstyle: short
-. The Track-It login screen displays. The default Track-It login credentials are *ADMINISTRATOR/password*.
+. The Track-It! login screen displays. The default Track-It! login credentials are *ADMINISTRATOR/password*.
 
 === Install BMC Client Management relay agent
-After deployment, you must install a BMC Client Management relay agent on one of your on-premises Microsoft Windows servers. A relay agent collects and transmits data from your on-premises network infrastructure to the BMC Client Management server on the Track-It EC2 instance.
+After deployment, you must install a BMC Client Management relay agent on one of your on-premises Microsoft Windows servers. A relay agent collects and transmits data from your on-premises network infrastructure to the BMC Client Management server on the Track-It! EC2 instance.
 
 NOTE: These instructions provide a Microsoft Windows relay agent installation. To install a relay agent on Linux, see https://docs.bmc.com/docs/bcm2008/rolling-out-the-relay-agents-930382510.html[Rolling out the relay agents^].
 
@@ -98,4 +98,4 @@ NOTE: The server onto which you installed the relay agent previously should disp
 image::../images/console8-resized.png[export,width=386,height=420]
 
 == Getting started with {partner-product-short-name}
-For an introduction to Track-It, see https://docs.bmc.com/docs/trackit2020/en/getting-started-912125630.html[Getting started^] and https://docs.bmc.com/docs/trackit2020/en/training-videos-912125636.html[Training videos^].
+For an introduction to Track-It!, see https://docs.bmc.com/docs/trackit2020/en/getting-started-912125630.html[Getting started^] and https://docs.bmc.com/docs/trackit2020/en/training-videos-912125636.html[Training videos^].

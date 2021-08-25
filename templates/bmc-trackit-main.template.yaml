@@ -689,26 +689,26 @@ Outputs:
 
   # Track-It! Tech portal Public URL (https/443)
   TrackItTechnicianPortalPublicURL:
-    Description: Track-It! Technician Portal Public URL (https/443)
+    Description: Track-It! technician portal public URL (https/443)
     Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItTechnicianPortalPublicURL
 
   # Track-It! Self-service portal Public URL (https/443)
   TrackItSelfServicePortalPublicURL:
-    Description: Track-It! Self-Service Portal Public URL (https/443)
+    Description: Track-It! self-service portal public URL (https/443)
     Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItSelfServicePortalPublicURL
 
   # Track-It! Web API Public URL (https/443)
   TrackItWebApiPublicURL:
-    Description: Track-It! Web API Public URL (https/443)
+    Description: Track-It! web API public URL (https/443)
     Value: !GetAtt TrackItWorkloadStack.Outputs.TrackItWebApiPublicURL
 
   # BMC CM Rollout Agent Public URL (tcp/1610)
   BCMRolloutPublicURL:
-    Description: BMC Client Management Rollout Agent Public URL (tcp/1610)
+    Description: BMC Client Management rollout agent public URL (tcp/1610)
     Value: !GetAtt TrackItWorkloadStack.Outputs.BCMRolloutPublicURL
 
   # BMC CM Web Console Public URL (tcp/1610)
   BCMConsolePublicURL:
-    Description: BMC Client Management Web Console Public URL (tcp/1610)
+    Description: BMC Client Management web console public URL (tcp/1610)
     Value: !GetAtt TrackItWorkloadStack.Outputs.BCMConsolePublicURL
 

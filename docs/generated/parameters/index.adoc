@@ -1,6 +1,6 @@
 
-=== Parameters for deploying into a new VPC
-include::bmc-trackit-main.template.adoc[]
-
 === Parameters for deploying into an existing VPC
 include::bmc-trackit-workload.template.adoc[]
+
+=== Parameters for deploying into a new VPC
+include::bmc-trackit-main.template.adoc[]
