@@ -2,6 +2,9 @@
 // Identify your target audience and explain how/why they would use this Quick Start.
 //Avoid borrowing text from third-party websites (copying text from AWS service documentation is fine). Also, avoid marketing-speak, focusing instead on the technical aspect.
 
+This Quick Start deploys Track-It! on the Amazon Web Services (AWS) Cloud. Track-It! offers features to manage your IT help desk, from problem ticketing and change management to IT department purchasing and inventory. With BMC Client Management, Track-It! also helps with IT endpoint management, providing a central point of patch deployment to all devices on your network. For more information, see the https://www.trackit.com/help-desk-software/[Track-It! website].
+
+
 This Quick Start reference deployment guide provides step-by-step instructions for deploying {partner-product-short-name} on the AWS Cloud.
 
 This Quick Start is for small and medium-sized organizations looking for an IT help desk product at an affordable price. {partner-product-short-name} is easy to install, configure, and use. It has powerful integrated IT asset management capabilities as well. 
