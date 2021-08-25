@@ -2,36 +2,7 @@
 // Identify your target audience and explain how/why they would use this Quick Start.
 //Avoid borrowing text from third-party websites (copying text from AWS service documentation is fine). Also, avoid marketing-speak, focusing instead on the technical aspect.
 
-This Quick Start deploys Track-It! on the Amazon Web Services (AWS) Cloud. Track-It! offers features to manage your IT help desk, from problem ticketing and change management to IT department purchasing and inventory. With BMC Client Management, Track-It! also helps with IT endpoint management, providing a central point of patch deployment to all devices on your network. For more information, see the https://www.trackit.com/help-desk-software/[Track-It! website].
-
-
-This Quick Start reference deployment guide provides step-by-step instructions for deploying {partner-product-short-name} on the AWS Cloud.
-
-This Quick Start is for small and medium-sized organizations looking for an IT help desk product at an affordable price. {partner-product-short-name} is easy to install, configure, and use. It has powerful integrated IT asset management capabilities as well. 
-
-The help desk shows you your incidents, problems, and change requests. {partner-product-short-name} can automate and streamline your IT support processes, enhancing your response and delivery resolutions to end users more quickly than ever before. 
-
-{partner-product-short-name} is a single integrated suite for IT end point management offering: 
-
-* Help desk
-* Automated asset discovery
-* Asset auditing
-* Patch management
-* Software deployment
-* Mobile device management
-* Remote control
-* Bar-code scanning for physical inventory
-* End-user satisfaction survey
-* Active Directory user import and authentication
-* Change management
-* Software license management
-* Knowledge management
-* End-user self-service web portal
-* IT purchasing
-* Customizable dashboards
-* Custom reports for metrics analysis and reporting
-
-You can access {partner-product-short-name} using a web browser from a desktop computer or mobile client (iOS and Android devices). With Track-It you can improve customer service, decrease response and resolution times, and lower your IT costs.
+This Quick Start deploys Track-It! on the Amazon Web Services (AWS) Cloud. Track-It! offers features to conduct your IT help desk services, including problem ticketing, change management, purchasing, and inventory. With BMC Client Management, Track-It! also helps with IT endpoint management, providing a central point of patch deployment to all devices on your network. For more information, see the https://www.trackit.com/help-desk-software/[Track-It! website]. This deployment uses AWS Managed Microsoft Active Directory (AD) to integrate your existing on-premises AD.
 
 == Before you begin
 Things you will need for setup: 
@@ -51,11 +22,7 @@ located https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfe
 
 If you have an existing certificate issued for your domain, it is possible to import it
 in AWS Certificate Manager (ACM). Consult the AWS documentation located https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html[here^] for guidance.
-=====
-+
-When using a registered domain name, you must provide a corresponding SSL certificate for the domain issued by a trusted certificate authority (CA). You can purchase this from the AWS Certificate Manager (ACM) service.
-+
-If you do not wish to use a registered domain name, users will access Track-It! using a random domain name assigned. The Quick Start will generate and associate a self-signed certificate to the load balancer to provide SSL (HTTP/S) termination. Note that use of a self-signed certificate will cause all browsers to show a 'certificate not trusted' error when visiting the site and require each individual user to modify settings in their browser to hide this error. It is a better experience for your users, more secure, and highly recommended to use a registered domain name with associated certificate issued by a trusted certificate authority (CA).
+
 
 [start=4]
 . *What server size you need* – This is an option during the installation and the different sizes have different memory, disk space, and CPU settings, which could cost you more or less depending on which you select. Most users will be fine with the _Small_ server setup but this is something you should consider and be prepared to answer. 

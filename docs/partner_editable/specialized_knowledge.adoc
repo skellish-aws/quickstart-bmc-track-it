@@ -4,20 +4,20 @@
 This Quick Start assumes familiarity with help desk software, Active Directory Domain Services (AD DS), and your on-premises Microsoft Exchange and Microsoft Office365 accounts. Familiarity with using Amazon Route 53 to register a domain is also recommended.
 
 ==== Using a registered domain
-This Quick Start deployment uses a domain name for its HTTPS-based endpoints. During deployment, you can enter a domain name registered with Amazon Route 53 and an SSL certificate issued by a trusted certificate authority (CA). If you do not use an Amazon Route 53 domain, a domain associated with a self-signed certificate is automatically generated. With a self-signed certificate, browsers display a privacy warning to users attempting to access endpoints.
+This Quick Start deployment uses a domain name for its HTTPS-based endpoints. During deployment, you can enter a domain name registered with Amazon Route 53 and an SSL certificate issued by a trusted certificate authority (CA). If you do not, a random domain associated with a self-signed certificate is automatically generated. With a self-signed certificate, browsers display a privacy warning to users attempting to access endpoints.
 
 ==== Microsoft Active Directory
 The {partner-product-short-name} Quick Start deploys an AD domain using AWS Managed Microsoft Active Directory (AD). The {partner-product-short-name} EC2 instance is domain-joined to this AD domain. You can customize the DNS and NetBIOS names of the domain during deployment.
 
-Depending on your requirements, you can choose Standard or Enterprise edition of AWS Managed Microsoft AD. For more information about these options, see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html[What is AWS Directory Service?^]
+You can choose Standard or Enterprise edition of AWS Managed Microsoft AD during deployment. For more information about these options, see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html[What is AWS Directory Service?^]
 
 ===== Windows integrated authentication
 {partner-product-short-name} supports authenticating users with Windows integrated authentication.
 
-You must establish a trusted relationship between your AD and AWS so your users can sign in to {partner-product-short-name} with their AD credentials. For more information, see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_connect_existing_infrastructure.html[Connect to your existing AD infrastructure^].
+You must establish a trusted relationship between your AD and AWS so your existing AD users can be authenticated successfully. For more information, see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_connect_existing_infrastructure.html[Connect to your existing AD infrastructure^].
 
 ==== Sizing
-You can choose the EC2 instance type to fit your workload. The following table lists the appropriate EC instance types for three use cases.
+During deployment, you can choose the EC2 instance type to fit your workload. The following table lists the appropriate EC instance types for three use cases.
 
 |===
 |Size |Amazon EC2 instance type |Volume size (in GB)
