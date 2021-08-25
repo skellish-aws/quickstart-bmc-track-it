@@ -332,38 +332,50 @@ Parameters:
     Type: String
 
   QSS3BucketName:
-    AllowedPattern: "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$"
-    ConstraintDescription: >-
-      Quick Start bucket name can include numbers, lowercase letters, uppercase
-      letters, and hyphens (-). It cannot start or end with a hyphen (-).
+    AllowedPattern: '^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$'
+    ConstraintDescription:
+      The Quick Start bucket name can include numbers, lowercase
+      letters, uppercase letters, and hyphens (-). It cannot start or end with a 
+      hyphen (-).
     Default: aws-quickstart
-    Description: >-
-      S3 bucket that you created for your copy of Quick Start assets.
-      Use this if you decide to customize the Quick Start. This bucket name can include numbers, lowercase letters,
-      uppercase letters, and hyphens but should not start or end with a hyphen.
+    Description:
+      Name of the S3 bucket for your copy of the Quick Start assets. 
+      Keep the default name unless you are customizing the template. 
+      Changing the name updates code references to point to a new Quick 
+      Start location. This name can include numbers, lowercase letters, 
+      uppercase letters, and hyphens, but do not start or end with a hyphen (-). 
+      See https://aws-quickstart.github.io/option1.html.
     Type: String
 
   QSS3BucketRegion:
-    Default: "us-east-1"
-    Description: "AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value."
+    Default: 'us-east-1'
+    Description: 'AWS Region where the Quick Start S3 bucket (QSS3BucketName) is 
+    hosted. Keep the default Region unless you are customizing the template. 
+    Changing this Region updates code references to point to a new Quick Start location. 
+    When using your own bucket, specify the Region. 
+    See https://aws-quickstart.github.io/option1.html.'
     Type: String
 
   QSS3KeyPrefix:
-    AllowedPattern: "^[0-9a-zA-Z-/]*/$"
-    ConstraintDescription: >-
-      Quick Start key prefix can include numbers, lowercase letters, uppercase
-      letters, hyphens (-), and forward slash (/).
+    AllowedPattern: '^[0-9a-zA-Z-/]*$'
+    ConstraintDescription:
+      The Quick Start S3 key prefix can include numbers, lowercase letters,
+      uppercase letters, hyphens (-), and forward slashes (/). The prefix should
+      end with a forward slash (/).
     Default: quickstart-bmc-track-it/
-    Description: >-
-      S3 key name prefix that is used to simulate a directory for your copy of Quick Start assets.
-      Use this if you decide to customize the Quick Start. This prefix can include numbers, lowercase letters,
-      uppercase letters, hyphens, and forward slashes.
-      See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html.
+    Description:
+      S3 key prefix that is used to simulate a directory for your copy of the 
+      Quick Start assets. Keep the default prefix unless you are customizing 
+      the template. Changing this prefix updates code references to point to 
+      a new Quick Start location. This prefix can include numbers, lowercase 
+      letters, uppercase letters, hyphens (-), and forward slashes (/). End with 
+      a forward slash. See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html 
+      and https://aws-quickstart.github.io/option1.html.
     Type: String
 
   Route53HostedZoneId:
     Description: >-
-      (Optional) Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.
+      (Optional) Route53 hosted zone ID where the DNS record for the Track-It! site domain is added.
     Type: String
 
   TrackItEndUserWebAccessCIDR:
@@ -371,7 +383,7 @@ Parameters:
     ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
     Description: >-
       CIDR IP range that is permitted to access the Track-It web portal.
-      Note: a value of 0.0.0.0/0 will allow access from ANY ip address.
+      Note: A value of 0.0.0.0/0 allows access from any IP address.
     Type: String
 
   TrackItInstanceDomainComputerName:
