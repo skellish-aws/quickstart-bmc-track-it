@@ -2,5 +2,11 @@
 // Identify your target audience and explain how/why they would use this Quick Start.
 //Avoid borrowing text from third-party websites (copying text from AWS service documentation is fine). Also, avoid marketing-speak, focusing instead on the technical aspect.
 
-Track-It! offers features to manage your IT help desk, including problem ticketing, change management, purchasing, and inventory. With BMC Client Management, Track-It! also helps with IT endpoint management, providing a central point of patch deployment to all devices on your network. For more information, see the https://www.trackit.com/help-desk-software/[Track-It! website]. This deployment uses AWS Managed Microsoft Active Directory (AD) to integrate your existing on-premises AD.
+This Quick Start deployment guide walks you through deploying Track-It! on the Amazon Web Services (AWS) Cloud for managing your IT help desk. It is for users who want IT help desk and endpoint management services hosted on the AWS Cloud.
+
+This {partner-product-short-name} Quick Start is deployed on a single Amazon Elastic Compute Cloud (Amazon EC2) instance. This instance hosts the database server and the BMC Client Management (BCM) master.
+
+For the BMC Client Management server to discover and audit your on-premises IT infrastructure, additional software needs to be deployed on your internal network. For more information, refer to the link:#_post_deployment_steps[Post deployment steps] section later in this guide.
+
+To back up the database, you must execute scripts on the Amazon EC2 instance. These scripts are not part of the default image. You must have a strategy to backup your database that suits your scenario. There can be further costs if you store the backups on Amazon Simple Storage Service (Amazon S3) or Amazon S3 Glacier.
 
