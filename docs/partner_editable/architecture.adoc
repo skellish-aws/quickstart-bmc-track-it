@@ -12,10 +12,10 @@ As seen in Figure 1, the Quick Start sets up the following:
 
 * A highly available architecture that spans two Availability Zones.*
 * A virtual private cloud (VPC) configured with public and private subnets, according to AWS best practices, to provide you with your own virtual network on AWS.*
-* A managed internet gateway to direct inbound traffic to a Network Load Balancer, which manages traffic to Amazon Elastic Compute Cloud (Amazon EC2) instances.
+* A managed internet gateway to direct inbound traffic to a Network Load Balancer, which manages traffic to Amazon EC2 instances.
 * In the public subnets, managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets.*
 * In the private subnets, an Amazon EC2 instance with Microsoft SQL Server, Track-It!, and BMC Client Management software.
-* AWS Managed Microsoft Active Directory (AD) to provide a fully managed Active Directory domain to which the Track-It! EC2 instance is joined.
+* AWS Directory Service for Microsoft Active Directory to provide a fully managed Active Directory domain to which the Track-It! EC2 instance is joined.
 * AWS Directory Service to provision and manage AWS Managed Microsoft AD.
 * AWS Lambda to  .
 * Amazon CloudWatch to monitor, store, and access log files from EC2 instances.
