@@ -1,13 +1,4 @@
 // If no preperation is required, remove all content from here
 
-==== Prepare your AWS account
 
-This Quick Start deploys an Amazon EC2 instance. Ensure that a key pair is available in the AWS Region in which you plan to deploy it. You are prompted to enter an existing key pair parameter during deployment. 
-
-==== Prepare your {partner-company-name} account
-
-Sign up for a BMC Support profile and license. For more information, see https://community.bmc.com/s/news/aA33n000000Cj6tCAC/creating-a-bmc-support-profile-and-downloading-licensessoftware[Creating a BMC Support profile and downloading licenses/software^].
-
-This Quick Start deploys with a trial Track-It! license. The trial license gives you 90 days of free usage in a non-production environment. After this time, you can upgrade to a production license. For more information, see https://docs.bmc.com/docs/trackit2020/en/applying-a-license-file-912126000.html[Applying a license file].
-
-==== Prepare 
+  

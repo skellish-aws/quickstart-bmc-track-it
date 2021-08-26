@@ -1,22 +1,22 @@
 // Replace the content in <>
 // Describe or link to specific knowledge requirements; for example: “familiarity with basic concepts in the areas of networking, database operations, and data encryption” or “familiarity with <software>.”
 
-This Quick Start assumes familiarity with help desk software, Active Directory Domain Services (AD DS), and your on-premises Microsoft Exchange and Microsoft Office365 accounts. Familiarity with using Amazon Route 53 to register a domain is also recommended.
+This Quick Start also assumes familiarity with help desk software, Active Directory Domain Services (AD DS), and your on-premises Microsoft Exchange and Microsoft Office365 accounts. Familiarity with using Amazon Route 53 to register a domain is also recommended.
 
-==== Using a registered domain
+=== Using a registered domain
 This Quick Start deployment uses a domain name for its HTTPS-based endpoints. During deployment, you can enter a domain name registered with Amazon Route 53 and an SSL certificate issued by a trusted certificate authority (CA). If you do not, a random domain associated with a self-signed certificate is automatically generated. With a self-signed certificate, browsers display a privacy warning to users attempting to access endpoints.
 
-==== Microsoft Active Directory
+=== Microsoft Active Directory
 The {partner-product-short-name} Quick Start deploys an AD domain using AWS Managed Microsoft Active Directory (AD). The {partner-product-short-name} EC2 instance is domain-joined to this AD domain. You can customize the DNS and NetBIOS names of the domain during deployment.
 
 You can choose Standard or Enterprise edition of AWS Managed Microsoft AD during deployment. For more information about these options, see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html[What is AWS Directory Service?^]
 
-===== Windows integrated authentication
+=== Windows integrated authentication
 {partner-product-short-name} supports authenticating users with Windows integrated authentication.
 
 You must establish a trusted relationship between your AD and AWS so your existing AD users can be authenticated successfully. For more information, see https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_connect_existing_infrastructure.html[Connect to your existing AD infrastructure^].
 
-==== Sizing
+=== Sizing
 During deployment, you can choose the EC2 instance type to fit your workload. The following table lists the appropriate EC instance types for three use cases.
 
 |===
@@ -35,3 +35,6 @@ More than 15 active technicians and more than 200 active requestors. |m5.2xlarge
 |===
 
 For recommended Track-It! hardware configurations, see {partner-product-short-name} documentation on https://docs.bmc.com/docs/display/trackit2020/Sizing+and+scalability+considerations[Sizing and scalability considerations^]. For more information about Amazon EC2 instance types, see https://aws.amazon.com/ec2/instance-types/[Amazon EC2 Instance Types^].
+
+=== IP Addresses to Whitelist
+You may need this if you wish to restrict which users or computers can connect to your {partner-product-short-name} server. There is a configuration option during the setup which allows you to enter a CIDR or range of IP addresses that are allowed to connect to your {partner-product-short-name} server. If you aren’t sure or don’t know, you can always use the default setting and change it later.
