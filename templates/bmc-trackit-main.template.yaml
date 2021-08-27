@@ -120,9 +120,9 @@ Metadata:
       OperatorEmail:
         default: Operator email address
       PrivateSubnet1ACIDR:
-        default: Private subnet 1A CIDR
+        default: Private subnet 1 CIDR
       PrivateSubnet2ACIDR:
-        default: Private subnet 2A CIDR
+        default: Private subnet 2 CIDR
       PublicSubnet1CIDR:
         default: Public subnet 1 CIDR
       PublicSubnet2CIDR:
@@ -138,7 +138,7 @@ Metadata:
       TrackItEndUserWebAccessCIDR:
         default: Track-It! end-user web access permitted IP range
       TrackItInstanceDomainComputerName:
-        default: Track-It! instance Server Name
+        default: Track-It! instance server name
       TrackItEnvironmentSize:
         default: Track-It! 'all-in-one' environment size
       TrackItSiteDomain:
@@ -146,9 +146,9 @@ Metadata:
       TrackItRealSSLCertificateARN:
         default: Track-It! SSL certificate ARN
       TrackItSelfSignSSLCertificateOptions:
-        default: Track-It! self-signed SSL certificate options (Unused if registered domain configuration is provided above)
+        default: Track-It! self-signed SSL certificate options
       TrackItSelfSignSSLCertificateExpiresOn:
-        default: Track-It! self-signed SSL certificate expiration date (Unused if registered domain configuration is provided above)
+        default: Track-It! self-signed SSL certificate expiration date
       TrackItAdminPassword:
         default: Track-It! database administrator account password
       TrackItAdminPasswordConfirm:
@@ -157,7 +157,6 @@ Metadata:
         default: BMC Client Management admin account password
       TrackItBcmAdminPasswordConfirm:
         default: Re-enter BMC Client Management admin account password
-
       VPCCIDR:
         default: VPC CIDR
 
@@ -191,8 +190,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Mandatory password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters
-      containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
+      Mandatory password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -202,8 +200,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the mandatory password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters
-      containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
+      Confirm the mandatory password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -249,8 +246,7 @@ Parameters:
   DSMicrosoftADEdition:
     Type: String
     Description: >-
-      Edition of AWS Managed Microsoft AD. Standard Edition includes 1GB of storage for objects. Enterprise Edition includes 17GB. The total number of objects supported depends on the types
-      of objects, size of data stored in attributes, and your transaction rates. Add domain controllers to scale your workload.
+      Edition of AWS Managed Microsoft AD. Standard Edition includes 1GB of storage for objects. Enterprise Edition includes 17GB. The total number of objects supported depends on the types of objects, size of data stored in attributes, and your transaction rates. Add domain controllers to scale your workload.
     AllowedValues:
       - Standard
       - Enterprise
@@ -350,7 +346,7 @@ Parameters:
 
   Route53HostedZoneId:
     Description: >-
-      (Optional) Route53 hosted zone ID with the DNS record for the Track-It! site domain.
+      (Optional) ID of the Route53 hosted zone where the Track-It! site domain DNS record is added.
     Type: String
 
   TrackItEndUserWebAccessCIDR:
@@ -362,8 +358,7 @@ Parameters:
 
   TrackItInstanceDomainComputerName:
     Description: >-
-      Track-It! instance server name. The default setting is optimal for most use cases.
-      Do not change this setting without understanding the impacts of understand the impacts of doing so.
+      Track-It! instance server name. The default setting is optimal for most use cases. Do not change this setting without understanding the impact of doing so.
     Type: String
     Default: TrackIt01
 
@@ -391,7 +386,7 @@ Parameters:
 
   TrackItSelfSignSSLCertificateOptions:
     Type: String
-    Description: (Optional) Self-signed certificate options.
+    Description: (Optional) Self-signed certificate options. Not used if you configure a registered domain.
     Default: CN=trackit.com;C=US;
       L=Texas;ST=TX; 
       O=trackit;OU=sales;
@@ -400,7 +395,7 @@ Parameters:
   TrackItSelfSignSSLCertificateExpiresOn:
     Type: String
     Description: >-
-      (Optional) Enter an expiration date for the self-signed SSL certificate. Date must be at least one day in the future, in the form YYYY-MM-DD. If left blank, the default expiration date of one year from today applies.
+      (Optional) Enter an expiration date for the self-signed SSL certificate. Date must be at least one day in the future, in the form YYYY-MM-DD. If left blank, the default expiration date of one year from today applies. Not used if you configure a registered domain.
     AllowedPattern: ^$|^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$
     ConstraintDescription: >-
       Expiration date must be empty or a date at least one day in the future, in the form YYYY-MM-DD. 
@@ -466,8 +461,7 @@ Rules:
             - us-west-2         # US West (Oregon)
           - !Ref AWS::Region
         AssertDescription: BMC Software does not support this Quick Start in the chosen Region.
-          For more information, see the list of supported Regions in the  for a list
-          of currently supported Regions and launch the stack in one of those Regions.
+          For more information, see the list of supported Regions in the deployment guide.
 
 Conditions:
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
@@ -697,3 +691,6 @@ Outputs:
     Description: BMC Client Management web console public URL (tcp/1610)
     Value: !GetAtt TrackItWorkloadStack.Outputs.BCMConsolePublicURL
 
+  Postdeployment:
+    Description: See the deployment guide for post-deployment steps.
+    Value: https://aws.amazon.com/quickstart/?quickstart-all.sort-by=item.additionalFields.sortDate&quickstart-all.sort-order=desc&awsm.page-quickstart-all=5
