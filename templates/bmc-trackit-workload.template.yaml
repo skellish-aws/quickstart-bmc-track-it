@@ -227,7 +227,7 @@ Parameters:
 
   DomainMemberSGID:
     Description: >-
-      The ID of the domain member security group (for example, sg-7f16e910).
+      ID of the domain member security group (for example, sg-7f16e910).
     Type: 'AWS::EC2::SecurityGroup::Id'
 
   DomainNetBIOSName:
