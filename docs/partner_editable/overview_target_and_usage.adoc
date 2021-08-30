@@ -2,63 +2,8 @@
 // Identify your target audience and explain how/why they would use this Quick Start.
 //Avoid borrowing text from third-party websites (copying text from AWS service documentation is fine). Also, avoid marketing-speak, focusing instead on the technical aspect.
 
-This Quick Start reference deployment guide provides step-by-step instructions for deploying {partner-product-short-name} on the AWS Cloud.
+This Quick Start deployment guide walks you through deploying Track-It! on the Amazon Web Services (AWS) Cloud for managing your IT help desk. It is for users who want IT help desk and endpoint management services hosted on the AWS Cloud. 
 
-This Quick Start is for small and medium-sized organizations that are looking for an IT help desk product at an affordable price. {partner-product-short-name} is easy to install, configure, and use. It has powerful integrated IT asset management capabilities as well. 
-
-The Help Desk function is at the core of  {partner-product-short-name}. This function shows you your incidents, problems, and change requests. {partner-product-short-name} can automate and streamline your IT support processes enhancing your response and delivery resolutions to end users more quickly than ever before. 
-
-{partner-product-short-name} is a single integrated suite for IT end point management offering: 
-
-* Help Desk
-* Automated Asset Discovery
-* Asset Auditing
-* Patch Management
-* Software Deployment
-* Mobile Device Management
-* Remote Control
-* Bar-code scanning for physical inventory
-* End-user satisfaction survey
-* Active Directory User Import and Authentication
-* Change Management
-* Software License Management
-* Knowledge Management
-* End-user self-service web portal
-* IT Purchasing
-* Customizable Dashboards with drill down
-* Custom Reports for metrics analysis and reporting
-
-You can access {partner-product-short-name} via a web browser from a desktop computer or mobile client (iOS and Android devices). With Track-It! you can improve customer service, decrease response and resolution times, and lower your IT costs.
-
-== Before you begin
-Before you begin, there are several important things to understand about this solution. This guide is designed to be followed during the Amazon Web Services CloudFormation stack setup. This initial checklist will cover all the things you need to have ready before you can proceed. Once you have gathered all of this information or at least considered how you plan to configure each item, you can proceed forward in this document and with the actual setup.
-
-Things you will need for setup: 
-
-. *An Amazon Web Services account* – You will need this in order to set up, run and pay for the servers and resources on AWS that you will be using to host your {partner-product-short-name} server.  
-
-. *Software licenses for {partner-product-short-name}* – You can purchase these from BMC Software in advance OR any time within the 90-day trial period that comes with this server instance. 
-
-. *Choose between a 'registered domain name with associated SSL certificate' or a 'random domain name and self-signed certificate'* - If you have an existing registered domain name or wish to register a new domain name, you may set this up using Amazon Route 53 service. 
-+
-[NOTE]
-=====
-If you have an existing domain name registered with another registrar then you
-have the option of transferring it over to Route 53. Consult the AWS documentation
-located https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html[here^] for guidance.
+The Quick Start is deployed on a single Amazon Elastic Compute Cloud (Amazon EC2) instance. This instance hosts the database server and the BMC Client Management (BCM) server. After deployment, you must install additional software on your internal network. This will enable BMC Client Management server to discover and audit your on-premises IT infrastructure. For more information, refer to the link:#_post_deployment_steps[Post deployment steps] section later in this guide. To back up the database, you must run scripts on the Amazon EC2 instance that are not part of the default deployment. Create a strategy to back up your database that suits your workflow. If you store the backups on Amazon Simple Storage Service (Amazon S3) or Amazon S3 Glacier, you can incur additional charges.
 
 
-If you have an existing certificate issued for your domain, it is possible to import it
-in AWS Certificate Manager (ACM). Consult the AWS documentation located https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html[here^] for guidance.
-=====
-+
-When using a registered domain name, you must provide a corresponding SSL certificate for the domain issued by a trusted certificate authority (CA). You can purchase this from the AWS Certificate Manager (ACM) service.
-+
-If you do not wish to use a registered domain name, users will access Track-It! using a random domain name assigned. The Quick Start will generate and associate a self-signed certificate to the load balancer to provide SSL (HTTP/S) termination. Note that use of a self-signed certificate will cause all browsers to show a 'certificate not trusted' error when visiting the site and require each individual user to modify settings in their browser to hide this error. It is a better experience for your users, more secure, and highly recommended to use a registered domain name with associated certificate issued by a trusted certificate authority (CA).
-
-[start=4]
-. *What server size you need* – This is an option during the installation and the different sizes have different memory, disk space, and CPU settings, which could cost you more or less depending on which you select. Most users will be fine with the _Small_ server setup but this is something you should consider and be prepared to answer. 
-+
-Details on the available sizing options are available in the link:#_sizing[Sizing] section of this guide and the https://docs.bmc.com/docs/trackit2020/en/sizing-and-scalability-considerations-912125648.html[Sizing and scalability considerations^] page of the {partner-product-short-name} online documentation.
-
-. *IP Addresses to Whitelist* – You may need this if you wish to restrict which users/computers can connect to your {partner-product-short-name} server.  There is a configuration option during the setup which allows you to enter a CIDR (pronounced _Cider_) or range of IP addresses that are allowed to connect to your {partner-product-short-name} server.  If you aren’t sure or don’t know, you can always use the default setting there and change it later.  

@@ -1,11 +1,9 @@
 // Include details about the license and how they can sign up. If no license is required, clarify that. 
 
-
 This Quick Start requires a license to utilize the full feature set of {partner-product-short-name}. To use the Quick Start in your production
 environment, you must purchase a {partner-product-short-name} license from BMC Software.  Please visit the https://www.trackit.com/[{partner-product-short-name} website^] to reach the sales team for more information. 
 
 If you have already purchased a license for {partner-product-short-name} and have received your order confirmation email, you can download your license by following the instructions https://community.bmc.com/s/news/aA33n000000Cj6tCAC/creating-a-bmc-support-profile-and-downloading-licensessoftware[here^]. 
-
 
 If you don’t have a license but wish to continue with this installation now, the Quick Start deploys with a trial license which will give you 90
 days of free usage in a non-production environment. At any time during this trial, you can upgrade to a production license by contacting the {partner-product-short-name} sales team through the {partner-product-short-name} website above.

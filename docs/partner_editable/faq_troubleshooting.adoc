@@ -18,7 +18,7 @@ For additional information, see https://docs.aws.amazon.com/AWSCloudFormation/la
 
 == Troubleshooting
 
-This Quick Start configures Microsoft Windows and {partner-product-short-name} log files to be stored in Amazon CloudWatch Logs with the group prefix 'BMC-Track-It'. Log files captured include:
+This Quick Start configures Microsoft Windows and {partner-product-short-name} log files stored in Amazon CloudWatch Logs with the group prefix 'BMC-Track-It'. The captured log files include:
 
 * C:\Program Files (x86)\BMC\Track-It!\Logs\NAMMetadata_*.log
 * C:\Program Files (x86)\BMC\Track-It!\Logs\ServiceDesk_*.log
@@ -53,4 +53,4 @@ This Quick Start configures Microsoft Windows and {partner-product-short-name} l
 * C:\Windows\System32\LogFiles\HTTPERR\**.log
 * C:\inetpub\logs\LogFiles\W3SVC1\u_ex.log
 * C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Log\ERRORLOG
-* Windows Event Manager BMC-Track-It log group System, Security and Application log streams.
+* Windows Event Manager BMC-Track-It log group System, Security, and Application log streams.

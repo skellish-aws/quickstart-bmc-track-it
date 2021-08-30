@@ -1,12 +1,4 @@
 // If no preperation is required, remove all content from here
 
-==== Prepare your AWS account
 
-Since the Quick Start deploys an Amazon EC2 instance, you need to ensure a Key Pair is available in the region in which you plan to deploy the resources.
-
-==== Prepare your {partner-company-name} account
-
-Sign up for a BMC Support profile and license https://community.bmc.com/s/news/aA33n000000Cj6tCAC/creating-a-bmc-support-profile-and-downloading-licensessoftware[here^].
-
-If you don’t have a license, the Quick Start deploys with a trial license. The trial license gives you 90 days of free usage in a non-production environment. After this time, you can upgrade to a production license by following the instructions https://docs.bmc.com/docs/trackit2020/en/applying-a-license-file-912126000.html[here^].
-
+  

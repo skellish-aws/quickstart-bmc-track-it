@@ -4,29 +4,22 @@ default parameters builds the following {partner-product-short-name} environment
 // Replace this example diagram with your own. Send us your source PowerPoint file. Be sure to follow our guidelines here : http://(we should include these points on our contributors giude)
 [#architecture1]
 .Quick Start architecture for _{partner-product-short-name}_ on AWS
-[link=images/aws_architecture_diagram.png]
-image::../images/aws_architecture_diagram.png[Architecture,width=648,height=439]
+[link=images/architecture-diagram-bmc-track-it.png]
+image::../images/architecture-diagram-bmc-track-it.png[Architecture,width=648,height=439]
 
 //[TODO: Shardul] 
 As seen in Figure 1, the Quick Start sets up the following:
 
-* A highly available architecture that spans at least two availability zones
-* A VPC configured with public and private subnets, according to AWS best practices, to provide you with your own virtual network on AWS
-* AWS Directory Service for Microsoft Active Directory (also known as AWS Managed 
-Microsoft AD)
-* Amazon CloudWatch for the {partner-product-short-name} instance logs
+* A highly available architecture that spans two Availability Zones.*
+* A virtual private cloud (VPC) configured with public and private subnets, according to AWS best practices, to provide you with your own virtual network on AWS.*
+* A managed internet gateway to direct inbound traffic to a Network Load Balancer, which manages traffic to Amazon EC2 instances.
+* In the public subnets, managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets.*
+* In the private subnets, an Amazon EC2 instance with Microsoft SQL Server, Track-It!, and BMC Client Management software.
+* AWS Directory Service for Microsoft Active Directory to provide a fully managed Active Directory domain to which the Track-It! EC2 instance is joined.
+* AWS Directory Service to provision and manage AWS Managed Microsoft AD.
+* AWS Lambda to  .
+* Amazon CloudWatch to monitor, store, and access log files from EC2 instances.
 
-In the public subnets:
-
-* Managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets
-
-
-//In the private subnets:*
-
-// Add bullet points for any additional components that are included in the deployment. Make sure that the additional components are also represented in the architecture diagram.
-//* 
-
-
-//*The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.
+[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
 
 
