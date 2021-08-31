@@ -5,7 +5,7 @@ default parameters builds the following {partner-product-short-name} environment
 [#architecture1]
 .Quick Start architecture for _{partner-product-short-name}_ on AWS
 [link=images/architecture-diagram-bmc-track-it.png]
-image::../images/architecture-diagram-bmc-track-it.png[Architecture,width=648,height=439]
+image::../images/architecture-diagram-bmc-track-it.png[Architecture,width=956,height=517]
 
 //[TODO: Shardul] 
 As seen in Figure 1, the Quick Start sets up the following:
