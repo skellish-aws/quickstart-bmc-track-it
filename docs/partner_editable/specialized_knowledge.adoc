@@ -7,7 +7,7 @@ This Quick Start also assumes familiarity with help desk software, Active Direct
 This Quick Start deployment uses a domain name for its HTTPS-based endpoints. During deployment, you can enter a domain name registered with Amazon Route 53 and an SSL certificate issued by a trusted certificate authority (CA). If you do not, a random domain associated with a self-signed certificate is automatically generated. With a self-signed certificate, browsers display a privacy warning to users attempting to access endpoints.
 
 === IP Addresses to allow
-During deployment, use the ... parameters to restrict access to the Track-It! server. If you aren’t sure or don’t know, you can use the default setting and change it later. For more information, see the link:#_parameter_reference[Parameter reference] section later in this guide.
+During deployment, you can enter a Classless Inter-Domain Routing (CIDR) block to restrict access to the Track-It! server. If you aren’t sure or don’t know, you can use the default setting and change it later. For more information, see the link:#_parameter_reference[Parameter reference] section later in this guide.
 
 === Microsoft Active Directory
 The {partner-product-short-name} Quick Start deploys an Active Directory domain using AWS Managed Microsoft AD. The {partner-product-short-name} EC2 instance is domain-joined to this domain. You can customize the DNS and NetBIOS names of the domain during deployment.
