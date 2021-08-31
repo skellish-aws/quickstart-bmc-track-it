@@ -6,6 +6,9 @@ This Quick Start also assumes familiarity with help desk software, Active Direct
 === Using a registered domain
 This Quick Start deployment uses a domain name for its HTTPS-based endpoints. During deployment, you can enter a domain name registered with Amazon Route 53 and an SSL certificate issued by a trusted certificate authority (CA). If you do not, a random domain associated with a self-signed certificate is automatically generated. With a self-signed certificate, browsers display a privacy warning to users attempting to access endpoints.
 
+=== IP Addresses to allow
+During deployment, use the ... parameters to restrict access to the Track-It! server. If you aren’t sure or don’t know, you can use the default setting and change it later. For more information, see the link:#_parameter_reference[Parameter reference] section later in this guide.
+
 === Microsoft Active Directory
 The {partner-product-short-name} Quick Start deploys an Active Directory domain using AWS Managed Microsoft AD. The {partner-product-short-name} EC2 instance is domain-joined to this domain. You can customize the DNS and NetBIOS names of the domain during deployment.
 
@@ -17,7 +20,9 @@ You must establish a trusted relationship between your AD and AWS so your existi
 {partner-product-short-name} supports authenticating users with Windows integrated authentication as an option. For more information, see https://docs.bmc.com/docs/trackit2020/en/enabling-microsoft-windows-integrated-authentication-for-track-it-912126147.html[Enabling Microsoft Windows Integrated Authentication for Track-It!].
 
 === Sizing
-During deployment, you can choose the EC2 instance type to fit your workload. The following table lists the appropriate EC instance types for three use cases.
+During deployment, you can choose the EC2 instance type to fit your workload. The following table lists the appropriate EC instance types for three use cases. 
+
+For recommended Track-It! hardware configurations, see {partner-product-short-name} documentation on https://docs.bmc.com/docs/display/trackit2020/Sizing+and+scalability+considerations[Sizing and scalability considerations^]. For more information about EC2 instance types, see https://aws.amazon.com/ec2/instance-types/[Amazon EC2 Instance Types^].
 
 |===
 |Size |EC2 instance type |Volume size (in GB)
@@ -33,8 +38,3 @@ Up to 15 active technicians and up to 200 active requestors. |m5.2xlarge |150
 
 More than 15 active technicians and more than 200 active requestors. |m5.2xlarge |300
 |===
-
-For recommended Track-It! hardware configurations, see {partner-product-short-name} documentation on https://docs.bmc.com/docs/display/trackit2020/Sizing+and+scalability+considerations[Sizing and scalability considerations^]. For more information about EC2 instance types, see https://aws.amazon.com/ec2/instance-types/[Amazon EC2 Instance Types^].
-
-=== IP Addresses to Whitelist
-During deployment, use the ... parameters to restrict access to the Track-It! server. If you aren’t sure or don’t know, you can use the default setting and change it later. For more information, see the link:#_parameter_reference[Parameter reference] section later in this guide.
