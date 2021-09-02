@@ -135,7 +135,7 @@ Metadata:
       TrackItInstanceDomainComputerName:
         default: Track-It! instance server name
       TrackItEnvironmentSize:
-        default: Track-It! 'all-in-one' environment size
+        default: Track-It! environment size
       TrackItSiteDomain:
         default: Track-It! site domain
       TrackItRealSSLCertificateARN:
