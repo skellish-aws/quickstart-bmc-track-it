@@ -1,0 +1,57 @@
+
+.Network configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|VPC ID
+(`VPCID`)|`**__Requires input__**`|ID of your existing VPC for deployment.|Public Subnet 1 ID
+(`PublicSubnet1ID`)|`**__Requires input__**`|ID of public subnet 1 in Availability Zone 1 for the Elastic Load Balancing (ELB) load balancer (e.g., subnet-9bc642ac).|Public Subnet 2 ID
+(`PublicSubnet2ID`)|`**__Requires input__**`|ID of public subnet 2 in Availability Zone 1 for the Elastic Load Balancing (ELB) load balancer (e.g., subnet-9bc642ac).|Private Subnet 1 ID
+(`PrivateSubnet1AID`)|`**__Requires input__**`|ID of private subnet 1A in Availability Zone 1 (e.g., subnet-a0246dcd).
+|===
+.Microsoft Active Directory configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Domain DNS name
+(`DomainDNSName`)|`example.internal`|The fully qualified domain name (FQDN), e.g., example.com. Must be 2-255 characters.|Domain NetBIOS name
+(`DomainNetBIOSName`)|`example`|The NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Microsoft Windows, e.g., example.|Domain member security group ID
+(`DomainMemberSGID`)|`**__Requires input__**`|The ID of the domain member security group (e.g., sg-7f16e910).|Domain Admin account password
+(`DomainAdminPassword`)|`**__Requires input__**`|The password for the domain Admin account. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.|Re-enter the domain Admin account password
+(`DomainAdminPasswordConfirm`)|`**__Requires input__**`|Confirm the password for the domain Admin account. Must be at least 8  characters containing letters, numbers, and symbols.
+|===
+.Track-It! Server configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Track-It! 'all-in-one' environment size
+(`TrackItEnvironmentSize`)|`Small (Up to 5 active technicians)`|Track-It! environment size suitable for expected average number of active users on a regular work day. Selecting a larger size here will result in additional server costs.|Key pair name
+(`KeyPairName`)|`**__Requires input__**`|Name of an existing EC2 key pair. All instances will launch with this key pair.|Track-It! end-user web access permitted IP range
+(`TrackItEndUserWebAccessCIDR`)|`**__Requires input__**`|CIDR IP range that is permitted to access the Track-It web portal. Note: a value of 0.0.0.0/0 will allow access from ANY ip address.|Operator email address
+(`OperatorEmail`)|`None`|(optional) Email address that notifications are sent to (e.g., database, VM failures, etc.).|Track-It! Instance Server Name
+(`TrackItInstanceDomainComputerName`)|`TrackIt01`|Track-It! instance server name. The default setting is optimal for most Track-It! customers. We do not recommend changing this setting unless you know why you need to change it and fully understand the impacts of doing so.|Track-It! database administrator account password
+(`TrackItAdminPassword`)|`**__Requires input__**`|The password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.|Re-enter Track-It! database administrator account password
+(`TrackItAdminPasswordConfirm`)|`**__Requires input__**`|Confirm the password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.|BMC Client Management admin account password
+(`TrackItBcmAdminPassword`)|`**__Requires input__**`|The password for the BMC Client Management admin account. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.|Re-enter BMC Client Management admin account password
+(`TrackItBcmAdminPasswordConfirm`)|`**__Requires input__**`|Confirm the password for the BMC Client Management admin account. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.
+|===
+.Track-It! site registered domain configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Route 53 hosted zone ID
+(`Route53HostedZoneId`)|`**__Requires input__**`|(Optional) Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.|Track-It! site domain
+(`TrackItSiteDomain`)|`**__Requires input__**`|(Optional) Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.|Track-It! SSL certificate ARN
+(`TrackItRealSSLCertificateARN`)|`**__Requires input__**`|(Optional) ARN of the SSL certificate to be used for the Application Load Balancer.
+|===
+.Track-It! site self-signed domain configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Track-It! Self-signed SSL certificate options (Unused if registered domain configuration is provided above)
+(`TrackItSelfSignSSLCertificateOptions`)|`CN=trackit.com;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com`|(Optional) Self-signed certificate options.|Track-It! Self-signed SSL certificate expiration date (Unused if registered domain configuration is provided above)
+(`TrackItSelfSignSSLCertificateExpiresOn`)|`**__Requires input__**`|(Optional) Enter a future expiration date for the self-signed SSL certificate. Defaults to one year from today  if left empty, otherwise enter an explicit date at least one day in the future and in the form YYYY-MM-DD.
+|===
+.AWS Quick Start configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Quick Start S3 bucket name
+(`QSS3BucketName`)|`aws-quickstart`|S3 bucket that you created for your copy of Quick Start assets. Use this if you decide to customize the Quick Start. This bucket name can include numbers, lowercase letters, uppercase letters, and hyphens but should not start or end with a hyphen.|Quick Start S3 bucket Region
+(`QSS3BucketRegion`)|`us-east-1`|AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.|Quick Start S3 key prefix
+(`QSS3KeyPrefix`)|`quickstart-bmc-track-it/`|S3 key name prefix that is used to simulate a directory for your copy of Quick Start assets. Use this if you decide to customize the Quick Start. This prefix can include numbers, lowercase letters, uppercase letters, hyphens, and forward slashes. See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html.
+|===
