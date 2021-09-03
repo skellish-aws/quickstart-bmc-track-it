@@ -1,13 +1,6 @@
 // Include details about the license and how they can sign up. If no license is required, clarify that. 
 
-These two paragraphs provide an example of the details you can provide. Provide links as appropriate.
-
-
-Example content below:
-
-_<license information>This Quick Start requires a license for {partner-product-short-name}. To use the Quick Start in your production environment, sign up for a license at <link>. When you launch the Quick Start, place the license key in an S3 bucket and specify its location._
-
-_If you don’t have a license, the Quick Start deploys with a trial license. The trial license gives you <n> days of free usage in a non-production environment. After this time, you can upgrade to a production license by following the instructions at <link>._
+To use this Quick Start in a production environment, you must purchase a Track-It! license from BMC Software. For more information, see the https://www.trackit.com/[Track-It! website] to connect with the Track-It! sales team. After purchasing a license and receiving your order-confirmation email, https://community.bmc.com/s/news/aA33n000000Cj6tCAC/creating-a-bmc-support-profile-and-downloading-licensessoftware[download] and https://docs.bmc.com/docs/trackit2020/en/applying-a-license-file-912126000.html[apply] your license. You can deploy this Quick Start with a trial license, which gives you 90 days of free usage of Track-It! in a non-production environment. To upgrade to a full license during the trial period, contact the Track-It! sales team.
 
 // Or, if the deployment uses an AMI, update this paragraph. If it doesn’t, remove the paragraph.
-_<AMI information>The Quick Start requires a subscription to the Amazon Machine Image (AMI) for {partner-product-short-name}, which is available from https://aws.amazon.com/marketplace/[AWS Marketplace^]. Additional pricing, terms, and conditions may apply. For instructions, see link:#step-2.-subscribe-to-the-software-ami[step 2] in the deployment section._
+//_The Quick Start requires a subscription to the Amazon Machine Image (AMI) for {partner-product-short-name}, which is available from https://aws.amazon.com/marketplace/[AWS Marketplace^]. Additional pricing, terms, and conditions may apply. For instructions, see link:#step-2.-subscribe-to-the-software-ami[step 2] in the deployment section._

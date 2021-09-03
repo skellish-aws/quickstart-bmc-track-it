@@ -24,7 +24,7 @@ Description: >-
   (qs-1r6abo918)
 Metadata:
   QuickStartDocumentation:
-    EntrypointName: "Parameters for deploying into an existing VPC"
+    EntrypointName: Parameters for deploying into an existing VPC
     Order: 1
   LintSpellExclude:
     - Active
@@ -69,7 +69,7 @@ Metadata:
           - DomainAdminPasswordConfirm
 
       - Label:
-          default: Track-It! Server configuration
+          default: Track-It! server configuration
         Parameters:
           - TrackItEnvironmentSize
           - KeyPairName
@@ -82,14 +82,14 @@ Metadata:
           - TrackItBcmAdminPasswordConfirm
 
       - Label:
-          default: "Track-It! site registered domain configuration"
+          default: Track-It! site registered domain configuration
         Parameters:
           - Route53HostedZoneId
           - TrackItSiteDomain
           - TrackItRealSSLCertificateARN
 
       - Label:
-          default: "Track-It! site self-signed domain configuration"
+          default: Track-It! site self-signed domain configuration
         Parameters:
           - TrackItSelfSignSSLCertificateOptions
           - TrackItSelfSignSSLCertificateExpiresOn
@@ -103,9 +103,9 @@ Metadata:
 
     ParameterLabels:
       DomainAdminPassword:
-        default: Domain Admin account password
+        default: Domain administrator account password
       DomainAdminPasswordConfirm:
-        default: Re-enter the domain Admin account password
+        default: Re-enter the domain administrator account password
       DomainDNSName:
         default: Domain DNS name
       DomainMemberSGID:
@@ -117,11 +117,11 @@ Metadata:
       OperatorEmail:
         default: Operator email address
       PrivateSubnet1AID:
-        default: Private Subnet 1 ID
+        default: Private subnet 1 ID
       PublicSubnet1ID:
-        default: Public Subnet 1 ID
+        default: Public subnet 1 ID
       PublicSubnet2ID:
-        default: Public Subnet 2 ID
+        default: Public subnet 2 ID
       QSS3BucketName:
         default: Quick Start S3 bucket name
       QSS3BucketRegion:
@@ -133,7 +133,7 @@ Metadata:
       TrackItEndUserWebAccessCIDR:
         default: Track-It! end-user web access permitted IP range
       TrackItInstanceDomainComputerName:
-        default: Track-It! Instance Server Name
+        default: Track-It! instance server name
       TrackItEnvironmentSize:
         default: Track-It! 'all-in-one' environment size
       TrackItSiteDomain:
@@ -141,18 +141,17 @@ Metadata:
       TrackItRealSSLCertificateARN:
         default: Track-It! SSL certificate ARN
       TrackItSelfSignSSLCertificateOptions:
-        default: Track-It! Self-signed SSL certificate options (Unused if registered domain configuration is provided above)
+        default: Track-It! self-signed SSL certificate options
       TrackItSelfSignSSLCertificateExpiresOn:
-        default: Track-It! Self-signed SSL certificate expiration date (Unused if registered domain configuration is provided above)
+        default: Track-It! self-signed SSL certificate expiration date 
       TrackItAdminPassword:
         default: Track-It! database administrator account password
       TrackItAdminPasswordConfirm:
         default: Re-enter Track-It! database administrator account password
       TrackItBcmAdminPassword:
-        default: BMC Client Management admin account password
+        default: BMC Client Management administrator account password
       TrackItBcmAdminPasswordConfirm:
-        default: Re-enter BMC Client Management admin account password
-
+        default: Re-enter BMC Client Management administrator account password
       VPCID:
         default: VPC ID
 
@@ -161,10 +160,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      The password for the domain Admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols. This password is mandatory.
-      Please make note of this password as you will need it in the future for
-      administration purposes.
+      Mandatory password for the domain administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
     MaxLength: '32'
     MinLength: '8'
     NoEcho: true
@@ -174,8 +170,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the password for the domain Admin account. Must be at least 8 
-      characters containing letters, numbers, and symbols.
+      Confirm the mandatory password for the domain administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
     MaxLength: '32'
     MinLength: '8'
     NoEcho: true
@@ -185,11 +180,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      The password for the database account (_SMSYSADMIN_) used by Track-It!
-      to connect to the database. Must be at least 8 characters
-      containing letters, numbers, and symbols. This password is mandatory.
-      Please make note of this password as you will need it in the future
-      for administration purposes.
+      Mandatory password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -199,11 +190,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the password for the database account (_SMSYSADMIN_) used by Track-It!
-      to connect to the database. Must be at least 8 characters
-      containing letters, numbers, and symbols. This password is mandatory.
-      Please make note of this password as you will need it in the future
-      for administration purposes.
+      Confirm the mandatory password for the database account (_SMSYSADMIN_) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -213,9 +200,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      The password for the BMC Client Management admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols. This password is mandatory. Please make note
-      of this password as you will need it in the future for administration purposes.
+      Mandatory password for the BMC Client Management administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -225,9 +210,7 @@ Parameters:
     AllowedPattern: >-
       (?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Description: >-
-      Confirm the password for the BMC Client Management admin account. Must be at least 8 characters
-      containing letters, numbers, and symbols. This password is mandatory. Please make note
-      of this password as you will need it in the future for administration purposes.
+      Confirm the mandatory password for the BMC Client Management administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.
     MaxLength: '15'
     MinLength: '8'
     NoEcho: true
@@ -237,29 +220,27 @@ Parameters:
     AllowedPattern: '[a-zA-Z0-9\-]+\..+'
     Default: example.internal
     Description: >-
-      The fully qualified domain name (FQDN), e.g., example.com. Must be 2-255
-      characters.
+      Fully qualified domain name (FQDN) of 2–255 characters, such as example.com.
     MaxLength: '255'
     MinLength: '2'
     Type: String
 
   DomainMemberSGID:
     Description: >-
-      The ID of the domain member security group (e.g., sg-7f16e910).
+      ID of the domain member security group (for example, sg-7f16e910).
     Type: 'AWS::EC2::SecurityGroup::Id'
 
   DomainNetBIOSName:
     AllowedPattern: '[a-zA-Z0-9\-]+'
     Default: example
     Description: >-
-      The NetBIOS name of the domain (up to 15 characters) for users of
-      earlier versions of Microsoft Windows, e.g., example.
+      NetBIOS name of the domain for users of earlier versions of Microsoft Windows (up to 15 characters).
     MaxLength: '15'
     Type: String
 
   KeyPairName:
     Description: >-
-      Name of an existing EC2 key pair. All instances will launch with this key pair.
+      Name of an existing EC2 key pair. All EC2 instances launch with this key pair.
     Type: "AWS::EC2::KeyPair::KeyName"
     ConstraintDescription: Must be one of the existing EC2 keypair
 
@@ -268,84 +249,88 @@ Parameters:
       (?i)^None$|([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)
     ConstraintDescription: Must be a valid email address.
     Description: >-
-      (optional) Email address that notifications are sent to (e.g.,
-      database, VM failures, etc.).
+      (Optional) Email address to receive notifications of events such as database or virtual machine (VM) failures.
     Type: String
     Default: None
 
   PrivateSubnet1AID:
     Description: >-
-      ID of private subnet 1A in Availability Zone 1 (e.g.,
-      subnet-a0246dcd).
+      ID of private subnet 1A in Availability Zone 1 (for example, subnet-a0246dcd).
     Type: 'AWS::EC2::Subnet::Id'
 
   PublicSubnet1ID:
     Description: >-
-      ID of public subnet 1 in Availability Zone 1 for the Elastic Load
-      Balancing (ELB) load balancer (e.g., subnet-9bc642ac).
+      ID of public subnet 1 in Availability Zone 1 for the Application Load Balancer (for example, subnet-9bc642ac).
     Type: "AWS::EC2::Subnet::Id"
 
   PublicSubnet2ID:
     Description: >-
-      ID of public subnet 2 in Availability Zone 1 for the Elastic Load
-      Balancing (ELB) load balancer (e.g., subnet-9bc642ac).
+      ID of public subnet 2 in Availability Zone 1 for the Application Load Balancer (for example, subnet-9bc642ac).
     Type: "AWS::EC2::Subnet::Id"
 
   QSS3BucketName:
-    AllowedPattern: "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$"
-    ConstraintDescription: >-
-      Quick Start bucket name can include numbers, lowercase letters, uppercase
-      letters, and hyphens (-). It cannot start or end with a hyphen (-).
+    AllowedPattern: '^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$'
+    ConstraintDescription:
+      The Quick Start bucket name can include numbers, lowercase
+      letters, uppercase letters, and hyphens (-). It cannot start or end with a 
+      hyphen (-).
     Default: aws-quickstart
-    Description: >-
-      S3 bucket that you created for your copy of Quick Start assets.
-      Use this if you decide to customize the Quick Start. This bucket name can include numbers, lowercase letters,
-      uppercase letters, and hyphens but should not start or end with a hyphen.
+    Description:
+      Name of the S3 bucket for your copy of the Quick Start assets. 
+      Keep the default name unless you are customizing the template. 
+      Changing the name updates code references to point to a new Quick 
+      Start location. This name can include numbers, lowercase letters, 
+      uppercase letters, and hyphens, but do not start or end with a hyphen (-). 
+      See https://aws-quickstart.github.io/option1.html.
     Type: String
 
   QSS3BucketRegion:
-    Default: "us-east-1"
-    Description: "AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value."
+    Default: 'us-east-1'
+    Description: 'AWS Region where the Quick Start S3 bucket (QSS3BucketName) is 
+    hosted. Keep the default Region unless you are customizing the template. 
+    Changing this Region updates code references to point to a new Quick Start location. 
+    When using your own bucket, specify the Region. 
+    See https://aws-quickstart.github.io/option1.html.'
     Type: String
 
   QSS3KeyPrefix:
-    AllowedPattern: "^[0-9a-zA-Z-/]*/$"
-    ConstraintDescription: >-
-      Quick Start key prefix can include numbers, lowercase letters, uppercase
-      letters, hyphens (-), and forward slash (/).
+    AllowedPattern: '^[0-9a-zA-Z-/]*$'
+    ConstraintDescription:
+      The Quick Start S3 key prefix can include numbers, lowercase letters,
+      uppercase letters, hyphens (-), and forward slashes (/). The prefix should
+      end with a forward slash (/).
     Default: quickstart-bmc-track-it/
-    Description: >-
-      S3 key name prefix that is used to simulate a directory for your copy of Quick Start assets.
-      Use this if you decide to customize the Quick Start. This prefix can include numbers, lowercase letters,
-      uppercase letters, hyphens, and forward slashes.
-      See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html.
+    Description:
+      S3 key prefix that is used to simulate a directory for your copy of the 
+      Quick Start assets. Keep the default prefix unless you are customizing 
+      the template. Changing this prefix updates code references to point to 
+      a new Quick Start location. This prefix can include numbers, lowercase 
+      letters, uppercase letters, hyphens (-), and forward slashes (/). End with 
+      a forward slash. See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html 
+      and https://aws-quickstart.github.io/option1.html.
     Type: String
 
   Route53HostedZoneId:
     Description: >-
-      (Optional) Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.
+      (Optional) ID of the Route53 hosted zone where the Track-It! site domain DNS record is added.
     Type: String
 
   TrackItEndUserWebAccessCIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
     ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
     Description: >-
-      CIDR IP range that is permitted to access the Track-It web portal.
-      Note: a value of 0.0.0.0/0 will allow access from ANY ip address.
+      CIDR IP range that is permitted to access the Track-It web portal. **Note:** A value of 0.0.0.0/0 allows access from any IP address.
     Type: String
 
   TrackItInstanceDomainComputerName:
     Description: >-
-      Track-It! instance server name. The default setting is optimal for most Track-It! customers.
-      We do not recommend changing this setting unless you know why you need to change it and fully
-      understand the impacts of doing so.
+      Track-It! instance server name. The default setting is optimal for most use cases. Do not change this setting without understanding the impact of doing so.
     Type: String
     Default: TrackIt01
 
   TrackItEnvironmentSize:
     Description: >-
-      Track-It! environment size suitable for expected average number of active users on a regular work day.
-      Selecting a larger size here will result in additional server costs.
+      Select a Track-It! environment size based on your average number of active users on a typical work day. Server costs increase with environment size.
     Type: String
     AllowedValues:
       - Small (Up to 5 active technicians)
@@ -363,25 +348,26 @@ Parameters:
   TrackItRealSSLCertificateARN:
     Type: String
     Description: >-
-      (Optional) ARN of the SSL certificate to be used for the Application Load Balancer.
+      (Optional) Amazon Resource Name (ARN) of the SSL certificate used for the Application Load Balancer.
 
   TrackItSelfSignSSLCertificateOptions:
     Type: String
-    Description: (Optional) Self-signed certificate options.
-    Default: CN=trackit.com;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
+    Description: (Optional) Self-signed certificate options. Not used if you configure a registered domain.
+    Default: CN=trackit.com;C=US;
+      L=Texas;ST=TX; 
+      O=trackit;OU=sales;
+      E=customer_support@bmc.com
 
   TrackItSelfSignSSLCertificateExpiresOn:
     Type: String
     Description: >-
-      (Optional) Enter a future expiration date for the self-signed SSL certificate. Defaults to one year from today 
-      if left empty, otherwise enter an explicit date at least one day in the future and in the form YYYY-MM-DD.
+      (Optional) Enter an expiration date for the self-signed SSL certificate. Date must be at least one day in the future, in the form YYYY-MM-DD. If left blank, the default expiration date of one year from today applies. Not used if you configure a registered domain.
     AllowedPattern: ^$|^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$
     ConstraintDescription: >-
-      The expiration date must be empty or a date at least one day in the future and 
-      in the form YYYY-MM-DD 
+      Expiration date must be empty or a date at least one day in the future, in the form YYYY-MM-DD. 
 
   VPCID:
-    Description: ID of your existing VPC for deployment.
+    Description: ID of your existing VPC.
     Type: "AWS::EC2::VPC::Id"
 
 Mappings:
@@ -1729,3 +1715,7 @@ Outputs:
       Fn::Sub:
         - "https://${AppDomain}:1610/console"
         - AppDomain: !If [ UseRegisteredRoute53Domain, Ref: TrackItSiteDomain, !GetAtt TrackItNetworkLoadBalancer.DNSName ]
+
+  Postdeployment:
+    Description: See the deployment guide for post-deployment steps.
+    Value: https://aws.amazon.com/quickstart/?quickstart-all.sort-by=item.additionalFields.sortDate&quickstart-all.sort-order=desc&awsm.page-quickstart-all=5

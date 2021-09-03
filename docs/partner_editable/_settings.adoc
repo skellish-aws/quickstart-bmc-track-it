@@ -1,11 +1,13 @@
-:quickstart-project-name: quickstart-documentation-base
-:partner-product-name: Example Product Name
-:partner-product-short-name: Example Product Name
-:partner-company-name: Example Company Name, Ltd.
-:doc-month: May
-:doc-year: 2020
-:partner-contributors: John Doe and Jane Doe - {partner-company-name}
-:quickstart-contributors: Jim Smith - AWS Global Partner SA, AWS + Joe Jones - Technical Product Manager, AWS
+:quickstart-project-name: quickstart-bmc-track-it
+:partner-product-name: Track-It! 20.20.03
+:partner-product-short-name: Track-It!
+:partner-company-name: BMC Software, Inc.
+:doc-month: August
+:doc-year: 2021
+:partner-contributors: {partner-company-name}
+:quickstart-contributors: Scott Kellish and Vinod Shukla, AWS Integration & Automation team
+:parameters_as_appendix:
+:template_deterministic_ec2_instances:
 :deployment_time: 30 minutes / 1 hour
 :default_deployment_region: us-east-1
 // Uncomment these two attributes if you are leveraging
