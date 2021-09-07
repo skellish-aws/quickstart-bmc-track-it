@@ -11,7 +11,7 @@ Test the deployment by accessing the Track-It! portal.
 . On the *Outputs* tab, note the URL in the *Value* column of the  *TrackItTechnicianPortalPublicURL* key.
 
 [#outputs1]
-.Track It portal URL
+.Track-It! portal URL
 [link=images/outputs1.png]
 image::../images/outputs1.png[outputs1,width=650,height=266]
 
