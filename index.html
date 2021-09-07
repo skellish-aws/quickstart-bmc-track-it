@@ -182,7 +182,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
   padding-top:0;
   overflow:hidden;
   background:#283e5b;
-  /* border-bottom: 4px solid #435c7c; */
+  border-bottom: 4px solid #435c7c;
   width:320px;
   height:154px;
   top:0;
@@ -411,7 +411,7 @@ span.icon>.fa{cursor:default}
 a span.icon>.fa{cursor:inherit}
 .admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
 .admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
-.admonitionblock td.icon .icon-tip::before{content:"\f0eb";color: rgb(3, 87, 21);}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
 .admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
 .admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
 .admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
@@ -747,43 +747,8 @@ p {
   font-weight  : 300 !important;
 }
 
-/* image layout */
-#toc.toc2 #toctitle {
-  background-image: url("images/AWS-Logo.svg");
-  background-repeat: no-repeat;
-  background-size: 50%;
-  background-position: center;
-  width: auto;
-  height: 15%;
-}
-
-/* Left Navbar size */
-#toc.toc2 {
-  width: 17%;
-  min-width: 15em;
-}
-
-/* auto width for main page */
-body.toc2 {
-  padding-left: 22%;
-  padding-right: 2%;
-}
-
-/* hide left nav bar if page size is smaller than 767px */
-@media screen and (max-width: 767px) {
-  #toc {
-      display: none !important;
-  }
-  body.toc2 {
-    padding-left: 1%;
-    padding-right: 1%;
-    position: relative;
-  }
-
-  #content {
-    padding-left: 2%;
-    padding-right: 2%;
-  }
+#toc.toc2 #toctitle{
+  background-image: url('images/AWS-Logo.svg');
 }
 
 /* QS Tables */
@@ -803,19 +768,16 @@ a img {
     border: 1px solid #A4A4A4;
 }
 
-.preview_mode {
+#preview_mode {
 	border-color:#e0e0dc;
 	-webkit-box-shadow:0 1px 4px #e0e0dc;
 	box-shadow:0 1px 4px #e0e0dc;
   background:#ffffb3;
   padding-bottom: 2rem;
 }
-.preview_mode .tableblock {
+#preview_mode .tableblock {
   background:#ffffb3;
 }
-
-.footer-text{color:rgba(255,255,255,.8);line-height:1.44;background:#1c222a;padding:1.25em;max-width:100%;margin-bottom:unset}
-p.footer-text a{color:#d7d8d8}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -826,7 +788,7 @@ p.footer-text a{color:#d7d8d8}
 <ul class="sectlevel1">
 <li><a href="#_overview">Overview</a></li>
 <li><a href="#_track_it_20_20_03_on_aws">Track-It! 20.20.03 on AWS</a></li>
-<li><a href="#_aws_costs">AWS costs</a></li>
+<li><a href="#_cost">Cost</a></li>
 <li><a href="#_software_licenses">Software licenses</a></li>
 <li><a href="#_architecture">Architecture</a></li>
 <li><a href="#_planning_the_deployment">Planning the deployment</a>
@@ -845,6 +807,8 @@ p.footer-text a{color:#d7d8d8}
 <ul class="sectlevel2">
 <li><a href="#_sign_in_to_your_aws_account">Sign in to your AWS account</a></li>
 <li><a href="#_launch_the_quick_start">Launch the Quick Start</a></li>
+<li><a href="#_parameters_for_deploying_into_an_existing_vpc">Parameters for deploying into an existing VPC</a></li>
+<li><a href="#_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</a></li>
 </ul>
 </li>
 <li><a href="#_post_deployment_steps">Post-deployment steps</a>
@@ -858,17 +822,13 @@ p.footer-text a{color:#d7d8d8}
 <li><a href="#_getting_started_with_track_it">Getting started with Track-It!</a></li>
 <li><a href="#_faq">FAQ</a></li>
 <li><a href="#_troubleshooting">Troubleshooting</a></li>
-<li><a href="#_customer_responsibility">Customer responsibility</a></li>
-<li><a href="#_parameter_reference">Parameter reference</a>
-<ul class="sectlevel2">
-<li><a href="#_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</a></li>
-<li><a href="#_parameters_for_deploying_into_an_existing_vpc">Parameters for deploying into an existing VPC</a></li>
-</ul>
-</li>
 <li><a href="#_send_us_feedback">Send us feedback</a></li>
 <li><a href="#_quick_start_reference_deployments">Quick Start reference deployments</a></li>
-<li><a href="#_github_repository">GitHub repository</a></li>
+<li><a href="#_github_repository">GitHub repository</a>
+<ul class="sectlevel3">
 <li><a href="#_notices">Notices</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -883,7 +843,7 @@ p.footer-text a{color:#d7d8d8}
 </div>
 </div>
 <div class="paragraph text-center">
-<p><strong>August 2021</strong><br>
+<p><strong>August, 2021</strong><br>
 <em>BMC Software, Inc.</em><br>
 <em>Scott Kellish and Vinod Shukla, AWS Integration &amp; Automation team</em></p>
 </div>
@@ -921,7 +881,9 @@ report bugs, or submit feature ideas for this Quick Start.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Amazon may share user-deployment information with the AWS Partner that collaborated with AWS on the Quick Start.
+Amazon may share who uses AWS
+Quick Starts with the AWS Partner Network (APN) Partner that
+collaborated with AWS on the content of the Quick Start.
 </td>
 </tr>
 </table>
@@ -937,14 +899,15 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 </div>
 </div>
 <div class="sect1">
-<h2 id="_aws_costs">AWS costs</h2>
+<h2 id="_cost">Cost</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You are responsible for the cost of the AWS services and any third-party licenses used while running this Quick Start. There is no additional cost for
+<p>You are responsible for the cost of the AWS services used while running
+this Quick Start. There is no additional cost for
 using the Quick Start.</p>
 </div>
 <div class="paragraph">
-<p>The AWS CloudFormation templates for Quick Starts include
+<p>The AWS CloudFormation template for this Quick Start includes
 configuration parameters that you can customize. Some of the settings,
 such as the instance type, affect the cost of deployment. For cost estimates,
 see the pricing pages for each AWS service you use. Prices are subject to change.</p>
@@ -956,7 +919,7 @@ see the pricing pages for each AWS service you use. Prices are subject to change
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-After you deploy the Quick Start, create <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-reports-gettingstarted-turnonreports.html" target="_blank" rel="noopener">AWS Cost and Usage Reports</a> to deliver billing metrics to an Amazon Simple Storage Service (Amazon S3) bucket in your account. These reports provide cost estimates based on usage throughout each month and aggregate the data at the end of the month. For more information, see <a href="https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html" target="_blank" rel="noopener">What are AWS Cost and Usage Reports?</a>
+After you deploy the Quick Start, enable the <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-reports-gettingstarted-turnonreports.html" target="_blank" rel="noopener">AWS Cost and Usage Report</a> to deliver billing metrics to an Amazon Simple Storage Service (Amazon S3) bucket in your account. It provides cost estimates based on usage throughout each month and aggregates the data at the end of the month. For more information about the report, see the <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-reports-costusage.html" target="_blank" rel="noopener">AWS documentation</a>.
 </td>
 </tr>
 </table>
@@ -1023,10 +986,13 @@ default parameters builds the following Track-It! environment in the AWS Cloud:<
 <div class="sect2">
 <h3 id="_specialized_knowledge">Specialized knowledge</h3>
 <div class="paragraph">
-<p>This deployment requires a moderate level of familiarity with
-AWS services. If you’re new to AWS, see <a href="https://aws.amazon.com/getting-started/" target="_blank" rel="noopener">Getting Started Resource Center</a>
-and <a href="https://aws.amazon.com/training/" target="_blank" rel="noopener">AWS Training and Certification</a>. These sites provide materials for learning how to design,
-deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
+<p>This deployment guide requires a moderate level of familiarity with
+AWS services. If you’re new to AWS, visit the
+<a href="https://aws.amazon.com/getting-started/" target="_blank" rel="noopener">Getting Started Resource Center</a>
+and the <a href="https://aws.amazon.com/training/">AWS Training and Certification
+website</a>. These sites provide materials for learning how to design,
+deploy, and operate your infrastructure and applications on the AWS
+Cloud.</p>
 </div>
 <div class="paragraph">
 <p>This Quick Start also assumes familiarity with help desk software, Active Directory Domain Services (AD DS), and your on-premises Microsoft Exchange and Microsoft Office365 accounts. Familiarity with using Amazon Route 53 to register a domain is also recommended.</p>
@@ -1117,12 +1083,12 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 <div class="sect2">
 <h3 id="_technical_requirements">Technical requirements</h3>
 <div class="paragraph">
-<p>Before you launch the Quick Start, review the following information and ensure that your account is properly configured. Otherwise, deployment might fail.</p>
+<p>Before you launch the Quick Start, your account must be configured as specified in the following table. Otherwise, deployment might fail.</p>
 </div>
 <div class="sect3">
-<h4 id="_resource_quotas">Resource quotas</h4>
+<h4 id="_resource_limits">Resource limits</h4>
 <div class="paragraph">
-<p>If necessary, request <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">service quota increases</a> for the following resources. You might need to request increases if your existing deployment currently uses these resources and if this Quick Start deployment could result in exceeding the default quotas. The <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">Service Quotas console</a> displays your usage and quotas for some aspects of some services. For more information, see <a href="https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html" target="_blank" rel="noopener">What is Service Quotas?</a> and <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html" target="_blank" rel="noopener">AWS service quotas</a>.</p>
+<p>If necessary, request <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">service quota increases</a> for the following resources. You might need to request increases if your existing deployment currently uses these resources, and this Quick Start deployment could result in exceeding the default quotas. The <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">Service Quotas console</a> displays your usage and quotas for some aspects of some services. For more information, see the <a href="https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html" target="_blank" rel="noopener">AWS documentation</a>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1172,12 +1138,65 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_supported_aws_regions">Supported AWS Regions</h4>
+<h4 id="_supported_regions">Supported Regions</h4>
 <div class="paragraph">
-<p>For any Quick Start to work in a Region other than its default Region, all the services it deploys must be supported in that Region. You can launch a Quick Start in any Region and see if it works. If you get an error such as “Unrecognized resource type,” the Quick Start is not supported in that Region.</p>
+<p>The following Regions are currently supported by this Quick Start.</p>
 </div>
-<div class="paragraph">
-<p>For an up-to-date list of AWS Regions and the AWS services they support, see <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/" target="_blank" rel="noopener">AWS Regional Services</a>.</p>
+<div class="sect4">
+<h5 id="_americas">Americas</h5>
+<div class="ulist">
+<ul>
+<li>
+<p><em>ca-central-1 Canada (Central)</em></p>
+</li>
+<li>
+<p><em>us-east-1 US East (N. Virginia)</em></p>
+</li>
+<li>
+<p><em>us-east-2 US East (Ohio)</em></p>
+</li>
+<li>
+<p><em>us-west-1 US West (N. California)</em></p>
+</li>
+<li>
+<p><em>us-west-2 US West (Oregon)</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_middle_eastafricaasia">Middle East/Africa/Asia</h5>
+<div class="ulist">
+<ul>
+<li>
+<p><em>af-south-1 Africa (Cape Town)</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_europe">Europe</h5>
+<div class="ulist">
+<ul>
+<li>
+<p><em>eu-central-1 Europe (Frankfurt)</em></p>
+</li>
+<li>
+<p><em>eu-west-1 Europe (Ireland)</em></p>
+</li>
+<li>
+<p><em>eu-west-2 Europe (London)</em></p>
+</li>
+<li>
+<p><em>eu-south-1 Europe (Milan)</em></p>
+</li>
+<li>
+<p><em>eu-west-3 Europe (Paris)</em></p>
+</li>
+<li>
+<p><em>eu-north-1 Europe (Stockholm)</em></p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1186,25 +1205,20 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Certain Regions are available on an opt-in basis. For more information, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html" target="_blank" rel="noopener">Managing AWS Regions</a>.
+Certain Regions are available on an opt-in basis. Refer to the AWS Documentation on <a href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html" target="_blank" rel="noopener">Managing Regions</a> for more information.
 </td>
 </tr>
 </table>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_amazon_ec2_key_pairs">Amazon EC2 key pairs</h4>
-<div class="paragraph">
-<p>Ensure that at least one Amazon EC2 key pair exists in your AWS account in the Region where you plan to deploy the Quick Start. Note the key-pair name because you will use it during deployment. To create a key pair, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank" rel="noopener">Amazon EC2 key pairs and Linux instances</a>.</p>
-</div>
-<div class="paragraph">
-<p>For testing or proof-of-concept purposes, we recommend creating a new key pair instead of using one that’s already being used by a production instance.</p>
-</div>
 </div>
 <div class="sect3">
 <h4 id="_iam_permissions">IAM permissions</h4>
 <div class="paragraph">
-<p>Before launching the Quick Start, you must sign in to the AWS Management Console with IAM permissions for the resources that the templates deploy. The <em>AdministratorAccess</em> managed policy within IAM provides sufficient permissions, although your organization may choose to use a custom policy with more restrictions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html" target="_blank" rel="noopener">AWS managed policies for job functions</a>.</p>
+<p>Before launching the Quick Start, you must log in to the AWS Management Console with <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html" target="_blank" rel="noopener">IAM permissions</a> for the resources and actions the templates deploy.</p>
+</div>
+<div class="paragraph">
+<p>The <em>AdministratorAccess</em> managed policy within IAM provides sufficient permissions, although your organization may choose to use a custom policy with more restrictions.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1292,8 +1306,562 @@ If you deploy Track-It! into an existing VPC, ensure that your VPC has two priva
 <li>
 <p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings and customize them as necessary. For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
 </li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In the following tables, parameters are listed by category and described separately for the deployment options. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Unless you are customizing the Quick Start templates for your own deployment projects, we recommend that you keep the default settings for the parameters labeled <code>Quick Start S3 bucket name</code>, <code>Quick Start S3 bucket
+Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parameter settings automatically updates code references to point to a new Quick Start location. For more information, see the <a href="https://aws-quickstart.github.io/option1.html" target="_blank" rel="noopener">AWS Quick Start Contributor’s Guide</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_parameters_for_deploying_into_an_existing_vpc">Parameters for deploying into an existing VPC</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Network configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VPC ID
+(<code>VPCID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of your existing VPC for deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 1 ID
+(<code>PublicSubnet1ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of public subnet 1 in Availability Zone 1 for the Elastic Load Balancing (ELB) load balancer (e.g., subnet-9bc642ac).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 2 ID
+(<code>PublicSubnet2ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of public subnet 2 in Availability Zone 1 for the Elastic Load Balancing (ELB) load balancer (e.g., subnet-9bc642ac).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private Subnet 1 ID
+(<code>PrivateSubnet1AID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of private subnet 1A in Availability Zone 1 (e.g., subnet-a0246dcd).</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Microsoft Active Directory configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS name
+(<code>DomainDNSName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>example.internal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The fully qualified domain name (FQDN), e.g., example.com. Must be 2-255 characters.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain NetBIOS name
+(<code>DomainNetBIOSName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>example</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Microsoft Windows, e.g., example.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain member security group ID
+(<code>DomainMemberSGID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The ID of the domain member security group (e.g., sg-7f16e910).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Admin account password
+(<code>DomainAdminPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The password for the domain Admin account. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter the domain Admin account password
+(<code>DomainAdminPasswordConfirm</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the password for the domain Admin account. Must be at least 8  characters containing letters, numbers, and symbols.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Track-It! Server configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! 'all-in-one' environment size
+(<code>TrackItEnvironmentSize</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Small (Up to 5 active technicians)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! environment size suitable for expected average number of active users on a regular work day. Selecting a larger size here will result in additional server costs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key pair name
+(<code>KeyPairName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing EC2 key pair. All instances will launch with this key pair.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! end-user web access permitted IP range
+(<code>TrackItEndUserWebAccessCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the Track-It web portal. Note: a value of 0.0.0.0/0 will allow access from ANY ip address.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operator email address
+(<code>OperatorEmail</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>None</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(optional) Email address that notifications are sent to (e.g., database, VM failures, etc.).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! Instance Server Name
+(<code>TrackItInstanceDomainComputerName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TrackIt01</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! instance server name. The default setting is optimal for most Track-It! customers. We do not recommend changing this setting unless you know why you need to change it and fully understand the impacts of doing so.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! database administrator account password
+(<code>TrackItAdminPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The password for the database account (<em>SMSYSADMIN</em>) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter Track-It! database administrator account password
+(<code>TrackItAdminPasswordConfirm</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the password for the database account (<em>SMSYSADMIN</em>) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BMC Client Management admin account password
+(<code>TrackItBcmAdminPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The password for the BMC Client Management admin account. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter BMC Client Management admin account password
+(<code>TrackItBcmAdminPasswordConfirm</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the password for the BMC Client Management admin account. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Track-It! site registered domain configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53 hosted zone ID
+(<code>Route53HostedZoneId</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Route53 Hosted Zone ID where DNS record for Track-It! Site Domain will be added.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! site domain
+(<code>TrackItSiteDomain</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! SSL certificate ARN
+(<code>TrackItRealSSLCertificateARN</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) ARN of the SSL certificate to be used for the Application Load Balancer.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Track-It! site self-signed domain configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! Self-signed SSL certificate options (Unused if registered domain configuration is provided above)
+(<code>TrackItSelfSignSSLCertificateOptions</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CN=trackit.com;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=<a href="mailto:customer_support@bmc.com">customer_support@bmc.com</a></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Self-signed certificate options.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! Self-signed SSL certificate expiration date (Unused if registered domain configuration is provided above)
+(<code>TrackItSelfSignSSLCertificateExpiresOn</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Enter a future expiration date for the self-signed SSL certificate. Defaults to one year from today  if left empty, otherwise enter an explicit date at least one day in the future and in the form YYYY-MM-DD.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. AWS Quick Start configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
+(<code>QSS3BucketName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 bucket that you created for your copy of Quick Start assets. Use this if you decide to customize the Quick Start. This bucket name can include numbers, lowercase letters, uppercase letters, and hyphens but should not start or end with a hyphen.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
+(<code>QSS3BucketRegion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
+(<code>QSS3KeyPrefix</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-bmc-track-it/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key name prefix that is used to simulate a directory for your copy of Quick Start assets. Use this if you decide to customize the Quick Start. This prefix can include numbers, lowercase letters, uppercase letters, hyphens, and forward slashes. See <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html" class="bare">https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html</a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Network configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
+(<code>VPCCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/16</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the VPC. The CIDR block must be in the form x.x.x.x/16-28.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 CIDR
+(<code>PublicSubnet1CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.128.0/20</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the public subnet 1 located in Availability Zone 1. CIDR block must be in the form x.x.x.x/16-28.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 CIDR
+(<code>PublicSubnet2CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.144.0/20</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the public subnet 2 located in Availability Zone 2. CIDR block must be in the form x.x.x.x/16-28.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1A CIDR
+(<code>PrivateSubnet1ACIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the private subnet 1 located in Availability Zone 1. CIDR block must be in the form x.x.x.x/16-28.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2A CIDR
+(<code>PrivateSubnet2ACIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.0/19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the private subnet 2 located in Availability Zone 2. CIDR block must be in the form x.x.x.x/16-28.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability Zones
+(<code>AvailabilityZones</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC. The Quick Start uses two Availability Zones from your list and preserves the logical order you specify.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. Microsoft Active Directory configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Managed Microsoft AD edition
+(<code>DSMicrosoftADEdition</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Standard</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Edition includes 1GB of storage for objects. Enterprise Edition includes 17GB. The total number of objects supported depends on the types of objects, size of data stored in attributes, and your transaction rates. Scale-out as needed by adding domain controllers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS name
+(<code>DomainDNSName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>example.internal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name (FQDN) of 2–255 characters. For example, <strong>example.com</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain NetBIOS name
+(<code>DomainNetBIOSName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>example</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the domain for users of earlier versions of Microsoft Windows (up to 15 characters).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain administrator account password
+(<code>DomainAdminPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the domain administrator account. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter the domain administrator account password
+(<code>DomainAdminPasswordConfirm</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the password for the domain Admin account. Must be at least 8  characters containing letters, numbers, and symbols.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. Track-It! server configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! 'all-in-one' environment size
+(<code>TrackItEnvironmentSize</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Small (Up to 5 active technicians)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! environment size suitable for expected average number of active users on a regular work day. Selecting a larger size here will result in additional server costs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key pair name
+(<code>KeyPairName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing EC2 key pair. All instances will launch with this key pair.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! end-user web access permitted IP range
+(<code>TrackItEndUserWebAccessCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the Track-It web portal. Note: A value of 0.0.0.0/0 allows access from any IP address.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Operator email address
+(<code>OperatorEmail</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>None</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(optional) Email address that notifications are sent to (e.g., database, VM failures, etc.).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! instance Server Name
+(<code>TrackItInstanceDomainComputerName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TrackIt01</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! instance server name. The default setting is optimal for most use cases. We do not recommend changing this setting unless you know why you need to change it and fully understand the impacts of doing so.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! database administrator account password
+(<code>TrackItAdminPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the database account (<em>SMSYSADMIN</em>) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter Track-It! database administrator account password
+(<code>TrackItAdminPasswordConfirm</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the password for the database account (<em>SMSYSADMIN</em>) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BMC Client Management admin account password
+(<code>TrackItBcmAdminPassword</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the BMC Client Management admin account. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter BMC Client Management admin account password
+(<code>TrackItBcmAdminPasswordConfirm</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the password for the BMC Client Management administrator account. Must be at least 8 characters containing letters, numbers, and symbols. This password is mandatory. Please make note of this password as you will need it in the future for administration purposes.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Track-It! site registered domain configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53 hosted zone ID
+(<code>Route53HostedZoneId</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Route53 hosted zone ID where the DNS record for the Track-It! site domain is added.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! site domain
+(<code>TrackItSiteDomain</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! SSL certificate ARN
+(<code>TrackItRealSSLCertificateARN</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) ARN of the SSL certificate to be used for the Application Load Balancer.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 11. Track-It! site self-signed domain configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! self-signed SSL certificate options (Unused if registered domain configuration is provided above)
+(<code>TrackItSelfSignSSLCertificateOptions</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CN=trackit.com;C=US; L=Texas;ST=TX; O=trackit;OU=sales; E=<a href="mailto:customer_support@bmc.com">customer_support@bmc.com</a></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Self-signed certificate options.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! self-signed SSL certificate expiration date (Unused if registered domain configuration is provided above)
+(<code>TrackItSelfSignSSLCertificateExpiresOn</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Enter a future expiration date for the self-signed SSL certificate. Defaults to one year from today  if left empty, otherwise enter an explicit date at least one day in the future and in the form YYYY-MM-DD.</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. AWS Quick Start configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
+(<code>QSS3BucketName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
+(<code>QSS3BucketRegion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
+(<code>QSS3KeyPrefix</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-bmc-track-it/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html" class="bare">https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html</a> and <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="olist arabic">
+<ol class="arabic" start="5">
 <li>
-<p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you finish, choose <strong>Next</strong>.</p>
+<p>On the options page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you’re done, choose <strong>Next</strong>.</p>
 </li>
 <li>
 <p>On the <strong>Review</strong> page, review and confirm the template settings. Under <strong>Capabilities</strong>, select the two check boxes to acknowledge that the template creates IAM resources and might require the ability to automatically expand macros.</p>
@@ -1305,9 +1873,15 @@ If you deploy Track-It! into an existing VPC, ensure that your VPC has two priva
 <p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the Track-It! deployment is ready.</p>
 </li>
 <li>
-<p>To view the created resources, see the values displayed in the <strong>Outputs</strong> tab for the stack.</p>
+<p>Use the values displayed in the <strong>Outputs</strong> tab for the stack, as shown in <a href="#cfn_outputs">Track-It! outputs after successful deployment</a>, to view the created resources.</p>
 </li>
 </ol>
+</div>
+<div id="cfn_outputs" class="imageblock">
+<div class="content">
+<a class="image" href="images/cfn_outputs.png"><img src="images/cfn_outputs.png" alt="cfn_outputs" width="648" height="439"></a>
+</div>
+<div class="title">Figure 2. Track-It! outputs after successful deployment</div>
 </div>
 </div>
 </div>
@@ -1337,7 +1911,7 @@ If you deploy Track-It! into an existing VPC, ensure that your VPC has two priva
 <div class="content">
 <a class="image" href="images/outputs1.png"><img src="images/outputs1.png" alt="outputs1" width="650" height="266"></a>
 </div>
-<div class="title">Figure 2. Track It portal URL</div>
+<div class="title">Figure 3. Track It portal URL</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="2">
@@ -1412,7 +1986,7 @@ These instructions provide a Microsoft Windows relay agent installation. To inst
 <div class="content">
 <a class="image" href="images/outputs2.png"><img src="images/outputs2.png" alt="outputs1" width="650" height="266"></a>
 </div>
-<div class="title">Figure 3. BMC Client Management rollout public URL</div>
+<div class="title">Figure 4. BMC Client Management rollout public URL</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="4">
@@ -1456,7 +2030,7 @@ These instructions provide a Microsoft Windows relay agent installation. To inst
 <div class="content">
 <a class="image" href="images/outputs3.png"><img src="images/outputs3.png" alt="outputs1" width="650" height="266"></a>
 </div>
-<div class="title">Figure 4. BMC Client Management console URL</div>
+<div class="title">Figure 5. BMC Client Management console URL</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="4">
@@ -1481,7 +2055,7 @@ These instructions provide a Microsoft Windows relay agent installation. To inst
 <div class="content">
 <a class="image" href="images/console5.png"><img src="images/console5.png" alt="export" width="650" height="266"></a>
 </div>
-<div class="title">Figure 5. BMC Client Management console home screen</div>
+<div class="title">Figure 6. BMC Client Management console home screen</div>
 </div>
 </div>
 <div class="sect2">
@@ -1500,7 +2074,7 @@ These instructions provide a Microsoft Windows relay agent installation. To inst
 <div class="content">
 <a class="image" href="images/console6.png"><img src="images/console6.png" alt="export" width="650" height="266"></a>
 </div>
-<div class="title">Figure 6. Device topology</div>
+<div class="title">Figure 7. Device topology</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1534,7 +2108,7 @@ The server onto which you installed the relay agent previously should display in
 <div class="content">
 <a class="image" href="images/console8-resized.png"><img src="images/console8-resized.png" alt="export" width="386" height="420"></a>
 </div>
-<div class="title">Figure 7. Add a scanner</div>
+<div class="title">Figure 8. Add a scanner</div>
 </div>
 </div>
 </div>
@@ -1694,569 +2268,10 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_customer_responsibility">Customer responsibility</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>After you successfully deploy this Quick Start, confirm that your resources and services are updated and configured — including any required patches — to meet your security and other needs. For more information, see the <a href="https://aws.amazon.com/compliance/shared-responsibility-model/" target="_blank" rel="noopener">AWS Shared Responsibility Model</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_parameter_reference">Parameter reference</h2>
-<div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Unless you are customizing the Quick Start templates for your own deployment projects, keep the default settings for the parameters labeled <strong>Quick Start S3 bucket name</strong>, <strong>Quick Start S3 bucket Region</strong>, and <strong>Quick Start S3 key prefix</strong>. Changing these parameter settings automatically updates code references to point to a new Quick Start location. For more information, see the <a href="https://aws-quickstart.github.io/option1.html" target="_blank" rel="noopener">AWS Quick Start Contributor’s Guide</a>.
-</td>
-</tr>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</h3>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Network configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
-(<code>VPCCIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/16</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the VPC. The CIDR block must be in the form x.x.x.x/16-28.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 CIDR
-(<code>PublicSubnet1CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.128.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the public subnet 1, located in Availability Zone 1. CIDR block must be in the form x.x.x.x/16-28.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 CIDR
-(<code>PublicSubnet2CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.144.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the public subnet 2, located in Availability Zone 2. CIDR block must be in the form x.x.x.x/16-28.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 CIDR
-(<code>PrivateSubnet1ACIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the private subnet 1, located in Availability Zone 1. CIDR block must be in the form x.x.x.x/16-28.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 CIDR
-(<code>PrivateSubnet2ACIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the private subnet 2, located in Availability Zone 2. CIDR block must be in the form x.x.x.x/16-28.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Availability Zones
-(<code>AvailabilityZones</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Availability Zones to use for the subnets in the VPC. Two Availability Zones are used for this deployment.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Microsoft Active Directory configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Managed Microsoft AD edition
-(<code>DSMicrosoftADEdition</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Standard</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Edition of AWS Managed Microsoft AD. Standard Edition includes 1GB of storage for objects. Enterprise Edition includes 17GB. The total number of objects supported depends on the types of objects, size of data stored in attributes, and your transaction rates. Add domain controllers to scale your workload.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS name
-(<code>DomainDNSName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>example.internal</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name (FQDN) of 2–255 characters, such as example.com.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain NetBIOS name
-(<code>DomainNetBIOSName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>example</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the domain for users of earlier versions of Microsoft Windows (up to 15 characters).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain administrator account password
-(<code>DomainAdminPassword</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory password for the domain administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter the domain administrator account password
-(<code>DomainAdminPasswordConfirm</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the mandatory password for the domain administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Track-It! server configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! 'all-in-one' environment size
-(<code>TrackItEnvironmentSize</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Small (Up to 5 active technicians)</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Select a Track-It! environment size based on your average number of active users on a typical work day. Server costs increase with environment size.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key pair name
-(<code>KeyPairName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing EC2 key pair. All EC2 instances launch with this key pair.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! end-user web access permitted IP range
-(<code>TrackItEndUserWebAccessCIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the Track-It web portal. <strong>Note:</strong> A value of 0.0.0.0/0 allows access from any IP address.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Operator email address
-(<code>OperatorEmail</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>None</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Email address to receive notifications of events such as database or virtual machine (VM) failures.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! instance server name
-(<code>TrackItInstanceDomainComputerName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TrackIt01</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! instance server name. The default setting is optimal for most use cases. Do not change this setting without understanding the impact of doing so.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! database administrator account password
-(<code>TrackItAdminPassword</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory password for the database account (<em>SMSYSADMIN</em>) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter Track-It! database administrator account password
-(<code>TrackItAdminPasswordConfirm</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the mandatory password for the database account (<em>SMSYSADMIN</em>) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BMC Client Management admin account password
-(<code>TrackItBcmAdminPassword</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory password for the BMC Client Management administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter BMC Client Management admin account password
-(<code>TrackItBcmAdminPasswordConfirm</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the mandatory password for the BMC Client Management administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Track-It! site registered domain configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53 hosted zone ID
-(<code>Route53HostedZoneId</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) ID of the Route53 hosted zone where the Track-It! site domain DNS record is added.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! site domain
-(<code>TrackItSiteDomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Domain name of the Track-It! site, such as example.com. A valid FQDN is required when using Secure Sockets Layer (SSL) protocol.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! SSL certificate ARN
-(<code>TrackItRealSSLCertificateARN</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Amazon Resource Name (ARN) of the SSL certificate used for the Application Load Balancer.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Track-It! site self-signed domain configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! self-signed SSL certificate options
-(<code>TrackItSelfSignSSLCertificateOptions</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CN=trackit.com;C=US; L=Texas;ST=TX; O=trackit;OU=sales; E=<a href="mailto:customer_support@bmc.com">customer_support@bmc.com</a></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Self-signed certificate options. Not used if you configure a registered domain.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! self-signed SSL certificate expiration date
-(<code>TrackItSelfSignSSLCertificateExpiresOn</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Enter an expiration date for the self-signed SSL certificate. Date must be at least one day in the future, in the form YYYY-MM-DD. If left blank, the default expiration date of one year from today applies. Not used if you configure a registered domain.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. AWS Quick Start configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
-(<code>QSS3BucketName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
-(<code>QSS3BucketRegion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
-(<code>QSS3KeyPrefix</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-bmc-track-it/</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html" class="bare">https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html</a> and <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_parameters_for_deploying_into_an_existing_vpc">Parameters for deploying into an existing VPC</h3>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Network configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">VPC ID
-(<code>VPCID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of your existing VPC.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 ID
-(<code>PublicSubnet1ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of public subnet 1 in Availability Zone 1 for the Application Load Balancer (for example, subnet-9bc642ac).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 ID
-(<code>PublicSubnet2ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of public subnet 2 in Availability Zone 1 for the Application Load Balancer (for example, subnet-9bc642ac).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 ID
-(<code>PrivateSubnet1AID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of private subnet 1A in Availability Zone 1 (for example, subnet-a0246dcd).</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Microsoft Active Directory configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS name
-(<code>DomainDNSName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>example.internal</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name (FQDN) of 2–255 characters, such as example.com.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain NetBIOS name
-(<code>DomainNetBIOSName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>example</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the domain for users of earlier versions of Microsoft Windows (up to 15 characters).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain member security group ID
-(<code>DomainMemberSGID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the domain member security group (for example, sg-7f16e910).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain administrator account password
-(<code>DomainAdminPassword</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory password for the domain administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter the domain administrator account password
-(<code>DomainAdminPasswordConfirm</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the mandatory password for the domain administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. Track-It! server configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! 'all-in-one' environment size
-(<code>TrackItEnvironmentSize</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Small (Up to 5 active technicians)</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Select a Track-It! environment size based on your average number of active users on a typical work day. Server costs increase with environment size.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key pair name
-(<code>KeyPairName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing EC2 key pair. All EC2 instances launch with this key pair.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! end-user web access permitted IP range
-(<code>TrackItEndUserWebAccessCIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR IP range that is permitted to access the Track-It web portal. <strong>Note:</strong> A value of 0.0.0.0/0 allows access from any IP address.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Operator email address
-(<code>OperatorEmail</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>None</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Email address to receive notifications of events such as database or virtual machine (VM) failures.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! instance server name
-(<code>TrackItInstanceDomainComputerName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TrackIt01</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! instance server name. The default setting is optimal for most use cases. Do not change this setting without understanding the impact of doing so.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! database administrator account password
-(<code>TrackItAdminPassword</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory password for the database account (<em>SMSYSADMIN</em>) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter Track-It! database administrator account password
-(<code>TrackItAdminPasswordConfirm</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the mandatory password for the database account (<em>SMSYSADMIN</em>) used by Track-It! to connect to the database. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BMC Client Management administrator account password
-(<code>TrackItBcmAdminPassword</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Mandatory password for the BMC Client Management administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Re-enter BMC Client Management administrator account password
-(<code>TrackItBcmAdminPasswordConfirm</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Confirm the mandatory password for the BMC Client Management administrator account. Must be at least 8 characters containing letters, numbers, and symbols. Make note of the password. You need it to manage the account.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Track-It! site registered domain configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53 hosted zone ID
-(<code>Route53HostedZoneId</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) ID of the Route53 hosted zone where the Track-It! site domain DNS record is added.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! site domain
-(<code>TrackItSiteDomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Domain name of the Track-It! site. e.g. example.com. Valid FQDN required when using SSL.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! SSL certificate ARN
-(<code>TrackItRealSSLCertificateARN</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Amazon Resource Name (ARN) of the SSL certificate used for the Application Load Balancer.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Track-It! site self-signed domain configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! self-signed SSL certificate options
-(<code>TrackItSelfSignSSLCertificateOptions</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CN=trackit.com;C=US; L=Texas;ST=TX; O=trackit;OU=sales; E=<a href="mailto:customer_support@bmc.com">customer_support@bmc.com</a></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Self-signed certificate options. Not used if you configure a registered domain.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Track-It! self-signed SSL certificate expiration date
-(<code>TrackItSelfSignSSLCertificateExpiresOn</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Enter an expiration date for the self-signed SSL certificate. Date must be at least one day in the future, in the form YYYY-MM-DD. If left blank, the default expiration date of one year from today applies. Not used if you configure a registered domain.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. AWS Quick Start configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
-(<code>QSS3BucketName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
-(<code>QSS3BucketRegion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
-(<code>QSS3KeyPrefix</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-bmc-track-it/</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html" class="bare">https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html</a> and <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_send_us_feedback">Send us feedback</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To post feedback, submit feature ideas, or report bugs, use the <strong>Issues</strong> section of the <a href="https://github.com/aws-quickstart/quickstart-bmc-track-it" target="_blank" rel="noopener">GitHub repository</a> for this Quick Start. To submit code, see the <a href="https://aws-quickstart.github.io/" target="_blank" rel="noopener">Quick Start Contributor’s Guide</a>.</p>
+<p>To post feedback, submit feature ideas, or report bugs, use the <strong>Issues</strong> section of the <a href="https://github.com/aws-quickstart/quickstart-bmc-track-it" target="_blank" rel="noopener">GitHub repository</a> for this Quick Start. If you’d like to submit code, please review the <a href="https://aws-quickstart.github.io/" target="_blank" rel="noopener">Quick Start Contributor’s Guide</a>.</p>
 </div>
 </div>
 </div>
@@ -2264,7 +2279,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <h2 id="_quick_start_reference_deployments">Quick Start reference deployments</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See the <a href="https://aws.amazon.com/quickstart/" target="_blank" rel="noopener">AWS Quick Start home page</a>.</p>
+<p>See the <a href="https://aws.amazon.com/quickstart/">AWS Quick Start home page</a>.</p>
 </div>
 </div>
 </div>
@@ -2272,38 +2287,39 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <h2 id="_github_repository">GitHub repository</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Visit our <a href="https://github.com/aws-quickstart/quickstart-bmc-track-it" target="_blank" rel="noopener">GitHub repository</a> to download
+<p>You can visit our <a href="https://github.com/aws-quickstart/quickstart-bmc-track-it" target="_blank" rel="noopener">GitHub repository</a> to download
 the templates and scripts for this Quick Start, to post your comments,
 and to share your customizations with others.</p>
 </div>
 <hr>
+<div class="paragraph">
+<p>© 2020, Amazon Web Services Inc., or its affiliates, and BMC Software, Inc.. All rights reserved.</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_notices">Notices</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_notices">Notices</h4>
 <div class="paragraph">
 <p>This document is provided for informational purposes only. It represents AWS’s current product offerings and practices as of the date of issue of this document, which are subject to change without notice. Customers are responsible for making their own independent assessment of the information in this document and any use of AWS’s products or services, each of which is provided “as is” without warranty of any kind, whether expressed or implied. This document does not create any warranties, representations, contractual commitments, conditions, or assurances from AWS, its affiliates, suppliers, or licensors. The responsibilities and liabilities of AWS to its customers are controlled by AWS agreements, and this document is not part of, nor does it modify, any agreement between AWS and its customers.</p>
 </div>
 <div class="paragraph">
-<p>The software included with this paper is licensed under the Apache License, version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at <a href="http://aws.amazon.com/apache2.0/" target="_blank" rel="noopener">http://aws.amazon.com/apache2.0/</a> or in the accompanying "license" file. This code is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied. See the License for specific language governing permissions and limitations.</p>
+<p>The software included with this paper is licensed under the Apache License, version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at <a href="http://aws.amazon.com/apache2.0/" class="bare">http://aws.amazon.com/apache2.0/</a> or in the accompanying "license" file. This code is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied. See the License for specific language governing permissions and limitations.</p>
 </div>
 </div>
 </div>
 </div>
-<p class="footer-text">
-<!-- We can use document attributes: -->
-<!-- Generated with Asciidoctor v2.0.15. -->
-<a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2021, Amazon Web Services, Inc. or its affiliates and BMC Software, Inc.. All rights reserved.
-</p>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2021-09-07 07:17:02 UTC
+</div>
+</div>
 </body>
 </html>
 <!--
 repo commit:
-78056fbb04d19e706c7ad758b9a522a1444a0f7a
+4a50b40521c83f15f2604c90fb41163bc1892541
 
 submodule config:
- 4ee94d6b60ec455e5b452e8ad9841eb825704b70 docs/boilerplate (remotes/origin/region_table_optin-3-g4ee94d6)
+ 7feaed118458dcda1137226edb8139a142e8ecc2 docs/boilerplate (remotes/origin/master)
  ffc7af4e59a09dbf52199a3ecf70f3805abeff48 submodules/quickstart-aws-vpc (v1.0-58-gffc7af4)
  e1f1a322eff1014be7fbaa8f8384e9dea2fa218c submodules/quickstart-microsoft-utilities (heads/main)
 -->
