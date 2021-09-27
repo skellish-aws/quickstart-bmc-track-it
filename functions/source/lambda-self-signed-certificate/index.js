@@ -144,15 +144,18 @@ exports.handler = async (event, context) => {
                 throw new Error("'ExpiresOn' or 'Attributes.Days' must result in an expiration date at least one day in the future.");
             }
 
+            // Iterate over provided options list with 'short names' and substitute back 'long names' removing
+            // leading/trailing whitespace for the name and value
             var options = []
             for (var o of resourceProperties.Options.split(';')) {
                 o = o.split('=')
+                o[0] = o[0].trim()
                 if (_shortNames[o[0]] != null) {
                     o[0] = _shortNames[o[0]]
                 }
                 options.push({
                     'name': o[0].toCamelCase(),
-                    'value': o[1]
+                    'value': o[1].trim()
                 })
             }
             return await ssgenerate(options, attributes);
