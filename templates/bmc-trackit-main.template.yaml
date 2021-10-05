@@ -387,10 +387,7 @@ Parameters:
   TrackItSelfSignSSLCertificateOptions:
     Type: String
     Description: (Optional) Self-signed certificate options. Not used if you configure a registered domain.
-    Default: CN=trackit.com;C=US;
-      L=Texas;ST=TX; 
-      O=trackit;OU=sales;
-      E=customer_support@bmc.com
+    Default: CN=trackit.com;C=US;L=Texas;ST=TX;O=trackit;OU=sales;E=customer_support@bmc.com
 
   TrackItSelfSignSSLCertificateExpiresOn:
     Type: String
